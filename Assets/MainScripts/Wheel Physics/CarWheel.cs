@@ -55,7 +55,6 @@ namespace Car
         private float mminspringLength = 0.0f;
         private float mmaxspringLength = 0.0f;
         private float mparentMass = 0.0f;
-        private float mwheelRotationStep = 0.0f;
 
         #endregion
 
@@ -80,7 +79,7 @@ namespace Car
             mwheelVelocity = mparentRigidbody.GetPointVelocity(transform.position);
             
             CalculateWheelRestingPosition();
-            // RotateWheels();
+            RotateWheels();
             CalculateRestorationForce();
             CalculateRollingFriction();
             CalculateSlidingFriction();
@@ -123,9 +122,11 @@ namespace Car
         private void RotateWheels()
         {
             float rollingDirection = Mathf.Sign(Vector3.Dot(mwheelVelocity, mparentRigidbody.transform.forward)); //are we moving forwards or backwards?
-            float angularVelocity =  rollingDirection * mwheelVelocity.magnitude / (mwheelRadius * Time.fixedDeltaTime) ; //w = v/r radians per second
-            mwheelRotationStep += angularVelocity;
-            mwheelMesh.transform.Rotate(new Vector3(mwheelRotationStep, 0.0f, 0.0f), Space.Self);
+            float angularVelocity = rollingDirection * mwheelVelocity.magnitude / mwheelRadius; //w = v/r radians per second
+            float wheelRollingRotationStep = mwheelMesh.transform.localEulerAngles.x; 
+            wheelRollingRotationStep += angularVelocity;
+            mwheelMesh.transform.localEulerAngles = new Vector3(
+                wheelRollingRotationStep, mwheelMesh.transform.localEulerAngles.y, mwheelMesh.transform.localEulerAngles.z);
         }
 
         //NOTE: ISOLATE SPRING LOGIC - IT DOES NOT CARE ABOUT WHEEL POSITIONS AND OUTSIDE FORCES. ONLY IT'S OWN LENGTH
