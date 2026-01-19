@@ -24,7 +24,7 @@ namespace Game
 
         private void OnSceneGUI()
         {
-            #if false
+            #if true
             ProceduralMesh pm = target as ProceduralMesh;
             if(pm.Mesh != null)
             {
