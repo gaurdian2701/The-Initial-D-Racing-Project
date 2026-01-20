@@ -144,17 +144,21 @@ namespace Car
             mfrontLeftWheel.GetTransform().localRotation = Quaternion.AngleAxis(mleftWheelSteerAngle, Vector3.up);
             mfrontRightWheel.GetTransform().localRotation = Quaternion.AngleAxis(mrightWheelSteerAngle, Vector3.up);
         }
+        
         void OnDrawGizmos()
         {
-            Gizmos.color = Color.white;
-            if (mfrontLeftWheel != null)
+            if (mshowDebug)
             {
-                Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
-            }
+                Gizmos.color = Color.white;
+                if (mfrontLeftWheel != null)
+                {
+                    Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
+                }
 
-            if (mfrontRightWheel != null)
-            {
-                Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
+                if (mfrontRightWheel != null)
+                {
+                    Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
+                }
             }
         }
     }
