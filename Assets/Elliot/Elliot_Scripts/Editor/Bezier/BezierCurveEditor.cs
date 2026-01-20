@@ -44,6 +44,8 @@ namespace Bezier
 
         private void OnSceneGUI()
         {
+            if (Event.current.type != EventType.Repaint) return;
+
             //Debug.Log("Scene GUI");
             BezierCurve bc = target as BezierCurve;
             Tools.current = Tool.None;
