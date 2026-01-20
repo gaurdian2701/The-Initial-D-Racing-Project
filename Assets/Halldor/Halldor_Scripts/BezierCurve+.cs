@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bezier
+namespace Beziers
 {
     [ExecuteInEditMode]
     public class BezierCurve : MonoBehaviour
@@ -91,7 +91,7 @@ namespace Bezier
                 {
                     // blend between A & B
                     //float fBlend = Mathf.InverseLerp(A.m_fDistance, B.m_fDistance, fDistanceAlongCurve);
-
+                    
                     float localDistance = fDistanceAlongCurve - A.m_fDistance;
                     float fBlend = FindFByDistance(A, B, localDistance);
                     return new Pose
@@ -155,7 +155,7 @@ namespace Bezier
                 Vector3 vDir1 = Vector3.Normalize(vCurr - vPrev);
                 Vector3 vDir2 = Vector3.Normalize(vNext - vCurr);
                 Vector3 vDir = Vector3.Normalize(vDir1 + vDir2);
-
+                
                 m_points[i].m_vTangent = vDir * fAmount;
             }
         }
@@ -195,7 +195,7 @@ namespace Bezier
         {
             float fDistance = 0.0f;
             Vector3 vLast = A.m_vPosition;
-            for (int i = 1; i <= iNumSegments; i++)
+            for(int i=1; i<=iNumSegments; i++) 
             {
                 float f = i / (float)iNumSegments;
                 Vector3 vCurr = GetPosition(A, B, f);
@@ -212,7 +212,7 @@ namespace Bezier
             const int samples = 20;
             float accumulated = 0f;
             Vector3 last = GetPosition(A, B, 0f);
-
+            
             for (int i = 1; i <= samples; ++i)
             {
                 float f = i / (float)samples;
