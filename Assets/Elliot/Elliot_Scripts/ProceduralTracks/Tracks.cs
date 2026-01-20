@@ -1,8 +1,7 @@
 using Bezier;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Overlays;
 using UnityEngine;
+using static Bezier.BezierCurve;
 
 namespace ProceduralTracks
 {
@@ -59,11 +58,15 @@ namespace ProceduralTracks
             BezierCurve bc = GetComponent<BezierCurve>();
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
             int vertsPerSlice = 8;
+            bool canConnectToPrevious = true;
 
             for (int i = 0; i <= iSegmentCount; ++i)
             {
                 float fPrc = i / (float)iSegmentCount;
-                Pose pose = bc.GetPose(fPrc * bc.TotalDistance);
+                float distance = fPrc * bc.TotalDistance;
+
+                Pose pose = bc.GetPose(distance);
+                ControlPoint cp = bc.GetControlPointAtDistance(distance);
 
                 Vector3 vRight = pose.right * m_vRoadSize.x;
                 Vector3 vUp = pose.up * m_vRoadSize.y;
@@ -82,9 +85,14 @@ namespace ProceduralTracks
                     pose.position + vRight - vUp - vForward    // 7 bottom right back
                 });
 
+                if (cp != null && cp.m_bIsEdge)
+                {
+                    canConnectToPrevious = false;
+                    continue;
+                }
 
                 // add triangles
-                if (i > 0)
+                if (i > 0 && canConnectToPrevious)
                 {
                     int baseIndex = i * vertsPerSlice;
                     int prevBase = baseIndex - vertsPerSlice;
@@ -94,6 +102,7 @@ namespace ProceduralTracks
                     //AddQuad(triangles, prevBase + 1, prevBase + 2, baseIndex + 2, baseIndex + 1); // left
                     //AddQuad(triangles, prevBase + 0, prevBase + 3, baseIndex + 3, baseIndex + 0); // right
                 }
+                canConnectToPrevious = true;
             }
         }
 
@@ -103,16 +112,19 @@ namespace ProceduralTracks
 
             int iStart = vertices.Count;
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
+            bool canConnectToPrevious = true;
 
             for (int i = 0; i <= iSegmentCount; ++i)
             {
                 float fPrc = i / (float)iSegmentCount;
-                Pose pose = bc.GetPose(fPrc * bc.TotalDistance);
+                float distance = fPrc * bc.TotalDistance;
+
+                Pose pose = bc.GetPose(distance);
+                ControlPoint cp = bc.GetControlPointAtDistance(distance);
 
                 Vector3 vRight = pose.right * m_vRoadOutlineSize.x;
                 Vector3 vUp = pose.up * m_vRoadOutlineSize.y;
                 Vector3 vOffset = roadOutlineOffset * pose.right;
-
 
                 vertices.AddRange(new Vector3[]
                 {
@@ -120,22 +132,37 @@ namespace ProceduralTracks
                     pose.position + vOffset - vRight * 0.75f + vUp,   
                     pose.position + vOffset + vRight * 0.75f + vUp,   
                     pose.position + vOffset + vRight,
+
+                    pose.position + vOffset + vRight * 0.75f - vUp,
+                    pose.position + vOffset - vRight * 0.75f - vUp,
                 });
 
-                // add triangles
-                if (i < iSegmentCount)
+                if (cp != null && cp.m_bIsEdge)
                 {
-                    for (int j = 0; j < 3; ++j)
-                    {
-                        int iCurr = iStart + i * 4 + j;
+                    canConnectToPrevious = false;
+                    continue;
+                }
 
-                        triangles.AddRange(new int[]
-                        {
-                            iCurr + 0, iCurr + 4, iCurr + 1,
-                            iCurr + 1, iCurr + 4, iCurr + 5
-                        });
+                // add triangles
+                if (i < iSegmentCount && canConnectToPrevious)
+                {
+                    int curr = iStart + i * 6;
+                    int next = curr + 6;
+
+                    for (int j = 0; j < 6; j++)
+                    {
+                        int jNext = (j + 1) % 6;
+
+                        triangles.Add(curr + j);
+                        triangles.Add(next + j);
+                        triangles.Add(curr + jNext);
+
+                        triangles.Add(curr + jNext);
+                        triangles.Add(next + j);
+                        triangles.Add(next + jNext);
                     }
                 }
+                canConnectToPrevious = true;
             }
         }
 

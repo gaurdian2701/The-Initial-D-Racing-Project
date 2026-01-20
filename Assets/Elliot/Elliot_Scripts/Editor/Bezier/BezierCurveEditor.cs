@@ -44,7 +44,7 @@ namespace Bezier
 
         private void OnSceneGUI()
         {
-            Debug.Log("Scene GUI");
+            //Debug.Log("Scene GUI");
             BezierCurve bc = target as BezierCurve;
             Tools.current = Tool.None;
 

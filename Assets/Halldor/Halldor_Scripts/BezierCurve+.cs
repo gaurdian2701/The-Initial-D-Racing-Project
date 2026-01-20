@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-namespace Beziers
+namespace Bezier
 {
     [ExecuteInEditMode]
     public class BezierCurve : MonoBehaviour
@@ -12,19 +9,20 @@ namespace Beziers
         [System.Serializable]
         public class ControlPoint
         {
-            public Vector3      m_vPosition;
-            public Vector3      m_vTangent;
-            public float        m_fDistance;
+            public Vector3 m_vPosition;
+            public Vector3 m_vTangent;
+            public float m_fDistance;
+            public bool m_bIsEdge;
         }
 
         [SerializeField]
-        public List<ControlPoint>   m_points = new List<ControlPoint>();
+        public List<ControlPoint> m_points = new List<ControlPoint>();
 
         [SerializeField]
-        private bool                m_bIsClosed = false;
+        private bool m_bIsClosed = false;
 
-        private ControlPoint        m_closedPoint = new ControlPoint();
-        private float               m_fTotalDistance;
+        private ControlPoint m_closedPoint = new ControlPoint();
+        private float m_fTotalDistance;
 
         #region Properties
 
@@ -231,6 +229,34 @@ namespace Beziers
             }
 
             return 1f;
+        }
+        internal ControlPoint GetControlPointAtDistance(float fDistanceAlongCurve)
+        {
+            if (IsEmpty) return null;
+
+            // Before first point
+            if (fDistanceAlongCurve <= FirstPoint.m_fDistance) return FirstPoint;
+
+            // After last point (open curve)
+            if (!m_bIsClosed && fDistanceAlongCurve >= LastPoint.m_fDistance) return LastPoint;
+
+            // Find segment
+            for (int i = 1; i < m_points.Count; i++)
+            {
+                ControlPoint B = m_points[i];
+                if (fDistanceAlongCurve <= B.m_fDistance)
+                {
+                    return B;
+                }
+            }
+
+            // Closed curve wrap
+            if (m_bIsClosed && fDistanceAlongCurve <= m_fTotalDistance)
+            {
+                return m_closedPoint;
+            }
+
+            throw new System.Exception("Could not find ControlPoint");
         }
     }
 }
