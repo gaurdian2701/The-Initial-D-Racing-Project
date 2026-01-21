@@ -9,6 +9,7 @@ namespace Car
         public void ApplyThrottleForce(float someThrottleForce);
         public Transform GetTransform();
         public bool IsGrounded();
+        public void SetGrip(float someGripValue);
     }
     
     public class CarWheel : MonoBehaviour, IWheel
@@ -100,6 +101,11 @@ namespace Car
             return misGrounded;
         }
 
+        public void SetGrip(float someGripValue)
+        {
+            mgrip = someGripValue;
+        }
+
         private void CalculateWheelRestingPosition()
         {
             //Using raycasts to determine where to place the wheel
@@ -160,9 +166,18 @@ namespace Car
             
             float slideVelocity = Vector3.Dot(mwheelVelocity, transform.right);
             float maxFriction = mgrip * mspringForce.magnitude;
+            float desiredSidewaysFriction = 0.0f;
             
-            //F = m * a
-            float desiredSidewaysFriction = -mparentMass * slideVelocity / Time.fixedDeltaTime;
+            //If we are stationary or moving very slowly, offset slide by adding a counter velocity,
+            if (mparentRigidbody.linearVelocity.magnitude < 0.1f)
+            {
+                desiredSidewaysFriction = -mparentMass * slideVelocity;
+            }
+            //else just counter by using acceleration
+            else
+            {
+                desiredSidewaysFriction = -mparentMass * slideVelocity / Time.fixedDeltaTime;
+            }
 
             desiredSidewaysFriction = Mathf.Clamp(desiredSidewaysFriction, -maxFriction, maxFriction);
             mslidingFrictionForce = desiredSidewaysFriction * transform.right;

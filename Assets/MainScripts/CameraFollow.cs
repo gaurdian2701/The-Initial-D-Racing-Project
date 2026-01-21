@@ -9,9 +9,11 @@ public interface IFollowTarget
 
 public class CameraFollow : MonoBehaviour
 {
+    public bool mshowDebug = false;
+    
     [SerializeField] private GameObject mfollowTarget;
     [SerializeField] private AnimationCurve mfovCurve;
-    [SerializeField] [Range(60.0f, 120.0f)] private float mmaxFOV = 60.0f;
+    [SerializeField] [Range(60.0f, 120.0f)] private float mmaxFOV = 80.0f;
     [SerializeField] [Range(0.0f, 50.0f)] private float mvelocityThresholdForFOVChange = 20.0f;
     
     private Camera mmainCamera;
@@ -21,8 +23,8 @@ public class CameraFollow : MonoBehaviour
     public float yOffset = 1.88f;
     public float mfollowResponsiveness = 12.0f;
     public float mlookAtResponsiveness = 5.0f;
-    [Range(0.0f, 1.0f)] public float mFOVChangeSensitivity = 0.5f;
-    [Range(1.0f, 1.5f)] public float mFOVScaling = 1.0f;
+    [Range(0.0f, 1.0f)] public float mFOVChangeSensitivity = 1.0f;
+    [Range(1.0f, 1.5f)] public float mFOVScaling = 1.433f;
 
     private float mdefaultFOV = 60.0f;
     
@@ -70,10 +72,13 @@ public class CameraFollow : MonoBehaviour
         }
         
         mmainCamera.fieldOfView = Mathf.Lerp(mmainCamera.fieldOfView, evaluatedFOV, mFOVChangeSensitivity * Time.deltaTime);
-        
-        Debug.Log($"TARGET VELOCITY: {targetVelocity}");
-        Debug.Log($"CALCULATED FOV: {evaluatedFOV}");
-        Debug.Log("VALUE ON CURVE: " + (1 - 1 / targetVelocity));
-        Debug.Log("EVALUATED CURVE VALUE: " + mfovCurve.Evaluate(1 - 1 / targetVelocity));
+
+        if (mshowDebug)
+        {
+            Debug.Log($"TARGET VELOCITY: {targetVelocity}");
+            Debug.Log($"CALCULATED FOV: {evaluatedFOV}");
+            Debug.Log("VALUE ON CURVE: " + (1 - 1 / targetVelocity));
+            Debug.Log("EVALUATED CURVE VALUE: " + mfovCurve.Evaluate(1 - 1 / targetVelocity));
+        }
     }
 }
