@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0ae55dec1841b4a949f65933d695b4, type: 3}
+  m_Name: JohnRacing
+  m_EditorClassIdentifier: Assembly-CSharp::RacerData
+  racerName: John Racing
+  racerSprite: {fileID: 21300000, guid: 8ec81df2788621a4fa9cd5063ed5c683, type: 3}
+  visualsPrefab: {fileID: 618789471014632874, guid: 98cceaf1dfbff0440a23ec6fa68b6f80, type: 3}
+  racerColor: {r: 0, g: 0, b: 0, a: 0}
+  racerStats:
+    enginePower: 4
+    brakingPower: 1
+    wheelBaseLength: 2.72
+    turnRadius: 11.5
+    rearTrackLength: 1.6

@@ -1,5 +1,7 @@
 using Bezier;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static Bezier.BezierCurve;
@@ -13,9 +15,22 @@ namespace ProceduralTracks
 
         [SerializeField] private Vector3 m_vRoadSize = new Vector3(1.0f, 0.2f, 0.3f);
 
-        [SerializeField] private Vector3 m_vRoadOutlineSize = new Vector3(1.0f, 0.2f, 0.3f);
+        [SerializeField] private Vector2 m_vRoadOutlineSize = new Vector2(1.0f, 0.2f);
+
+        [SerializeField] private Vector2 m_vRailingPoleSize = new Vector2(1.0f, 0.2f);
+        [SerializeField] private Vector2 m_vRailingBarrierSize = new Vector2(1.0f, 0.2f);
+        [SerializeField] private float m_fAngleStep = 5f;
 
         [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
+
+        [System.Serializable]
+        public class Vector3List
+        {
+            public List<Vector3> points = new List<Vector3>();
+        }
+
+        private List<Vector3List> m_railingBarrierPosesList = new List<Vector3List>();
+
 
         #region Properties
 
@@ -30,22 +45,31 @@ namespace ProceduralTracks
             mesh.name = "Tracks";
 
             List<Vector3> vertices = new List<Vector3>();
-            List<int> sleeperTriangles = new List<int>();
             List<int> trackTriangles = new List<int>();
+            List<int> outlineTrackTriangles = new List<int>();
+            List<int> railingTriangles = new List<int>();
+            List<int> railingBarrierTriangles = new List<int>();
 
             // Generate track!
             DestroyAllEdgeBoxColliders();
-            AddRoadSegment(vertices, sleeperTriangles);
-            GenerateTrackOutline(m_vRoadSize.x, vertices, trackTriangles);
-            GenerateTrackOutline(-m_vRoadSize.x, vertices, trackTriangles);
+            m_railingBarrierPosesList.Clear();
+            AddRoadSegment(vertices, trackTriangles);
+            GenerateTrackOutline(m_vRoadSize.x, vertices, outlineTrackTriangles);
+            GenerateTrackOutline(-m_vRoadSize.x, vertices, outlineTrackTriangles);
+            GeneratePolesRailing(m_vRoadSize.x, vertices, railingTriangles);
+            GeneratePolesRailing(-m_vRoadSize.x, vertices, railingTriangles);
+            GenerateRailingBarrier(m_vRoadSize.x, vertices, railingBarrierTriangles);
+            GenerateRailingBarrier(-m_vRoadSize.x, vertices, railingBarrierTriangles);
             GenerateEdgeBoxColliders();
 
             // assign the mesh data
             mesh.vertices = vertices.ToArray();
 
-            mesh.subMeshCount = 2;
-            mesh.SetTriangles(sleeperTriangles.ToArray(), 0);
-            mesh.SetTriangles(trackTriangles.ToArray(), 1);
+            mesh.subMeshCount = 4;
+            mesh.SetTriangles(trackTriangles.ToArray(), 0);
+            mesh.SetTriangles(outlineTrackTriangles.ToArray(), 1);
+            mesh.SetTriangles(railingTriangles.ToArray(), 2);
+            mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
 
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
@@ -170,7 +194,183 @@ namespace ProceduralTracks
             }
         }
 
-        void AddQuad(List<int> tris, int a, int b, int c, int d)
+        protected void GeneratePolesRailing(float roadOutlineOffset, List<Vector3> vertices, List<int> triangles)
+        {
+            BezierCurve bc = GetComponent<BezierCurve>();
+            int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
+            bool canConnectToPrevious = true;
+
+            Vector3 prevTangent = Vector3.zero;
+            float accumulatedAngle = 0f;
+            const float tangentThreshold = 5f;
+            Vector3List currentGroup = null;
+            bool inGroup = false;
+
+
+            for (int i = 0; i < iSegmentCount; i++)
+            {
+                float prc = i / (float)iSegmentCount;
+                float distance = prc * bc.TotalDistance;
+
+                Pose pose = bc.GetPose(distance);
+                ControlPoint cp = bc.GetControlPointAtDistance(distance);
+                Vector3 tangent = pose.forward;
+
+                bool validSection = Mathf.Abs(tangent.x) <= tangentThreshold && Mathf.Abs(tangent.z) <= tangentThreshold && Mathf.Abs(tangent.y) <= 0.001f;
+                if (!validSection)
+                {
+                    // close group if we were in one
+                    if (inGroup && currentGroup.points.Count > 1)
+                    {
+                        m_railingBarrierPosesList.Add(currentGroup);
+                    }
+
+                    currentGroup = null;
+                    inGroup = false;
+                    accumulatedAngle = 0f;
+                    prevTangent = tangent;
+                    continue;
+                }
+
+                if (i > 0)
+                {
+                    float angle = Vector3.Angle(prevTangent, tangent);
+                    accumulatedAngle += angle;
+
+                    if (cp != null && cp.m_bIsEdge && inGroup)
+                    {
+                        if (currentGroup.points.Count > 1)  m_railingBarrierPosesList.Add(currentGroup);
+
+                        currentGroup = null;
+                        inGroup = false;
+                        accumulatedAngle = 0f;
+                        prevTangent = tangent;
+                        continue;
+                    }
+
+                    if (accumulatedAngle >= m_fAngleStep)
+                    {
+                        Vector3 polePosition = pose.position + pose.right * roadOutlineOffset;
+
+                        if (!inGroup)
+                        {
+                            currentGroup = new Vector3List();
+                            inGroup = true;
+                        }
+
+                        AddCylinderPole(vertices, triangles, polePosition, inGroup);
+                        currentGroup.points.Add(polePosition);
+                        accumulatedAngle = 0f;
+                    }
+                }
+                prevTangent = tangent;
+            }
+            if (inGroup && currentGroup != null && currentGroup.points.Count > 1)
+            {
+                m_railingBarrierPosesList.Add(currentGroup);
+            }
+        }
+
+        protected void AddCylinderPole(List<Vector3> vertices, List<int> triangles, Vector3 position, bool shouldEnableTriangles)
+        {
+            int startIndex = vertices.Count;
+            const int poleSides = 8;
+
+            // bottom & top rings
+            for (int i = 0; i <= poleSides; i++)
+            {
+                float angle = i * Mathf.PI * 2f / poleSides;
+                float x = Mathf.Cos(angle) * m_vRailingPoleSize.x;
+                float z = Mathf.Sin(angle) * m_vRailingPoleSize.x;
+
+                vertices.Add(position + new Vector3(x, 0f, z));
+                vertices.Add(position + new Vector3(x, m_vRailingPoleSize.y, z));
+            }
+
+            if (!shouldEnableTriangles) return;
+
+            // side faces
+            for (int i = 0; i < poleSides; i++)
+            {
+                int i0 = startIndex + i * 2;
+                int i1 = i0 + 1;
+                int i2 = i0 + 2;
+                int i3 = i0 + 3;
+
+                triangles.Add(i0);
+                triangles.Add(i1);
+                triangles.Add(i2);
+
+                triangles.Add(i2);
+                triangles.Add(i1);
+                triangles.Add(i3);
+            }
+        }
+
+        protected void GenerateRailingBarrier(float roadOutlineOffset, List<Vector3> vertices, List<int> triangles)
+        {
+            foreach (Vector3List poleGroup in m_railingBarrierPosesList)
+            {
+                if (poleGroup.points.Count < 2) continue;
+
+                bool canConnectToPrevious = false;
+
+                for (int i = 0; i < poleGroup.points.Count; i++)
+                {
+                    Vector3 pos = poleGroup.points[i];
+
+                    // direction along the pole chain
+                    Vector3 forward = Vector3.zero;
+                    if (i < poleGroup.points.Count - 1) forward = (poleGroup.points[i + 1] - pos).normalized;
+                    else forward = (pos - poleGroup.points[i - 1]).normalized;
+
+                    // build a stable frame
+                    Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
+                    Vector3 up = Vector3.up;
+
+                    // rail sits on top of poles
+                    Vector3 basePos = pos + up * m_vRailingPoleSize.y;
+
+                    Vector3 vRight = right * m_vRailingBarrierSize.x;
+                    Vector3 vUp = up * m_vRailingBarrierSize.y;
+
+                    vertices.AddRange(new Vector3[]
+                    {
+                        basePos - vRight,
+                        basePos - vRight * 0.75f + vUp,
+                        basePos + vRight * 0.75f + vUp,
+                        basePos + vRight,
+
+                        basePos + vRight * 0.75f - vUp,
+                        basePos - vRight * 0.75f - vUp,
+                    });
+
+                    // connect to previous segment in this group only
+                    if (canConnectToPrevious)
+                    {
+                        int curr = vertices.Count - 6;
+                        int prev = curr - 6;
+
+                        for (int j = 0; j < 6; j++)
+                        {
+                            int jNext = (j + 1) % 6;
+
+                            triangles.Add(prev + j);
+                            triangles.Add(curr + j);
+                            triangles.Add(prev + jNext);
+
+                            triangles.Add(prev + jNext);
+                            triangles.Add(curr + j);
+                            triangles.Add(curr + jNext);
+                        }
+                    }
+
+                    canConnectToPrevious = true;
+                }
+            }
+        }
+
+        protected void AddQuad(List<int> tris, int a, int b, int c, int d)
         {
             tris.Add(a);
             tris.Add(b);
