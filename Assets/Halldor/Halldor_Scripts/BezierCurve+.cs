@@ -258,5 +258,14 @@ namespace Bezier
 
             throw new System.Exception("Could not find ControlPoint");
         }
+
+        internal int GetControlPointIndex(ControlPoint cp)
+        {
+            for (int i = 0; i < m_points.Count; i++)
+            {
+                if (m_points[i] == cp) return i;
+            }
+            return -1;
+        }
     }
 }
