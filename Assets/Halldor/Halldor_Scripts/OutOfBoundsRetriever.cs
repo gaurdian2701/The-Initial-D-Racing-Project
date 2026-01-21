@@ -1,26 +1,31 @@
 using System;
+using System.Linq;
 using Car;
 using Bezier;
 using UnityEngine;
 
 public class OutOfBoundsRetriever : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     private Bezier.BezierCurve _tracedPath;
     [SerializeField]
     private GameObject _car;
+    
+    [Header("Traced Path Settings")]
     [SerializeField]
-    private int _amountOfCheckpoints = 1;
+    private int _amountOfCheckpoints = 3;
     [SerializeField]
-    private float _checkpointInterval = 1;
+    private float _checkpointInterval = 0.5f;
     [SerializeField]
     private float _heightOffset = 8;
     [SerializeField] 
-    private float _speed = 1.0f;
+    private float _speed = 0.3f;
     [SerializeField] 
-    private float _BezierTangent = 0.25f;
+    private float _BezierTangent = 5f;
     private float _timer;
-    private bool _rewind = false;
+    [Header("Do Not Touch")]
+    public bool _rewind = false;
 
     private bool _areVectorsClose(Vector3 a, Vector3 b, float tolerance = 1f)
     {
@@ -29,8 +34,6 @@ public class OutOfBoundsRetriever : MonoBehaviour
 
     private float _lerpTimer;
     private float _distance;
-    private float shitasstimer;
-    private bool shitassbool = true;
     private CarController _carController;
 
     public void OutOfBounds()
@@ -59,9 +62,11 @@ public class OutOfBoundsRetriever : MonoBehaviour
 
     private void InBounds()
     {
+        Debug.Log("InBounds");
         Rigidbody rb = _car.GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.None;
+        _tracedPath.m_points.Clear();
         
         _rewind = false;
     }
@@ -69,6 +74,14 @@ public class OutOfBoundsRetriever : MonoBehaviour
     private void ResetRotation()
     {
         //Cant seem to find anything that works
+        _car.transform.rotation = Quaternion.identity;
+    }
+
+    private void AddCheckpoint()
+    {
+        BezierCurve.ControlPoint NewPosition = new BezierCurve.ControlPoint();
+        NewPosition.m_vPosition = new Vector3(_car.transform.position.x, _car.transform.position.y + _heightOffset, _car.transform.position.z);
+        _tracedPath.m_points.Add(NewPosition);
     }
 
     private void Start()
@@ -78,16 +91,6 @@ public class OutOfBoundsRetriever : MonoBehaviour
 
     void Update()
     {
-        shitasstimer += Time.deltaTime;
-        if (shitasstimer >= 4)
-        {
-            if (shitassbool)
-            {
-                shitassbool = false;
-                OutOfBounds();
-            }
-        }
-        
         if (!_rewind)
         {
             _timer += Time.deltaTime;
@@ -98,11 +101,19 @@ public class OutOfBoundsRetriever : MonoBehaviour
                 {
                     _tracedPath.m_points.RemoveAt(0);
                 }
+
+                if (_tracedPath.m_points.Count > 0)
+                {
+                    if (!_areVectorsClose(_tracedPath.LastPoint.m_vPosition, _car.transform.position, 5))
+                    {
+                        AddCheckpoint();
+                    }
+                }
                 
-                BezierCurve.ControlPoint NewPosition = new BezierCurve.ControlPoint();
-                NewPosition.m_vPosition = new Vector3(_car.transform.position.x, _car.transform.position.y + _heightOffset, _car.transform.position.z);
-                
-                _tracedPath.m_points.Add(NewPosition);
+                else
+                {
+                    AddCheckpoint();
+                }
             }
         }
         
@@ -113,7 +124,6 @@ public class OutOfBoundsRetriever : MonoBehaviour
             _car.transform.position = _tracedPath.GetPose(newDistance).position;
             if (_areVectorsClose(_car.transform.position, _tracedPath.m_points[0].m_vPosition))
             {
-                Debug.Log("InBounds");
                 InBounds();
             }
         }
