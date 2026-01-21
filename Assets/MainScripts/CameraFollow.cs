@@ -59,6 +59,7 @@ public class CameraFollow : MonoBehaviour
         float targetVelocity =  mfollowTargetInterface.GetVelocity();
         float currentFOV = mfovCurve.Evaluate(targetVelocity);
         currentFOV = Mathf.Clamp(currentFOV, mdefaultFOV, mmaxFOV);
+        Debug.Log(targetVelocity);
         mmainCamera.fieldOfView = currentFOV;
     }
 }

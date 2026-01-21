@@ -1346,8 +1346,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735482752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.11250153, y: -0.03427473, z: 0.0038952522, w: 0.99305266}
+  m_LocalPosition: {x: 33.77418, y: 2.06829, z: -386.03336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1390,6 +1390,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  mmaxFOV: 120
   zOffset: 4.56
   yOffset: 1.88
   mfollowResponsiveness: 15
@@ -3946,7 +3947,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2065068707920822018, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mgrip
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2065068707920822018, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mshowWheelDebug
@@ -4006,7 +4007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5816892638923163788, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mgrip
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5816892638923163788, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mshowWheelDebug
@@ -4031,6 +4032,10 @@ PrefabInstance:
     - target: {fileID: 7044046910928955914, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: menginePower
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7044046910928955914, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
+      propertyPath: mbrakingPower
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -14,9 +14,9 @@ namespace Car
         [SerializeField] private Rigidbody mcarRigidBody;
 
         [Header("Car Forces Properties")] 
-        [SerializeField] private float menginePower = 1.0f;
-        [SerializeField] private float mbrakingPower = 1.0f;
-        [SerializeField] private float mairDragConstant = 1.0f;
+        [SerializeField] private float menginePower = 4.0f;
+        [SerializeField][Range(0.1f, 1.5f)] private float mbrakingPower = 1.0f;
+        [SerializeField] private float mairDragConstant = 0.003f;
 
         [Header("Car Steering Properties - Default values are from Ford Mustang 5th gen")] 
         [SerializeField] private float mwheelBaseLength = 2.72f;
@@ -84,6 +84,11 @@ namespace Car
             else if (input.y < 0)
             {
                 mthrottleInput = -1.0f;
+                
+                if (Vector3.Dot(mcarRigidBody.linearVelocity, mcarRigidBody.transform.forward) > 0.01f)
+                {
+                    mthrottleInput *= mbrakingPower;
+                }
             }
             else
             {
