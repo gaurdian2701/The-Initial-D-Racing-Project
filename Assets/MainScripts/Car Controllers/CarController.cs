@@ -10,13 +10,14 @@ namespace Car
     public class CarController : MonoBehaviour, IFollowTarget
     {
         public bool mshowDebug = false;
-
+        public bool misAIController = false;
+        
         [SerializeField] private Rigidbody mcarRigidBody;
 
         [Header("Car Forces Properties")] 
-        [SerializeField] private float menginePower = 1.0f;
-        [SerializeField] private float mbrakingPower = 1.0f;
-        [SerializeField] private float mairDragConstant = 1.0f;
+        [SerializeField] private float menginePower = 4.0f;
+        [SerializeField][Range(0.1f, 1.5f)] private float mbrakingPower = 1.0f;
+        [SerializeField] private float mairDragConstant = 0.003f;
 
         [Header("Car Steering Properties - Default values are from Ford Mustang 5th gen")] 
         [SerializeField] private float mwheelBaseLength = 2.72f;
@@ -34,13 +35,15 @@ namespace Car
         private IWheel mrearLeftWheel;
         private IWheel mrearRightWheel;
         
-        private float msteerInput = 0.0f;
-        private float mthrottleInput = 0.0f;
+        //Use these variables to control the car
+        protected float msteerInput = 0.0f; // steer the car X
+        protected float mthrottleInput = 0.0f; //move the car forwards or backwards Y
+        
         private float mrightWheelSteerAngle = 0.0f;
         private float mleftWheelSteerAngle = 0.0f;
 
         private Vector3 mdragVector = Vector3.zero;
-
+        
         void Awake()
         {
             mfrontLeftWheel = mfrontLeftWheelObject.GetComponent<IWheel>();
@@ -62,6 +65,11 @@ namespace Car
 
         public void ReceiveInput(InputAction.CallbackContext context)
         {
+            if (misAIController)
+            {
+                return;
+            }
+            
             Vector2 input = context.ReadValue<Vector2>();
             
             if (input.x > 0)
@@ -84,6 +92,12 @@ namespace Car
             else if (input.y < 0)
             {
                 mthrottleInput = -1.0f;
+                
+                //Are we moving forward?
+                if (Vector3.Dot(mcarRigidBody.linearVelocity, mcarRigidBody.transform.forward) > 0.01f)
+                {
+                    mthrottleInput *= mbrakingPower;
+                }
             }
             else
             {
@@ -91,7 +105,7 @@ namespace Car
             }
         }
 
-        private void FixedUpdate()
+        protected void FixedUpdate()
         {
             ThrottleCar();
             ApplyDragForces();
@@ -105,7 +119,8 @@ namespace Car
                    mrearRightWheel.IsGrounded();
         }
         
-        private void ThrottleCar()
+        //Move car forwards or backwards
+        protected void ThrottleCar()
         {
             mrearLeftWheel.ApplyThrottleForce(mthrottleInput * menginePower);
             mrearRightWheel.ApplyThrottleForce(mthrottleInput * menginePower);
@@ -119,11 +134,12 @@ namespace Car
             mcarRigidBody.AddForce(mdragVector);
         }
 
-        private void Update()
+        protected void Update()
         {
             SteerCar();
         }
 
+        //Steer the car left or right
         private void SteerCar()
         {
             if (msteerInput > 0.0f) //If we are steering right
@@ -136,7 +152,7 @@ namespace Car
                 mrightWheelSteerAngle = Mathf.Rad2Deg * Mathf.Atan2(mwheelBaseLength, mturnRadius + mrearTrackLength / 2) * msteerInput;
                 mleftWheelSteerAngle = Mathf.Rad2Deg * Mathf.Atan2(mwheelBaseLength, mturnRadius - mrearTrackLength / 2) * msteerInput;
             }
-            else
+            else //Don't steer at all
             {
                 mrightWheelSteerAngle = 0.0f;
                 mleftWheelSteerAngle = 0.0f;
@@ -144,21 +160,17 @@ namespace Car
             mfrontLeftWheel.GetTransform().localRotation = Quaternion.AngleAxis(mleftWheelSteerAngle, Vector3.up);
             mfrontRightWheel.GetTransform().localRotation = Quaternion.AngleAxis(mrightWheelSteerAngle, Vector3.up);
         }
-        
         void OnDrawGizmos()
         {
-            if (mshowDebug)
+            Gizmos.color = Color.white;
+            if (mfrontLeftWheel != null)
             {
-                Gizmos.color = Color.white;
-                if (mfrontLeftWheel != null)
-                {
-                    Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
-                }
+                Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
+            }
 
-                if (mfrontRightWheel != null)
-                {
-                    Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
-                }
+            if (mfrontRightWheel != null)
+            {
+                Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
             }
         }
     }

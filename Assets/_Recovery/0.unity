@@ -1463,14 +1463,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  mmaxFOV: 80
-  mvelocityThresholdForFOVChange: 20
+  mmaxFOV: 120
+  mvelocityThresholdForFOVChange: 19.2
   zOffset: 4.56
   yOffset: 1.88
-  mfollowResponsiveness: 15
+  mfollowResponsiveness: 100
   mlookAtResponsiveness: 5
-  mFOVChangeSensitivity: 1
-  mFOVScaling: 1.433
+  mFOVChangeSensitivity: 0.639
+  mFOVScaling: 1.308
 --- !u!114 &735482757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4115,7 +4115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7044046910928955914, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mbrakingPower
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

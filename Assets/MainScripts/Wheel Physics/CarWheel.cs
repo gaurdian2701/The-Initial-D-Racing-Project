@@ -10,6 +10,7 @@ namespace Car
         public Transform GetTransform();
         public bool IsGrounded();
     }
+    
     public class CarWheel : MonoBehaviour, IWheel
     {
         [SerializeField] private Rigidbody mparentRigidbody;
@@ -38,7 +39,7 @@ namespace Car
         #region Wheel properties
 
         [Header("Wheel Properties")] public bool misLeftWheel = false;
-        [SerializeField] [Range(0.0f, 2.0f)] private float mgrip = 1.0f;
+        [SerializeField] [Range(0.0f, 10.0f)] private float mgrip = 1.0f;
         [SerializeField] [Range(0.0f, 0.1f)] private float mrollingFrictionConstant = 0.02f;
 
         #endregion
@@ -63,6 +64,8 @@ namespace Car
 
         private Vector3 mdebugWheelProbePoint = Vector3.zero;
         private Vector3 mdebugCounterSlideForce = Vector3.zero;
+            
+                
 
         #endregion
 
