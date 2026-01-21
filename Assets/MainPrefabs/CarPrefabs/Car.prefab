@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7044046910928955914}
   - component: {fileID: 7877789484341343067}
   - component: {fileID: 7190821506759501900}
+  - component: {fileID: 3368352326829262751}
+  - component: {fileID: 5136946253210843243}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -81,67 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Car.CarController
   mshowDebug: 1
   mcarRigidBody: {fileID: 429141612883122382}
-  mtorqueCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0054397583
-      value: 0.49465942
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.37293813
-      value: 1.012059
-      inSlope: -0.036518373
-      outSlope: -0.036518373
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.3481136
-    - serializedVersion: 3
-      time: 0.50916696
-      value: 1.0124038
-      inSlope: 0.025564304
-      outSlope: 0.025564304
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6907859
-      value: 0.9167877
-      inSlope: -1.7988204
-      outSlope: -1.7988204
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.92886215
-      value: 0.13839068
-      inSlope: -3.4027522
-      outSlope: -3.4027522
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.99978465
-      value: 0.00011821091
-      inSlope: -0.8385144
-      outSlope: -0.8385144
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  mtorquePower: 3
+  menginePower: 1
   mbrakingPower: 6
   mairDragConstant: 0.0033333334
   mwheelBaseLength: 2.72
@@ -291,6 +233,39 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
+--- !u!114 &3368352326829262751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079921147483252166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4bdacc71e5b8840b7538f76615a59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OutOfBoundsRetriever
+  _tracedPath: {fileID: 5136946253210843243}
+  _car: {fileID: 4079921147483252166}
+  _amountOfCheckpoints: 3
+  _checkpointInterval: 0.5
+  _heightOffset: 8
+  _speed: 0.15
+  _BezierTangent: 5
+--- !u!114 &5136946253210843243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079921147483252166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9567223e41dc24ab0275dfcaeb8040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BezierCurve
+  m_points: []
+  m_bIsClosed: 0
 --- !u!1 &6928545961730026598
 GameObject:
   m_ObjectHideFlags: 0
