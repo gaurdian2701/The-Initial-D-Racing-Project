@@ -7,9 +7,9 @@ namespace Car
     {
         [SerializeField] private float mgripDuringLateralMovement = 1.0f;
         [SerializeField] private float mgripDuringSidewaysMovement = 2.0f;
-        [SerializeField] private float mrearGripDuringDrifting = 0.8f;
+        [SerializeField] private float mgripDuringDrifting = 0.8f;
 
-        private bool mdriftButtonPressed = false;
+        private bool mdriftInitiated = false;
         protected override void Update()
         {
             base.Update();
@@ -40,11 +40,10 @@ namespace Car
 
         private void UpdateWheelValuesOnDrift()
         {
-            if (mdriftButtonPressed)
+            if (mdriftInitiated)
             {
-                mrearLeftWheel.SetGrip(mrearGripDuringDrifting);
-                mrearRightWheel.SetGrip(mrearGripDuringDrifting);
-                
+                mrearLeftWheel.SetGrip(mgripDuringDrifting);
+                mrearRightWheel.SetGrip(mgripDuringDrifting);
             }
         }
 
@@ -52,12 +51,12 @@ namespace Car
         {
             if (context.performed)
             {
-                mdriftButtonPressed = true;
+                mdriftInitiated = true;
             }
 
             if (context.canceled)
             {
-                mdriftButtonPressed = false;
+                mdriftInitiated = false;
             }
         }
     }
