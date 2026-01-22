@@ -720,6 +720,7 @@ MonoBehaviour:
     m_fDistance: 457.32272
     m_bIsEdge: 0
   m_bIsClosed: 0
+  m_bWantEditorGizmos: 0
 --- !u!1 &5951249593980890971
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +781,7 @@ MonoBehaviour:
   m_vRoadOutlineSize: {x: 0.1, y: 0.15}
   m_vRailingPoleSize: {x: 0.05, y: 1}
   m_vRailingBarrierSize: {x: 0.1, y: 0.15}
-  m_fAngleStep: 5
+  m_fRailingAngleStep: 5
   m_lEdgeBoxColliders: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

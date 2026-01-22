@@ -23,10 +23,10 @@ namespace Bezier
         public override void OnInspectorGUI()
         {
             BezierCurve bc = target as BezierCurve;
-
+            base.OnInspectorGUI();
+            if (bc == null || !bc.WantEditorGizmos) return;
             EditorGUI.BeginChangeCheck();
 
-            base.OnInspectorGUI();
 
             GUILayout.Space(10);
             m_fBlend = EditorGUILayout.Slider("Blend", m_fBlend, 0.0f, 1.0f);
@@ -44,10 +44,11 @@ namespace Bezier
 
         private void OnSceneGUI()
         {
+            BezierCurve bc = target as BezierCurve;
+            if (bc == null || !bc.WantEditorGizmos) return;
             if (Event.current.type != EventType.Repaint) return;
 
             //Debug.Log("Scene GUI");
-            BezierCurve bc = target as BezierCurve;
             Tools.current = Tool.None;
 
             //DrawCurve_LerpLerpLerp();

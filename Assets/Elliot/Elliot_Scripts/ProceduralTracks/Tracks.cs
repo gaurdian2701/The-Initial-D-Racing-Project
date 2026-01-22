@@ -19,7 +19,7 @@ namespace ProceduralTracks
 
         [SerializeField] private Vector2 m_vRailingPoleSize = new Vector2(1.0f, 0.2f);
         [SerializeField] private Vector2 m_vRailingBarrierSize = new Vector2(1.0f, 0.2f);
-        [SerializeField] private float m_fAngleStep = 5f;
+        [SerializeField] private float m_fRailingAngleStep = 5f;
 
         [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
 
@@ -248,7 +248,7 @@ namespace ProceduralTracks
                         continue;
                     }
 
-                    if (accumulatedAngle >= m_fAngleStep)
+                    if (accumulatedAngle >= m_fRailingAngleStep)
                     {
                         Vector3 polePosition = pose.position + pose.right * roadOutlineOffset;
 
