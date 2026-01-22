@@ -19,7 +19,7 @@ namespace ProceduralTracks
 
         [SerializeField] private Vector2 m_vRailingPoleSize = new Vector2(1.0f, 0.2f);
         [SerializeField] private Vector2 m_vRailingBarrierSize = new Vector2(1.0f, 0.2f);
-        [SerializeField] private float m_fAngleStep = 5f;
+        [SerializeField] private float m_fRailingAngleStep = 5f;
 
         [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
 
@@ -248,7 +248,7 @@ namespace ProceduralTracks
                         continue;
                     }
 
-                    if (accumulatedAngle >= m_fAngleStep)
+                    if (accumulatedAngle >= m_fRailingAngleStep)
                     {
                         Vector3 polePosition = pose.position + pose.right * roadOutlineOffset;
 
@@ -313,7 +313,14 @@ namespace ProceduralTracks
             {
                 if (poleGroup.points.Count < 2) continue;
 
+                int groupStartVertex = vertices.Count;
                 bool canConnectToPrevious = false;
+                int groupSectionCount = 0;
+
+                float startExtension = Vector3.Distance(poleGroup.points[0], poleGroup.points[1]) * 0.1f;
+
+                int lastIndex = poleGroup.points.Count - 1;
+                float endExtension = Vector3.Distance(poleGroup.points[lastIndex], poleGroup.points[lastIndex - 1]) * 0.1f;
 
                 for (int i = 0; i < poleGroup.points.Count; i++)
                 {
@@ -331,6 +338,9 @@ namespace ProceduralTracks
                     // rail sits on top of poles
                     Vector3 basePos = pos + up * m_vRailingPoleSize.y;
 
+                    if (i == 0)  basePos -= forward * startExtension;
+                    else if (i == lastIndex) basePos += forward * endExtension;
+
                     Vector3 vRight = right * m_vRailingBarrierSize.x;
                     Vector3 vUp = up * m_vRailingBarrierSize.y;
 
@@ -344,6 +354,8 @@ namespace ProceduralTracks
                         basePos + vRight * 0.75f - vUp,
                         basePos - vRight * 0.75f - vUp,
                     });
+
+                    groupSectionCount++;
 
                     // connect to previous segment in this group only
                     if (canConnectToPrevious)
@@ -367,6 +379,23 @@ namespace ProceduralTracks
 
                     canConnectToPrevious = true;
                 }
+                AddCap(triangles, groupStartVertex, flip: false);
+                int endBase = groupStartVertex + (groupSectionCount - 1) * 6;
+                AddCap(triangles, endBase, flip: true);
+            }
+        }
+
+        protected void AddCap(List<int> triangles, int baseIndex, bool flip)
+        {
+            int[] order = flip
+                ? new[] { 0, 5, 4, 3, 2, 1 }
+                : new[] { 0, 1, 2, 3, 4, 5 };
+
+            for (int i = 1; i < 5; i++)
+            {
+                triangles.Add(baseIndex + order[0]);
+                triangles.Add(baseIndex + order[i]);
+                triangles.Add(baseIndex + order[i + 1]);
             }
         }
 

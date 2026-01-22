@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0ae55dec1841b4a949f65933d695b4, type: 3}
+  m_Name: JumpMan
+  m_EditorClassIdentifier: Assembly-CSharp::RacerData
+  racerId: 2
+  racerName: JumpMan
+  racerSprite: {fileID: 21300000, guid: 0f8f4a0c8ef1af24fa06a183584f0b11, type: 3}
+  visualsPrefab: {fileID: 618789471014632874, guid: d1baa40f752e6eb44b297d023b399fa8, type: 3}
+  racerColor: {r: 1, g: 0, b: 0, a: 0}
+  racerStats:
+    enginePower: 4
+    brakingPower: 1
+    wheelBaseLength: 2.72
+    turnRadius: 11.5
+    rearTrackLength: 1.6
