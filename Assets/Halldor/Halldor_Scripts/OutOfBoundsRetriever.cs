@@ -104,7 +104,8 @@ public class OutOfBoundsRetriever : MonoBehaviour
 
                 if (_tracedPath.m_points.Count > 0)
                 {
-                    if (!_areVectorsClose(_tracedPath.LastPoint.m_vPosition, _car.transform.position, 5))
+                    Vector3 LastPoint = new Vector3(_tracedPath.LastPoint.m_vPosition.x, _tracedPath.LastPoint.m_vPosition.y - _heightOffset, _tracedPath.LastPoint.m_vPosition.z);
+                    if (!_areVectorsClose(LastPoint, _car.transform.position, 5))
                     {
                         AddCheckpoint();
                     }
