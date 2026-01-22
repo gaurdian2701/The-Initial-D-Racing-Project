@@ -21,6 +21,9 @@ namespace Bezier
         [SerializeField]
         private bool m_bIsClosed = false;
 
+        [SerializeField]
+        private bool m_bWantEditorGizmos = false;
+
         private ControlPoint m_closedPoint = new ControlPoint();
         private float m_fTotalDistance;
 
@@ -35,6 +38,8 @@ namespace Bezier
         public float TotalDistance => m_fTotalDistance;
 
         public bool IsClosed => m_bIsClosed;
+
+        public bool WantEditorGizmos => m_bWantEditorGizmos;
 
         public IEnumerable<ControlPoint> Points
         {
