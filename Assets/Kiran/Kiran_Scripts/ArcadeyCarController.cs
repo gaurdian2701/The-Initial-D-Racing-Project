@@ -6,11 +6,15 @@ namespace Car
     public class ArcadeyCarController : CarController
     {
         [SerializeField] private float mgripDuringLateralMovement = 1.0f;
-        [SerializeField] private float mgripDuringSidewaysMovement = 3.0f;
+        [SerializeField] private float mgripDuringSidewaysMovement = 2.0f;
+        [SerializeField] private float mrearGripDuringDrifting = 0.8f;
+
+        private bool mdriftButtonPressed = false;
         protected override void Update()
         {
             base.Update();
             UpdateSteeringGrip();
+            UpdateWheelValuesOnDrift();
         }
 
         private void UpdateSteeringGrip()
@@ -34,9 +38,27 @@ namespace Car
             }
         }
 
-        protected override void FixedUpdate()
+        private void UpdateWheelValuesOnDrift()
         {
-            base.FixedUpdate();
+            if (mdriftButtonPressed)
+            {
+                mrearLeftWheel.SetGrip(mrearGripDuringDrifting);
+                mrearRightWheel.SetGrip(mrearGripDuringDrifting);
+                
+            }
+        }
+
+        public void ReceiveDriftInput(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                mdriftButtonPressed = true;
+            }
+
+            if (context.canceled)
+            {
+                mdriftButtonPressed = false;
+            }
         }
     }
 }

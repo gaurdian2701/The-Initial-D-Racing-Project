@@ -39,8 +39,8 @@ namespace Car
         protected float msteerInput = 0.0f; // steer the car X
         protected float mthrottleInput = 0.0f; //move the car forwards or backwards Y
         
-        private float mrightWheelSteerAngle = 0.0f;
-        private float mleftWheelSteerAngle = 0.0f;
+        protected float mrightWheelSteerAngle = 0.0f;
+        protected float mleftWheelSteerAngle = 0.0f;
 
         private Vector3 mdragVector = Vector3.zero;
         
@@ -63,7 +63,7 @@ namespace Car
             return mcarRigidBody.linearVelocity.magnitude;
         }
 
-        public void ReceiveInput(InputAction.CallbackContext context)
+        public void ReceiveThrottleAndSteerInput(InputAction.CallbackContext context)
         {
             if (misAIController)
             {
@@ -124,8 +124,7 @@ namespace Car
         {
             mrearLeftWheel.ApplyThrottleForce(mthrottleInput * menginePower);
             mrearRightWheel.ApplyThrottleForce(mthrottleInput * menginePower);
-            // mfrontLeftWheel.ApplyThrottleForce(mthrottleInput * menginePower);
-            // mfrontRightWheel.ApplyThrottleForce(mthrottleInput * menginePower);
+
         }
 
         private void ApplyDragForces()
@@ -157,9 +156,10 @@ namespace Car
                 mrightWheelSteerAngle = 0.0f;
                 mleftWheelSteerAngle = 0.0f;
             }
-            mfrontLeftWheel.GetTransform().localRotation = Quaternion.AngleAxis(mleftWheelSteerAngle, Vector3.up);
-            mfrontRightWheel.GetTransform().localRotation = Quaternion.AngleAxis(mrightWheelSteerAngle, Vector3.up);
+            mfrontLeftWheel.SteerWheel(mleftWheelSteerAngle);
+            mfrontRightWheel.SteerWheel(mrightWheelSteerAngle);
         }
+        
         void OnDrawGizmos()
         {
             Gizmos.color = Color.white;

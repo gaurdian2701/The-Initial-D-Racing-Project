@@ -10,6 +10,7 @@ namespace Car
         public Transform GetTransform();
         public bool IsGrounded();
         public void SetGrip(float someGripValue);
+        public void SteerWheel(float someSteeringAngle);
     }
     
     public class CarWheel : MonoBehaviour, IWheel
@@ -38,15 +39,12 @@ namespace Car
         #endregion
 
         #region Wheel properties
-
         [Header("Wheel Properties")] public bool misLeftWheel = false;
         [SerializeField] [Range(0.0f, 10.0f)] private float mgrip = 1.0f;
         [SerializeField] [Range(0.0f, 0.1f)] private float mrollingFrictionConstant = 0.02f;
-
         #endregion
 
         #region Physics and Forces variables
-
         private Vector3 mspringForce = Vector3.zero; //This is also the N value in kinetic friction F = mu * N
         private Vector3 mslidingFrictionForce = Vector3.zero;
         private Vector3 mrollingFrictionForce = Vector3.zero;
@@ -58,16 +56,11 @@ namespace Car
         private float mminspringLength = 0.0f;
         private float mmaxspringLength = 0.0f;
         private float mparentMass = 0.0f;
-
         #endregion
 
         #region Debug
-
         private Vector3 mdebugWheelProbePoint = Vector3.zero;
         private Vector3 mdebugCounterSlideForce = Vector3.zero;
-            
-                
-
         #endregion
 
         void Start()
@@ -142,6 +135,15 @@ namespace Car
             wheelRollingRotationStep += angularVelocity;
             mwheelMesh.transform.localEulerAngles = new Vector3(
                 wheelRollingRotationStep, mwheelMesh.transform.localEulerAngles.y, mwheelMesh.transform.localEulerAngles.z);
+        }
+
+        public void SteerWheel(float steeringAngle)
+        {
+            transform.localRotation = Quaternion.AngleAxis(steeringAngle, Vector3.up);
+            if (steeringAngle > 0.01f && steeringAngle < -0.01f)
+            {
+                mparentRigidbody.AddForceAtPosition(transform.forward, transform.position);
+            }
         }
 
         //NOTE: ISOLATE SPRING LOGIC - IT DOES NOT CARE ABOUT WHEEL POSITIONS AND OUTSIDE FORCES. ONLY IT'S OWN LENGTH

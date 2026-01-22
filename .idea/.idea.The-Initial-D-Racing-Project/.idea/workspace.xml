@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9d4c2c55-8d3c-47c6-ae34-123373c26c57" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainScripts/Wheel Physics/CarWheel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainScripts/Wheel Physics/CarWheel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Recovery/0 (2).unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Recovery/0 (2).unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +118,7 @@
       <workItem from="1768988230485" duration="3000" />
       <workItem from="1768988239541" duration="1821000" />
       <workItem from="1768990845299" duration="9587000" />
+      <workItem from="1769075954751" duration="6731000" />
     </task>
     <servers />
   </component>

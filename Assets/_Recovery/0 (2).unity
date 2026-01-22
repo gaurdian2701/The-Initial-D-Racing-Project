@@ -7533,7 +7533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7877789484871924623}
         m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
-        m_MethodName: ReceiveInput
+        m_MethodName: ReceiveThrottleAndSteerInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
