@@ -2861,8 +2861,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735482752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11250153, y: -0.03427473, z: 0.0038952522, w: 0.99305266}
-  m_LocalPosition: {x: 65.855934, y: 3.25, z: 33.75}
+  m_LocalRotation: {x: -0.089133374, y: 0.059421398, z: -0.005322065, w: -0.9942314}
+  m_LocalPosition: {x: 55.422386, y: 3.0106864, z: 24.036322}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6411,6 +6411,10 @@ PrefabInstance:
     - target: {fileID: 7583029442482662022, guid: f0d64cc459021aa4780b357add3eba4e, type: 3}
       propertyPath: m_Name
       value: Prefab_SliderRoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583029442482662022, guid: f0d64cc459021aa4780b357add3eba4e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11285,22 +11289,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7877789484871924623}
         m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
-        m_MethodName: ReceiveThrottleAndSteerInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
-    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7877789484871924623}
-        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
         m_MethodName: ReceiveDriftInput
         m_Mode: 0
         m_Arguments:
@@ -11353,6 +11341,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7877789484871924623}
+        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
+        m_MethodName: ReceiveThrottleInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9db2fe21-5448-4634-8219-36752098d5fc
+    m_ActionName: Player/Throttle
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7877789484871924623}
+        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
+        m_MethodName: ReceiveSteerInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 64b49ccf-f78c-4250-8b33-bc6d6f1e9f2e
+    m_ActionName: Player/Steer
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -11373,7 +11393,7 @@ MonoBehaviour:
   mshowDebug: 0
   misAIController: 0
   mcarRigidBody: {fileID: 429141611274604571}
-  menginePower: 5
+  menginePower: 2
   mbrakingPower: 2.49
   mairDragConstant: 0.003
   mwheelBaseLength: 2.72
@@ -11385,7 +11405,7 @@ MonoBehaviour:
   mrearRightWheelObject: {fileID: 3204218198545548371}
   mgripDuringLateralMovement: 1
   mgripDuringSidewaysMovement: 2
-  mgripDuringDrifting: 1
+  mrearWheelGripDuringDrift: 1.25
 --- !u!4 &8989215889042943469
 Transform:
   m_ObjectHideFlags: 0

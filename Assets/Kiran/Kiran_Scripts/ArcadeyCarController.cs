@@ -7,7 +7,7 @@ namespace Car
     {
         [SerializeField] private float mgripDuringLateralMovement = 1.0f;
         [SerializeField] private float mgripDuringSidewaysMovement = 2.0f;
-        [SerializeField] private float mgripDuringDrifting = 0.8f;
+        [SerializeField] private float mrearWheelGripDuringDrift = 1.0f;
 
         private bool mdriftInitiated = false;
         protected override void Update()
@@ -42,8 +42,8 @@ namespace Car
         {
             if (mdriftInitiated)
             {
-                mrearLeftWheel.SetGrip(mgripDuringDrifting);
-                mrearRightWheel.SetGrip(mgripDuringDrifting);
+                mrearLeftWheel.SetGrip(mrearWheelGripDuringDrift);
+                mrearRightWheel.SetGrip(mrearWheelGripDuringDrift);
             }
         }
 
