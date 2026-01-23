@@ -5,16 +5,23 @@ namespace Car
 {
     public class ArcadeyCarController : CarController
     {
+        public bool mshowDebug = false;
+        
         [SerializeField] private float mgripDuringLateralMovement = 1.0f;
         [SerializeField] private float mgripDuringSidewaysMovement = 2.0f;
-        [SerializeField] private float mrearWheelGripDuringDrift = 1.0f;
+        [SerializeField] private float mrearWheelGripDuringDrift = 1.25f;
 
         private bool mdriftInitiated = false;
         protected override void Update()
         {
             base.Update();
             UpdateSteeringGrip();
-            UpdateWheelValuesOnDrift();
+
+            if (mdriftInitiated)
+            {
+                UpdateWheelValuesOnDrift();
+                MaintainSteerWhileDrifting();
+            }
         }
 
         private void UpdateSteeringGrip()
@@ -40,11 +47,13 @@ namespace Car
 
         private void UpdateWheelValuesOnDrift()
         {
-            if (mdriftInitiated)
-            {
-                mrearLeftWheel.SetGrip(mrearWheelGripDuringDrift);
-                mrearRightWheel.SetGrip(mrearWheelGripDuringDrift);
-            }
+            mrearLeftWheel.SetGrip(mrearWheelGripDuringDrift);
+            mrearRightWheel.SetGrip(mrearWheelGripDuringDrift);
+        }
+
+        private void MaintainSteerWhileDrifting()
+        {
+            
         }
 
         public void ReceiveDriftInput(InputAction.CallbackContext context)
@@ -57,6 +66,14 @@ namespace Car
             if (context.canceled)
             {
                 mdriftInitiated = false;
+            }
+        }
+
+        void OnDrawGizmos()
+        {
+            if (mshowDebug)
+            {
+                Gizmos.color = Color.maroon;
             }
         }
     }
