@@ -8,7 +8,8 @@ namespace Car
         [SerializeField] private float mgripDuringLateralMovement = 1.0f;
         [SerializeField] private float mgripDuringSidewaysMovement = 2.0f;
         [SerializeField] private float mrearWheelGripDuringDrift = 1.25f;
-        [SerializeField] private float mmaxSidewaysForceDuringDrift = 3.0f;
+        [SerializeField] private float mmaxSidewaysForceDuringDrift = 16.6f;
+        [SerializeField] private float mvelocityThresholdForCounterSpinningForce = 1.0f;
         
         private bool mdriftInitiated = false;
         protected override void Update()
@@ -19,6 +20,15 @@ namespace Car
             if (mdriftInitiated)
             {
                 UpdateWheelValuesOnDrift();
+            }
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            
+            if (mdriftInitiated)
+            {
                 MaintainSteerWhileDrifting();
             }
         }
@@ -60,16 +70,18 @@ namespace Car
                 mcarRigidBody.GetPointVelocity(mrearLeftWheel.GetTransform().position),
                 mrearLeftWheel.GetTransform().right);
 
-            if (sidewaysVelocityOnRearRightWheel > mmaxSidewaysForceDuringDrift ||
-                sidewaysVelocityOnRearRightWheel < -mmaxSidewaysForceDuringDrift)
+            if (sidewaysVelocityOnRearRightWheel > mmaxSidewaysForceDuringDrift - mvelocityThresholdForCounterSpinningForce ||
+                sidewaysVelocityOnRearRightWheel < -(mmaxSidewaysForceDuringDrift - mvelocityThresholdForCounterSpinningForce))
             {
-                mcarRigidBody.AddForceAtPosition(-sidewaysVelocityOnRearLeftWheel / 2 * mrearRightWheel.GetTransform().right, mrearRightWheel.GetTransform().position);
+                mcarRigidBody.AddForceAtPosition(-sidewaysVelocityOnRearRightWheel
+                                                 * mrearRightWheel.GetTransform().right, mrearRightWheel.GetTransform().position, ForceMode.Acceleration);
             }
             
-            if (sidewaysVelocityOnRearLeftWheel > mmaxSidewaysForceDuringDrift ||
-                sidewaysVelocityOnRearLeftWheel < -mmaxSidewaysForceDuringDrift)
+            if (sidewaysVelocityOnRearLeftWheel > mmaxSidewaysForceDuringDrift - mvelocityThresholdForCounterSpinningForce ||
+                sidewaysVelocityOnRearLeftWheel < -(mmaxSidewaysForceDuringDrift - mvelocityThresholdForCounterSpinningForce))
             {
-                mcarRigidBody.AddForceAtPosition(-sidewaysVelocityOnRearRightWheel / 2 * mrearLeftWheel.GetTransform().right, mrearLeftWheel.GetTransform().position);
+                mcarRigidBody.AddForceAtPosition(-sidewaysVelocityOnRearLeftWheel
+                                                 * mrearLeftWheel.GetTransform().right, mrearLeftWheel.GetTransform().position, ForceMode.Acceleration);
             }
         }
 

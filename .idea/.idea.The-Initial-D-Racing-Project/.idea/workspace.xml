@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +116,7 @@
       <workItem from="1768990845299" duration="9587000" />
       <workItem from="1769089139539" duration="4985000" />
       <workItem from="1769108074453" duration="5117000" />
-      <workItem from="1769162589537" duration="7499000" />
+      <workItem from="1769162589537" duration="13957000" />
     </task>
     <servers />
   </component>

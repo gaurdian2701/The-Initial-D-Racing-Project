@@ -8357,12 +8357,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3939576168896194601, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
+      propertyPath: mdriftSteerMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939576168896194601, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
+      propertyPath: mcounterDriftForceDivisor
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939576168896194601, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
       propertyPath: mrearWheelGripDuringDrift
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3939576168896194601, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
       propertyPath: mmaxSidewaysForceDuringDrift
-      value: 28
+      value: 16.6
       objectReference: {fileID: 0}
     - target: {fileID: 4941017818647414110, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
       propertyPath: mshowWheelDebug
