@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f0ae55dec1841b4a949f65933d695b4, type: 3}
-  m_Name: Forg
+  m_Name: Joe
   m_EditorClassIdentifier: Assembly-CSharp::RacerData
-  racerId: 1
-  racerName: Forg
-  racerSprite: {fileID: 21300000, guid: 49bc20e9c040dc34984489f596936a60, type: 3}
-  carPrefab: {fileID: 2037469158987203886, guid: f6f1260b6cd1a45498eb64308421cc72, type: 3}
-  racerColor: {r: 0, g: 1, b: 0.065164566, a: 0}
+  racerId: 67
+  racerName: Joe
+  racerSprite: {fileID: 21300000, guid: fb7dde114ad5e6746bbd0da01a15f4b4, type: 3}
+  carPrefab: {fileID: 6963785626280271770, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
+  racerColor: {r: 0.3949359, g: 0.6698113, b: 0.6305363, a: 0}
   racerStats:
     enginePower: 4
     brakingPower: 1

@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour
 {
     public bool mshowDebug = false;
     
-    [SerializeField] private GameObject mfollowTarget;
+    public GameObject mfollowTarget;
     [SerializeField] private AnimationCurve mfovCurve;
     [SerializeField] [Range(60.0f, 120.0f)] private float mmaxFOV = 80.0f;
     [SerializeField] [Range(0.0f, 50.0f)] private float mvelocityThresholdForFOVChange = 20.0f;

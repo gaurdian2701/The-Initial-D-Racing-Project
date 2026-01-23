@@ -15,11 +15,9 @@ MonoBehaviour:
   racerId: 2
   racerName: JumpMan
   racerSprite: {fileID: 21300000, guid: 0f8f4a0c8ef1af24fa06a183584f0b11, type: 3}
-  visualsPrefab: {fileID: 618789471014632874, guid: d1baa40f752e6eb44b297d023b399fa8, type: 3}
+  carPrefab: {fileID: 6227443371299137111, guid: 003d2e296c8a4ef408f7882527bb7813, type: 3}
   racerColor: {r: 1, g: 0, b: 0, a: 0}
   racerStats:
     enginePower: 4
     brakingPower: 1
-    wheelBaseLength: 2.72
     turnRadius: 11.5
-    rearTrackLength: 1.6

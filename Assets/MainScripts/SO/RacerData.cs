@@ -7,7 +7,7 @@ public class RacerData : ScriptableObject
     public int racerId;
     public string racerName;
     public Sprite racerSprite;
-    public GameObject visualsPrefab;
+    public GameObject carPrefab;
     public Color racerColor;
     public CarStats racerStats;
 }

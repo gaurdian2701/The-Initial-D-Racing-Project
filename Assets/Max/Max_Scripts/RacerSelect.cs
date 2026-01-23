@@ -17,12 +17,15 @@ public class RacerSelect : MonoBehaviour
     [HideInInspector] public List<RacerBox> spawnedRacerBoxes = new List<RacerBox>();
     private RacerDataHolder _racerDataHolder;
 
+    private CarPreview _preview;
+
     private void Start()
     {
         _racerDataHolder = RacerDataHolder.Instance;
         
         startButton.SetActive(false);
-        
+
+        _preview = FindAnyObjectByType<CarPreview>();
         //spawn the actual ui elements for the racers
         foreach (var racerData in allRacers.allRacers)
         {
@@ -40,6 +43,8 @@ public class RacerSelect : MonoBehaviour
         }
         
         DeselectAllRacers();
+        
+        _preview.NewCarPreview(selectedRacer);
         
         _racerDataHolder.OnNewRacerSelected(selectedRacer, allRacers);
     }

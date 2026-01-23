@@ -15,11 +15,9 @@ MonoBehaviour:
   racerId: 0
   racerName: John Racing
   racerSprite: {fileID: 21300000, guid: 8ec81df2788621a4fa9cd5063ed5c683, type: 3}
-  visualsPrefab: {fileID: 618789471014632874, guid: 98cceaf1dfbff0440a23ec6fa68b6f80, type: 3}
+  carPrefab: {fileID: 4079921147483252166, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
   racerColor: {r: 0.9056604, g: 0.86721253, b: 0.86721253, a: 0}
   racerStats:
     enginePower: 4
     brakingPower: 1
-    wheelBaseLength: 2.72
     turnRadius: 11.5
-    rearTrackLength: 1.6
