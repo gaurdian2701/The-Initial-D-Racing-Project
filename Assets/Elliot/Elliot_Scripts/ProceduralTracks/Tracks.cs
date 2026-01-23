@@ -1,40 +1,39 @@
 using Bezier;
+using ExternalForInspector;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static Bezier.BezierCurve;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 namespace ProceduralTracks
 {
+    [System.Serializable]
+    public class Vector3List
+    {
+        public List<Vector3> points = new List<Vector3>();
+    }
+
     [RequireComponent(typeof(BezierCurve))]
     public class Tracks : ProceduralMesh
     {
-        [SerializeField, Range(0.25f, 5.0f)] private float m_fTrackSegmentLength = 4.0f;
-
-        [SerializeField] private Vector3 m_vRoadSize = new Vector3(1.0f, 0.2f, 0.3f);
-
-        [SerializeField] private Vector2 m_vRoadOutlineSize = new Vector2(1.0f, 0.2f);
-
-        [SerializeField] private Vector2 m_vRailingPoleSize = new Vector2(1.0f, 0.2f);
-        [SerializeField] private Vector2 m_vRailingBarrierSize = new Vector2(1.0f, 0.2f);
-        [SerializeField] private float m_fRailingAngleStep = 5f;
-
-        [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
-
-        [System.Serializable]
-        public class Vector3List
-        {
-            public List<Vector3> points = new List<Vector3>();
-        }
-
-        private List<Vector3List> m_railingBarrierPosesList = new List<Vector3List>();
-
-
         #region Properties
 
-        public Vector3 SleeperSize => m_vRoadSize;
+        [Header("Track Settings")]
+        [SerializeField, Range(0.25f, 5.0f)] private float m_fTrackSegmentLength = 4.0f;
+        [SerializeField] private Vector3 m_vRoadSize = new Vector3(1.0f, 0.2f, 0.3f);
+        [SerializeField] private Vector2 m_vRoadOutlineSize = new Vector2(1.0f, 0.2f);
+        [SerializeField] private Vector3 m_vFinishLineSize = new Vector3(1.0f, 0.2f, 0.3f);
+
+        [Header("Railing Settings")]
+        [SerializeField] private bool m_bEnableRailing = true;
+        [SerializeField, ShowIf("m_bEnableRailing")] private Vector2 m_vRailingPoleSize = new Vector2(0.05f, 1.0f);
+        [SerializeField, ShowIf("m_bEnableRailing")] private Vector2 m_vRailingBarrierSize = new Vector2(0.1f, 0.15f);
+        [SerializeField, ShowIf("m_bEnableRailing")] private float m_fRailingAngleStep = 5f;
+        private List<Vector3List> m_railingBarrierPosesList = new List<Vector3List>();
+
+        [Header("Gameplay Objects")]
+        [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
+        [SerializeField] public GameObject m_gFinishLineGameObject = new GameObject();
 
         #endregion
 
@@ -49,27 +48,35 @@ namespace ProceduralTracks
             List<int> outlineTrackTriangles = new List<int>();
             List<int> railingTriangles = new List<int>();
             List<int> railingBarrierTriangles = new List<int>();
+            List<int> FinishLineTriangles = new List<int>();
+            List<Vector2> uvs = new List<Vector2>();
 
             // Generate track!
             DestroyAllEdgeBoxColliders();
             m_railingBarrierPosesList.Clear();
-            AddRoadSegment(vertices, trackTriangles);
-            GenerateTrackOutline(m_vRoadSize.x, vertices, outlineTrackTriangles);
-            GenerateTrackOutline(-m_vRoadSize.x, vertices, outlineTrackTriangles);
-            GeneratePolesRailing(m_vRoadSize.x, vertices, railingTriangles);
-            GeneratePolesRailing(-m_vRoadSize.x, vertices, railingTriangles);
-            GenerateRailingBarrier(m_vRoadSize.x, vertices, railingBarrierTriangles);
-            GenerateRailingBarrier(-m_vRoadSize.x, vertices, railingBarrierTriangles);
+            AddRoadSegment(vertices, uvs, trackTriangles);
+            GenerateTrackOutline(m_vRoadSize.x, vertices, uvs, outlineTrackTriangles);
+            GenerateTrackOutline(-m_vRoadSize.x, vertices, uvs, outlineTrackTriangles);
+            if(m_bEnableRailing)
+            {
+                GeneratePolesRailing(m_vRoadSize.x, vertices, uvs, railingTriangles);
+                GeneratePolesRailing(-m_vRoadSize.x, vertices, uvs, railingTriangles);
+                GenerateRailingBarrier(m_vRoadSize.x, vertices, uvs, railingBarrierTriangles);
+                GenerateRailingBarrier(-m_vRoadSize.x, vertices, uvs, railingBarrierTriangles);
+            }
+            GenerateFinishLine(vertices, uvs, FinishLineTriangles);
             GenerateEdgeBoxColliders();
 
             // assign the mesh data
             mesh.vertices = vertices.ToArray();
+            mesh.uv = uvs.ToArray();
 
-            mesh.subMeshCount = 4;
+            mesh.subMeshCount = 5;
             mesh.SetTriangles(trackTriangles.ToArray(), 0);
             mesh.SetTriangles(outlineTrackTriangles.ToArray(), 1);
             mesh.SetTriangles(railingTriangles.ToArray(), 2);
             mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
+            mesh.SetTriangles(FinishLineTriangles.ToArray(), 4);
 
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
@@ -81,7 +88,7 @@ namespace ProceduralTracks
             return mesh;
         }
 
-        protected void AddRoadSegment(List<Vector3> vertices, List<int> triangles)
+        protected void AddRoadSegment(List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
             BezierCurve bc = GetComponent<BezierCurve>();
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
@@ -100,7 +107,7 @@ namespace ProceduralTracks
                 Vector3 vUp = pose.up * m_vRoadSize.y;
                 Vector3 vForward = pose.forward * m_vRoadSize.z;
 
-                vertices.AddRange(new Vector3[]
+                Vector3[] slices = new Vector3[]
                 {
                     pose.position + vRight + vUp + vForward,   // 0 top right front
                     pose.position - vRight + vUp + vForward,   // 1 top left front
@@ -111,7 +118,13 @@ namespace ProceduralTracks
                     pose.position - vRight + vUp - vForward,   // 5 top left back
                     pose.position - vRight - vUp - vForward,   // 6 bottom left back
                     pose.position + vRight - vUp - vForward    // 7 bottom right back
-                });
+                };
+
+                vertices.AddRange(slices);
+                for(int j = 0; j < slices.Length; j++)
+                {
+                    uvs.Add(Vector2.zero);
+                }
 
                 if (cp != null && cp.m_bIsEdge)
                 {
@@ -134,7 +147,7 @@ namespace ProceduralTracks
             }
         }
 
-        protected void GenerateTrackOutline(float roadOutlineOffset, List<Vector3> vertices, List<int> triangles)
+        protected void GenerateTrackOutline(float roadOutlineOffset, List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
             BezierCurve bc = GetComponent<BezierCurve>();
 
@@ -154,16 +167,23 @@ namespace ProceduralTracks
                 Vector3 vUp = pose.up * m_vRoadOutlineSize.y;
                 Vector3 vOffset = roadOutlineOffset * pose.right;
 
-                vertices.AddRange(new Vector3[]
+                Vector3[] slices = new Vector3[]
                 {
-                    pose.position + vOffset - vRight,           
-                    pose.position + vOffset - vRight * 0.75f + vUp,   
-                    pose.position + vOffset + vRight * 0.75f + vUp,   
+                    pose.position + vOffset - vRight,
+                    pose.position + vOffset - vRight * 0.75f + vUp,
+                    pose.position + vOffset + vRight * 0.75f + vUp,
                     pose.position + vOffset + vRight,
 
                     pose.position + vOffset + vRight * 0.75f - vUp,
                     pose.position + vOffset - vRight * 0.75f - vUp,
-                });
+                };
+
+                vertices.AddRange(slices);
+
+                for (int j = 0; j < slices.Length; j++)
+                {
+                    uvs.Add(Vector2.zero);
+                }
 
                 if (cp != null && cp.m_bIsEdge)
                 {
@@ -194,7 +214,7 @@ namespace ProceduralTracks
             }
         }
 
-        protected void GeneratePolesRailing(float roadOutlineOffset, List<Vector3> vertices, List<int> triangles)
+        protected void GeneratePolesRailing(float roadOutlineOffset, List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
             BezierCurve bc = GetComponent<BezierCurve>();
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
@@ -258,7 +278,7 @@ namespace ProceduralTracks
                             inGroup = true;
                         }
 
-                        AddCylinderPole(vertices, triangles, polePosition, inGroup);
+                        AddCylinderPole(vertices, uvs, triangles, polePosition, inGroup);
                         currentGroup.points.Add(polePosition);
                         accumulatedAngle = 0f;
                     }
@@ -271,7 +291,7 @@ namespace ProceduralTracks
             }
         }
 
-        protected void AddCylinderPole(List<Vector3> vertices, List<int> triangles, Vector3 position, bool shouldEnableTriangles)
+        protected void AddCylinderPole(List<Vector3> vertices, List<Vector2> uvs, List<int> triangles, Vector3 position, bool shouldEnableTriangles)
         {
             int startIndex = vertices.Count;
             const int poleSides = 8;
@@ -285,6 +305,8 @@ namespace ProceduralTracks
 
                 vertices.Add(position + new Vector3(x, 0f, z));
                 vertices.Add(position + new Vector3(x, m_vRailingPoleSize.y, z));
+                uvs.Add(Vector2.zero);
+                uvs.Add(Vector2.zero);
             }
 
             if (!shouldEnableTriangles) return;
@@ -307,7 +329,7 @@ namespace ProceduralTracks
             }
         }
 
-        protected void GenerateRailingBarrier(float roadOutlineOffset, List<Vector3> vertices, List<int> triangles)
+        protected void GenerateRailingBarrier(float roadOutlineOffset, List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
             foreach (Vector3List poleGroup in m_railingBarrierPosesList)
             {
@@ -344,7 +366,7 @@ namespace ProceduralTracks
                     Vector3 vRight = right * m_vRailingBarrierSize.x;
                     Vector3 vUp = up * m_vRailingBarrierSize.y;
 
-                    vertices.AddRange(new Vector3[]
+                    Vector3[] slices = new Vector3[]
                     {
                         basePos - vRight,
                         basePos - vRight * 0.75f + vUp,
@@ -353,7 +375,14 @@ namespace ProceduralTracks
 
                         basePos + vRight * 0.75f - vUp,
                         basePos - vRight * 0.75f - vUp,
-                    });
+                    };
+
+                    vertices.AddRange(slices);
+
+                    for (int j = 0; j < slices.Length; j++)
+                    {
+                        uvs.Add(Vector2.zero);
+                    }
 
                     groupSectionCount++;
 
@@ -449,6 +478,81 @@ namespace ProceduralTracks
                 newBoxCollider.size = new Vector3( m_vRoadSize.z * multiplyXValue, m_vRoadSize.y * multiplyYValue,  m_vRoadSize.x * 3.0f);
                 m_lEdgeBoxColliders.Add(colliderGO);
             }
+        }
+
+        private void GenerateFinishLine(List<Vector3> vertices, List<Vector2> uvs, List<int> finishLineTriangles)
+        {
+            BezierCurve bc = GetComponent<BezierCurve>();
+
+            float finishDistance = m_vFinishLineSize.z; // 0–1
+            Pose pose = bc.GetPose(0.0f);
+
+            float lineDepth = 1.2f;
+            float heightOffset = m_vRoadSize.y + 0.001f;
+            int segments = 4;
+            float segmentWidth = m_vRoadSize.x * 2 / segments;
+
+            Vector3 forward = pose.forward * (lineDepth * 0.5f);
+            Vector3 up = Vector3.up * heightOffset; // world up
+            float halfRoadWidth = m_vRoadSize.x;
+
+            for (int i = 0; i < segments; i++)
+            {
+                float xStart = -halfRoadWidth + segmentWidth * i;
+                float xEnd = xStart + segmentWidth;
+
+                Vector3 rightStart = pose.right * xStart;
+                Vector3 rightEnd = pose.right * xEnd;
+
+                int baseIndex = vertices.Count;
+
+                // Quad vertices
+                vertices.Add(pose.position + up - rightStart - forward); // 0
+                vertices.Add(pose.position + up - rightEnd - forward);   // 1
+                vertices.Add(pose.position + up - rightEnd + forward);   // 2
+                vertices.Add(pose.position + up - rightStart + forward); // 3
+
+                // UVs
+                uvs.Add(new Vector2(0, 0));
+                uvs.Add(new Vector2(1, 0));
+                uvs.Add(new Vector2(1, 1));
+                uvs.Add(new Vector2(0, 1));
+
+                // Triangles (winding order flipped to point up)
+                finishLineTriangles.Add(baseIndex + 0);
+                finishLineTriangles.Add(baseIndex + 1);
+                finishLineTriangles.Add(baseIndex + 2);
+
+                finishLineTriangles.Add(baseIndex + 0);
+                finishLineTriangles.Add(baseIndex + 2);
+                finishLineTriangles.Add(baseIndex + 3);
+            }
+
+            if(m_gFinishLineGameObject)
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(m_gFinishLineGameObject);
+                }
+                else
+                {
+                    DestroyImmediate(m_gFinishLineGameObject);
+                }
+            }
+            const float multiplyXValue = 20.0f;
+            const float multiplyYValue = 100.0f;
+            BezierCurve.ControlPoint cp = bc.m_points[0];
+
+            GameObject colliderGO = new GameObject("FinishLine");
+            colliderGO.transform.SetParent(transform, false);
+
+            colliderGO.transform.localPosition = cp.m_vPosition + Vector3.up * (multiplyYValue / 20.0f);
+            Quaternion rotation = Quaternion.LookRotation(cp.m_vTangent.normalized) * Quaternion.Euler(0f, 90f, 0f);
+            colliderGO.transform.localRotation = rotation;
+
+            BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
+            newBoxCollider.size = new Vector3(m_vRoadSize.z * multiplyXValue, m_vRoadSize.y * multiplyYValue, m_vRoadSize.x * 3.0f);
+            m_gFinishLineGameObject = colliderGO;
         }
     }
 }

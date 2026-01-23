@@ -63,6 +63,9 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 509b3452b12c48243b561be204a8e3b3, type: 2}
   - {fileID: 2100000, guid: 70d5e73833a58464a957e936b5a7668d, type: 2}
+  - {fileID: 2100000, guid: 3824b68ed692eee4f9debf0b4d228766, type: 2}
+  - {fileID: 2100000, guid: 3824b68ed692eee4f9debf0b4d228766, type: 2}
+  - {fileID: 2100000, guid: 0f11119e73a1b0441bb2f6a92bb603c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +111,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralTracks.Tracks
   m_fTrackSegmentLength: 0.27
   m_vRoadSize: {x: 4, y: 0.1, z: 0.1}
-  m_vRoadOutlineSize: {x: 0.1, y: 0.15, z: 0.3}
+  m_vRoadOutlineSize: {x: 0.1, y: 0.15}
+  m_vFinishLineSize: {x: 1, y: 0.2, z: 0.3}
+  EnableRailing: 1
+  m_vRailingPoleSize: {x: 0.05, y: 1}
+  m_vRailingBarrierSize: {x: 0.1, y: 0.15}
+  m_fRailingAngleStep: 5
+  m_lEdgeBoxColliders: []
 --- !u!64 &6012841229751728813
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -185,3 +194,4 @@ MonoBehaviour:
     m_fDistance: 457.32272
     m_bIsEdge: 0
   m_bIsClosed: 0
+  m_bWantEditorGizmos: 0

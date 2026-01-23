@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7877789484341343067}
   - component: {fileID: 7968753593607590517}
   - component: {fileID: 7190821506759501900}
+  - component: {fileID: 5657749876140755595}
+  - component: {fileID: 5202799554182429005}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -94,8 +96,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Car.CarController, Assembly-CSharp
+      - m_Target: {fileID: 7968753593607590517}
+        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
         m_MethodName: ReceiveThrottleAndSteerInput
         m_Mode: 0
         m_Arguments:
@@ -109,7 +111,19 @@ MonoBehaviour:
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7968753593607590517}
+        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
+        m_MethodName: ReceiveDriftInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
     m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   - m_PersistentCalls:
@@ -207,6 +221,41 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
+--- !u!114 &5657749876140755595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079921147483252166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4bdacc71e5b8840b7538f76615a59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OutOfBoundsRetriever
+  _tracedPath: {fileID: 5202799554182429005}
+  _car: {fileID: 4079921147483252166}
+  _amountOfCheckpoints: 3
+  _checkpointInterval: 0.5
+  _heightOffset: 8
+  _speed: 0.3
+  _BezierTangent: 5
+  _rewind: 0
+--- !u!114 &5202799554182429005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079921147483252166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9567223e41dc24ab0275dfcaeb8040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bezier.BezierCurve
+  m_points: []
+  m_bIsClosed: 0
+  m_bWantEditorGizmos: 0
 --- !u!1 &6928545961730026598
 GameObject:
   m_ObjectHideFlags: 0
