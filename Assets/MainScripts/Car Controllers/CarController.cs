@@ -15,14 +15,14 @@ namespace Car
         [SerializeField] protected Rigidbody mcarRigidBody;
 
         [Header("Car Forces Properties")] 
-        [SerializeField] private float menginePower = 4.0f;
-        [SerializeField][Range(0.1f, 3.0f)] private float mbrakingPower = 1.0f;
-        [SerializeField] private float mairDragConstant = 0.003f;
+        public float menginePower = 4.0f;
+        [Range(0.1f, 3.0f)] public float mbrakingPower = 1.0f;
+        public float mairDragConstant = 0.003f;
 
         [Header("Car Steering Properties - Default values are from Ford Mustang 5th gen")] 
-        [SerializeField] private float mwheelBaseLength = 2.72f;
-        [SerializeField] private float mturnRadius = 11.5f;
-        [SerializeField] private float mrearTrackLength = 1.6f;
+        public float mwheelBaseLength = 2.72f;
+        public float mturnRadius = 11.5f;
+        public float mrearTrackLength = 1.6f;
         
         [Header("Car Wheels")]
         [SerializeField] protected GameObject mfrontLeftWheelObject;
@@ -63,45 +63,52 @@ namespace Car
             return mcarRigidBody.linearVelocity.magnitude;
         }
 
-        public void ReceiveThrottleAndSteerInput(InputAction.CallbackContext context)
+        public void ReceiveThrottleInput(InputAction.CallbackContext context)
         {
             if (misAIController)
             {
                 return;
             }
             
-            Vector2 input = context.ReadValue<Vector2>();
-            
-            if (input.x > 0)
+            float input = context.ReadValue<float>();
+
+            if (input > -0.01f && input < 0.01f)
             {
-                msteerInput = 1.0f;
+                mthrottleInput = 0.0f;
             }
-            else if (input.x < 0)
+            else
             {
-                msteerInput = -1.0f;
+                mthrottleInput = input;
+                
+                if (input < -0.01f)
+                {
+                    mthrottleInput = Mathf.Clamp(input, -0.5f, -0.1f);
+                    
+                    //Are we moving forward? If yes, then add extra power to brake the car
+                    if (Vector3.Dot(mcarRigidBody.linearVelocity, mcarRigidBody.transform.forward) > 0.01f)
+                    {
+                        mthrottleInput *= mbrakingPower;
+                    }
+                }
+            }
+        }
+
+        public void ReceiveSteerInput(InputAction.CallbackContext context)
+        {
+            if (misAIController)
+            {
+                return;
+            }
+            
+            float input = context.ReadValue<float>();
+            
+            if (input > 0.01f || input < -0.01f)
+            {
+                msteerInput = input;
             }
             else
             {
                 msteerInput = 0.0f;
-            }
-
-            if (input.y > 0)
-            {
-                mthrottleInput = 1.0f;
-            }
-            else if (input.y < 0)
-            {
-                mthrottleInput = -0.5f;
-                
-                //Are we moving forward? If yes, then add extra power to brake the car
-                if (Vector3.Dot(mcarRigidBody.linearVelocity, mcarRigidBody.transform.forward) > 0.01f)
-                {
-                    mthrottleInput *= mbrakingPower;
-                }
-            }
-            else
-            {
-                mthrottleInput = 0.0f;
             }
         }
 
@@ -122,9 +129,10 @@ namespace Car
         //Move car forwards or backwards
         protected void ThrottleCar()
         {
+            mfrontLeftWheel.ApplyThrottleForce(mthrottleInput * menginePower);
+            mfrontRightWheel.ApplyThrottleForce(mthrottleInput * menginePower);
             mrearLeftWheel.ApplyThrottleForce(mthrottleInput * menginePower);
             mrearRightWheel.ApplyThrottleForce(mthrottleInput * menginePower);
-
         }
 
         private void ApplyDragForces()

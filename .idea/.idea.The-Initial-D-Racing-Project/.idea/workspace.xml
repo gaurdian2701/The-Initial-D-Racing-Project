@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9d4c2c55-8d3c-47c6-ae34-123373c26c57" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +21,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@02433b2481ab/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -113,6 +116,7 @@
       <workItem from="1768988239541" duration="1821000" />
       <workItem from="1768990845299" duration="9587000" />
       <workItem from="1769089139539" duration="4985000" />
+      <workItem from="1769108074453" duration="5117000" />
     </task>
     <servers />
   </component>
