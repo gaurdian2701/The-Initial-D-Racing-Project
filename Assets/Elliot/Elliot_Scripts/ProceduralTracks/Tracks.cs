@@ -220,13 +220,12 @@ namespace ProceduralTracks
         {
             BezierCurve bc = GetComponent<BezierCurve>();
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
-            bool canConnectToPrevious = true;
 
             Vector3 prevTangent = Vector3.zero;
             float accumulatedAngle = 0f;
             Vector3List currentGroup = null;
             bool inGroup = false;
-
+            bool justClosedGroup = false;
 
             for (int i = 0; i < iSegmentCount; i++)
             {
@@ -237,7 +236,7 @@ namespace ProceduralTracks
                 ControlPoint cp = bc.GetControlPointAtDistance(distance);
                 Vector3 tangent = pose.forward;
 
-                bool validSection = Mathf.Abs(tangent.x) <= tangentThreshold.x && Mathf.Abs(tangent.z) <= tangentThreshold.z && Mathf.Abs(tangent.y) <= tangentThreshold.y;
+                bool validSection = (Mathf.Abs(tangent.x) <= tangentThreshold.x && Mathf.Abs(tangent.y) <= tangentThreshold.y && Mathf.Abs(tangent.z) <= tangentThreshold.z);
                 if (!validSection)
                 {
                     // close group if we were in one
@@ -249,6 +248,7 @@ namespace ProceduralTracks
                     currentGroup = null;
                     inGroup = false;
                     accumulatedAngle = 0f;
+                    justClosedGroup = true;
                     prevTangent = tangent;
                     continue;
                 }
@@ -265,12 +265,21 @@ namespace ProceduralTracks
                         currentGroup = null;
                         inGroup = false;
                         accumulatedAngle = 0f;
+                        justClosedGroup = true;
                         prevTangent = tangent;
                         continue;
                     }
 
                     if (accumulatedAngle >= m_fRailingAngleStep)
                     {
+                        if (justClosedGroup)
+                        {
+                            accumulatedAngle = 0f;
+                            justClosedGroup = false;
+                            prevTangent = tangent;
+                            continue; // skip first pole to break continuity
+                        }
+
                         Vector3 polePosition = pose.position + pose.right * roadOutlineOffset;
 
                         if (!inGroup)
@@ -337,8 +346,8 @@ namespace ProceduralTracks
                 if (poleGroup.points.Count < 2) continue;
 
                 int groupStartVertex = vertices.Count;
-                bool canConnectToPrevious = false;
                 int groupSectionCount = 0;
+                int prevSectionStart = -1;
 
                 float startExtension = Vector3.Distance(poleGroup.points[0], poleGroup.points[1]) * 0.1f;
 
@@ -361,7 +370,7 @@ namespace ProceduralTracks
                     // rail sits on top of poles
                     Vector3 basePos = pos + up * m_vRailingPoleSize.y;
 
-                    if (i == 0)  basePos -= forward * startExtension;
+                    if (i == 0) basePos -= forward * startExtension; 
                     else if (i == lastIndex) basePos += forward * endExtension;
 
                     Vector3 vRight = right * m_vRailingBarrierSize.x;
@@ -378,6 +387,7 @@ namespace ProceduralTracks
                         basePos - vRight * 0.75f - vUp,
                     };
 
+                    int currSectionStart = vertices.Count;
                     vertices.AddRange(slices);
 
                     for (int j = 0; j < slices.Length; j++)
@@ -387,27 +397,23 @@ namespace ProceduralTracks
 
                     groupSectionCount++;
 
-                    // connect to previous segment in this group only
-                    if (canConnectToPrevious)
+                    if (prevSectionStart != -1)
                     {
-                        int curr = vertices.Count - 6;
-                        int prev = curr - 6;
-
                         for (int j = 0; j < 6; j++)
                         {
                             int jNext = (j + 1) % 6;
 
-                            triangles.Add(prev + j);
-                            triangles.Add(curr + j);
-                            triangles.Add(prev + jNext);
+                            triangles.Add(prevSectionStart + j);
+                            triangles.Add(currSectionStart + j);
+                            triangles.Add(prevSectionStart + jNext);
 
-                            triangles.Add(prev + jNext);
-                            triangles.Add(curr + j);
-                            triangles.Add(curr + jNext);
+                            triangles.Add(prevSectionStart + jNext);
+                            triangles.Add(currSectionStart + j);
+                            triangles.Add(currSectionStart + jNext);
                         }
                     }
 
-                    canConnectToPrevious = true;
+                    prevSectionStart = currSectionStart;
                 }
                 AddCap(triangles, groupStartVertex, flip: false);
                 int endBase = groupStartVertex + (groupSectionCount - 1) * 6;

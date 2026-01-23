@@ -117,6 +117,7 @@ MonoBehaviour:
   m_vRailingPoleSize: {x: 0.05, y: 1}
   m_vRailingBarrierSize: {x: 0.1, y: 0.15}
   m_fRailingAngleStep: 5
+  tangentThreshold: {x: 1, y: 0.01, z: 1}
   m_lEdgeBoxColliders: []
   m_gFinishLinePrefab: {fileID: 6957306044731379678, guid: cdc17c3e64c666b42905693f16555f89, type: 3}
   m_gFinishLineGameObject: {fileID: 0}
