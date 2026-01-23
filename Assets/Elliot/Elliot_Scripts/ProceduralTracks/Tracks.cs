@@ -19,7 +19,7 @@ namespace ProceduralTracks
         #region Properties
 
         [Header("Track Settings")]
-        [SerializeField, Range(0.25f, 5.0f)] private float m_fTrackSegmentLength = 4.0f;
+        [SerializeField, Range(0.1f, 5.0f)] private float m_fTrackSegmentLength = 4.0f;
         [SerializeField] private Vector3 m_vRoadSize = new Vector3(1.0f, 0.2f, 0.3f);
         [SerializeField] private Vector2 m_vRoadOutlineSize = new Vector2(1.0f, 0.2f);
         [SerializeField] private Vector3 m_vFinishLineSize = new Vector3(1.0f, 0.2f, 0.3f);
@@ -29,11 +29,13 @@ namespace ProceduralTracks
         [SerializeField, ShowIf("m_bEnableRailing")] private Vector2 m_vRailingPoleSize = new Vector2(0.05f, 1.0f);
         [SerializeField, ShowIf("m_bEnableRailing")] private Vector2 m_vRailingBarrierSize = new Vector2(0.1f, 0.15f);
         [SerializeField, ShowIf("m_bEnableRailing")] private float m_fRailingAngleStep = 5f;
+        [SerializeField, ShowIf("m_bEnableRailing")] private Vector3 tangentThreshold = new Vector3(5.0f, 0.01f, 5.0f);
         private List<Vector3List> m_railingBarrierPosesList = new List<Vector3List>();
 
         [Header("Gameplay Objects")]
         [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
-        [SerializeField] public GameObject m_gFinishLineGameObject = new GameObject();
+        [SerializeField] public GameObject m_gFinishLinePrefab;
+        [SerializeField] public GameObject m_gFinishLineGameObject;
 
         #endregion
 
@@ -222,7 +224,6 @@ namespace ProceduralTracks
 
             Vector3 prevTangent = Vector3.zero;
             float accumulatedAngle = 0f;
-            const float tangentThreshold = 5f;
             Vector3List currentGroup = null;
             bool inGroup = false;
 
@@ -236,7 +237,7 @@ namespace ProceduralTracks
                 ControlPoint cp = bc.GetControlPointAtDistance(distance);
                 Vector3 tangent = pose.forward;
 
-                bool validSection = Mathf.Abs(tangent.x) <= tangentThreshold && Mathf.Abs(tangent.z) <= tangentThreshold && Mathf.Abs(tangent.y) <= 0.001f;
+                bool validSection = Mathf.Abs(tangent.x) <= tangentThreshold.x && Mathf.Abs(tangent.z) <= tangentThreshold.z && Mathf.Abs(tangent.y) <= tangentThreshold.y;
                 if (!validSection)
                 {
                     // close group if we were in one
@@ -476,6 +477,7 @@ namespace ProceduralTracks
 
                 BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
                 newBoxCollider.size = new Vector3( m_vRoadSize.z * multiplyXValue, m_vRoadSize.y * multiplyYValue,  m_vRoadSize.x * 3.0f);
+                newBoxCollider.isTrigger = true;
                 m_lEdgeBoxColliders.Add(colliderGO);
             }
         }
@@ -527,8 +529,13 @@ namespace ProceduralTracks
                 finishLineTriangles.Add(baseIndex + 2);
                 finishLineTriangles.Add(baseIndex + 3);
             }
+            ScaledFinishLinePrefab();
+        }
 
-            if(m_gFinishLineGameObject)
+        private void ScaledFinishLinePrefab()
+        {
+            BezierCurve bc = GetComponent<BezierCurve>();
+            if (m_gFinishLineGameObject)
             {
                 if (Application.isPlaying)
                 {
@@ -540,19 +547,37 @@ namespace ProceduralTracks
                 }
             }
             const float multiplyXValue = 20.0f;
-            const float multiplyYValue = 100.0f;
+            const float multiplyYValue = 80.0f;
             BezierCurve.ControlPoint cp = bc.m_points[0];
 
-            GameObject colliderGO = new GameObject("FinishLine");
-            colliderGO.transform.SetParent(transform, false);
+            GameObject finishLinePrefab = Instantiate(m_gFinishLinePrefab);
+            finishLinePrefab.name = "FinishLine";
 
-            colliderGO.transform.localPosition = cp.m_vPosition + Vector3.up * (multiplyYValue / 20.0f);
+            finishLinePrefab.transform.SetParent(transform, false);
+
+            finishLinePrefab.transform.localPosition = cp.m_vPosition;
             Quaternion rotation = Quaternion.LookRotation(cp.m_vTangent.normalized) * Quaternion.Euler(0f, 90f, 0f);
-            colliderGO.transform.localRotation = rotation;
+            finishLinePrefab.transform.localRotation = rotation;
 
-            BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
-            newBoxCollider.size = new Vector3(m_vRoadSize.z * multiplyXValue, m_vRoadSize.y * multiplyYValue, m_vRoadSize.x * 3.0f);
-            m_gFinishLineGameObject = colliderGO;
+            GameObject pole_L = finishLinePrefab.transform.Find("Pole_L").gameObject;
+            Vector3 poleLPos_L = pole_L.transform.localPosition;
+            poleLPos_L.z = m_vRoadSize.x;
+            pole_L.transform.localPosition = poleLPos_L;
+            GameObject pole_R = finishLinePrefab.transform.Find("Pole_R").gameObject;
+            Vector3 poleLPos_R = pole_R.transform.localPosition;
+            poleLPos_R.z = -m_vRoadSize.x;
+            pole_R.transform.localPosition = poleLPos_R;
+
+            GameObject banner = finishLinePrefab.transform.Find("Banner").gameObject;
+            Vector3 bannerScale = banner.transform.localScale;
+            bannerScale.z = m_vRoadSize.x * 0.25f;
+            banner.transform.localScale = bannerScale;
+
+            BoxCollider newBoxCollider = finishLinePrefab.AddComponent<BoxCollider>();
+            newBoxCollider.center = new Vector3(0.0f, pole_L.transform.localPosition.y, 0.0f);
+            newBoxCollider.size = new Vector3(m_vRoadSize.z * multiplyXValue, m_vRoadSize.y * multiplyYValue, m_vRoadSize.x * 2.0f);
+            newBoxCollider.isTrigger = true;
+            m_gFinishLineGameObject = finishLinePrefab;
         }
     }
 }

@@ -108,7 +108,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralTracks.Tracks
   m_fTrackSegmentLength: 0.27
   m_vRoadSize: {x: 4, y: 0.1, z: 0.1}
-  m_vRoadOutlineSize: {x: 0.1, y: 0.15, z: 0.3}
+  m_vRoadOutlineSize: {x: 0.1, y: 0.15}
+  m_vFinishLineSize: {x: 1, y: 0.2, z: 0.3}
+  m_bEnableRailing: 1
+  m_vRailingPoleSize: {x: 0.05, y: 1}
+  m_vRailingBarrierSize: {x: 0.1, y: 0.15}
+  m_fRailingAngleStep: 5
+  m_lEdgeBoxColliders: []
+  m_gFinishLinePrefab: {fileID: 6957306044731379678, guid: cdc17c3e64c666b42905693f16555f89, type: 3}
+  m_gFinishLineGameObject: {fileID: 0}
 --- !u!64 &6012841229751728813
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -185,3 +193,4 @@ MonoBehaviour:
     m_fDistance: 457.32272
     m_bIsEdge: 0
   m_bIsClosed: 0
+  m_bWantEditorGizmos: 0
