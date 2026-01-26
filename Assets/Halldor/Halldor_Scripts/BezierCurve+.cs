@@ -11,6 +11,7 @@ namespace Bezier
         {
             public Vector3 m_vPosition;
             public Vector3 m_vTangent;
+            public Vector3 m_vRoadSize = new Vector3(7.0f, 0.2f, 0.3f);
             public float m_fDistance;
             public bool m_bIsEdge;
         }
@@ -193,6 +194,7 @@ namespace Bezier
                 m_closedPoint.m_vTangent = FirstPoint.m_vTangent;
                 m_fTotalDistance += CalculateDistance(LastPoint, m_closedPoint);
                 m_closedPoint.m_fDistance = m_fTotalDistance;
+                m_closedPoint.m_vRoadSize = LastPoint.m_vRoadSize;
             }
         }
 
@@ -271,6 +273,19 @@ namespace Bezier
                 if (m_points[i] == cp) return i;
             }
             return -1;
+        }
+
+        internal int GetControlPointIndexAtDistance(float distance)
+        {
+            for (int i = 0; i < m_points.Count - 1; i++)
+            {
+                if (distance >= m_points[i].m_fDistance && distance < m_points[i + 1].m_fDistance)
+                {
+                    return i;
+                }
+            }
+
+            return m_points.Count - 1;
         }
     }
 }
