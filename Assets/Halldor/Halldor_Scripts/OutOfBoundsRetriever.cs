@@ -74,7 +74,9 @@ public class OutOfBoundsRetriever : MonoBehaviour
     private void ResetRotation()
     {
         //Cant seem to find anything that works
-        _car.transform.rotation = Quaternion.identity;
+        float carEuler = _car.transform.rotation.eulerAngles.y;
+        //_car.transform.rotation = Quaternion.identity;
+        _car.transform.eulerAngles = new Vector3(0, carEuler, 0);
     }
 
     private void AddCheckpoint()
