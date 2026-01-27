@@ -1,12 +1,15 @@
 using Car;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class RacerInitializer : MonoBehaviour
 {
     private RacerDataHolder _racerDataHolder;
 
     [SerializeField] private Transform playerCarSpawnPoint;
+    
+    [SerializeField] private StartingPositionsList startingPositionsList;
+    [SerializeField] private SpeedDisplay speedDisplay; 
     
     [HideInInspector]public GameObject playerCar;
     
@@ -33,8 +36,23 @@ public class RacerInitializer : MonoBehaviour
         {
             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
             cameraFollow.mfollowTarget = playerCar;
+            Camera.main.GetComponent<DynamicSpeedLines>()._carRB = playerCar.GetComponent<Rigidbody>();   
         }
         else Debug.LogError("No Camera is tagged as the main camera.");
+        
+        speedDisplay._carRB = playerCar.GetComponent<Rigidbody>();
+        
+        //handle random characters
+        //set all cars
+        
+        foreach (var carSpawn in startingPositionsList.startPositions)
+        {
+            int randomCharacter = Random.Range(0, _racerDataHolder.availableRacers.Count);
+            
+            carSpawn.car = _racerDataHolder.availableRacers[randomCharacter].carAIPrefab;
+        }
+        
+        startingPositionsList.SpawnAllCars();
 
     }
 }

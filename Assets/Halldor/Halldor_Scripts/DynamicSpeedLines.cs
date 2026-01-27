@@ -9,7 +9,8 @@ public class DynamicSpeedLines : MonoBehaviour
     private AnimationCurve _speedCurve;
     [SerializeField]
     private ParticleSystem _speedLines;
-    private Rigidbody _carRB;
+    [HideInInspector]
+    public Rigidbody _carRB;
     private float _maxSpeed = 66;
     private float _minSpeedforParticles = 30;
     private int _maxParticles = 100;
@@ -17,10 +18,7 @@ public class DynamicSpeedLines : MonoBehaviour
     private int _maxParticleSpeed = 70;
     private float _speedPoint;
     
-    private void Start()
-    {
-        _carRB = _cameraFollow.mfollowTarget.GetComponent<Rigidbody>();
-    }
+  
 
     private void Update()
     {

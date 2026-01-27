@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SpeedDisplay : MonoBehaviour
 {
-    [SerializeField]
-    private Rigidbody _carRB;
+    [HideInInspector]
+    public Rigidbody _carRB;
     [SerializeField]
     private TMP_Text _speedText;
     void Update()
