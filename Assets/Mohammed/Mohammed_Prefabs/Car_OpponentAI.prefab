@@ -83,8 +83,8 @@ MonoBehaviour:
   mshowDebug: 0
   misAIController: 1
   mcarRigidBody: {fileID: 1922303755772447844}
-  menginePower: 3
-  mbrakingPower: 1.5
+  menginePower: 2
+  mbrakingPower: 3
   mairDragConstant: 0.003
   mwheelBaseLength: 2.72
   mturnRadius: 11.5
@@ -93,7 +93,15 @@ MonoBehaviour:
   mfrontRightWheelObject: {fileID: 1848974444376756985}
   mrearLeftWheelObject: {fileID: 8770031450895134580}
   mrearRightWheelObject: {fileID: 996806427656392405}
-  TargetPoint: {fileID: 0}
+  mgripDuringLateralMovement: 1
+  mgripDuringSidewaysMovement: 2
+  mfrontWheelGripDuringDrift: 3.5
+  mrearWheelGripDuringDrift: 1.25
+  mmaxSidewaysForceDuringDrift: 10
+  mslideVelocityDampingConstant: 0.5
+  targetPoint: {fileID: 0}
+  turnBreakBuffer: 0.092
+  turnBreakVelocityLimit: 10
 --- !u!64 &3375004816146231203
 MeshCollider:
   m_ObjectHideFlags: 0
