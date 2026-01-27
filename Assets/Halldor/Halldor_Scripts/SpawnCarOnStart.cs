@@ -4,18 +4,15 @@ public class SpawnCarOnStart : MonoBehaviour
 {
     [SerializeField]
     private GameObject _startPosition;
+    [HideInInspector]
     public GameObject car;
     public bool shouldSpawnCar = true;
-    void Start()
+
+    public void SpawnCar()
     {
         if (shouldSpawnCar)
         {
-            SpawnCar();
+            Instantiate(car, _startPosition.transform.position, transform.rotation);
         }
-    }
-
-    private void SpawnCar()
-    {
-        Instantiate(car, _startPosition.transform.position, transform.rotation);
     }
 }

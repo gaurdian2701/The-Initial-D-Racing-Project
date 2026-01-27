@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameScenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Max/Max_Scenes/Max_GameScene.unity
     guid: 66aee6e1b8aaa8c458327825444f25a9
   - enabled: 1
-    path: Assets/Max/Max_Scenes/RacerSelect.unity
+    path: Assets/GameScenes/RacerSelect.unity
     guid: cd0ae511def93d24e84e20894b71f5cc
+  - enabled: 1
+    path: Assets/GameScenes/GameScene.unity
+    guid: 69d4403c0845ccd4992baf5ef4376a61
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -379,7 +379,7 @@ MonoBehaviour:
   racerGrid: {fileID: 1107519651}
   racerBoxPrefab: {fileID: 805049789428480160, guid: f5b88b86c6c28e5489f2fbaba5d12323, type: 3}
   startButton: {fileID: 972162071}
-  gameSceneName: Max_GameScene
+  gameSceneName: GameScene
   allRacers: {fileID: 11400000, guid: aaa1ff14442eee5408dbc04288847374, type: 2}
   spawnedRacerBoxes: []
 --- !u!1 &544584875
