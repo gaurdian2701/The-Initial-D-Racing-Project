@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1922303755772447844}
   - component: {fileID: 497062886866506206}
   - component: {fileID: 3375004816146231203}
+  - component: {fileID: 3395137392577303548}
+  - component: {fileID: 1086952599024367918}
   m_Layer: 0
   m_Name: Car_OpponentAI
   m_TagString: Untagged
@@ -91,6 +93,7 @@ MonoBehaviour:
   mfrontRightWheelObject: {fileID: 1848974444376756985}
   mrearLeftWheelObject: {fileID: 8770031450895134580}
   mrearRightWheelObject: {fileID: 996806427656392405}
+  TargetPoint: {fileID: 0}
 --- !u!64 &3375004816146231203
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -113,6 +116,41 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
+--- !u!114 &3395137392577303548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456872866939603934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4bdacc71e5b8840b7538f76615a59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OutOfBoundsRetriever
+  _tracedPath: {fileID: 1086952599024367918}
+  _car: {fileID: 3456872866939603934}
+  _amountOfCheckpoints: 3
+  _checkpointInterval: 0.5
+  _heightOffset: 8
+  _speed: 0.3
+  _BezierTangent: 5
+  _rewind: 0
+--- !u!114 &1086952599024367918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456872866939603934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9567223e41dc24ab0275dfcaeb8040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bezier.BezierCurve
+  m_points: []
+  m_bIsClosed: 0
+  m_bWantEditorGizmos: 0
 --- !u!1 &9016805823919757844
 GameObject:
   m_ObjectHideFlags: 0
