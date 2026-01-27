@@ -78,7 +78,7 @@ namespace ProceduralTracks
             mesh.SetTriangles(trackTriangles.ToArray(), 0);
             mesh.SetTriangles(outlineTrackTriangles.ToArray(), 1);
             mesh.SetTriangles(railingTriangles.ToArray(), 2);
-            //mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
+            mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
             mesh.SetTriangles(FinishLineTriangles.ToArray(), 4);
 
             mesh.RecalculateNormals();
@@ -367,6 +367,9 @@ namespace ProceduralTracks
 
         protected void GenerateRailingBarrier(List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
+            const float EPS = 1e-6f;
+            const float MAX_CONNECT_DISTANCE = 50.0f; // threshold to avoid creating giant triangles
+
             foreach (Vector3List poleGroup in m_railingBarrierPosesList)
             {
                 if (poleGroup.points.Count < 2) continue;
@@ -375,28 +378,43 @@ namespace ProceduralTracks
                 int groupSectionCount = 0;
                 int prevSectionStart = -1;
 
-                float startExtension = Vector3.Distance(poleGroup.points[0], poleGroup.points[1]) * 0.1f;
+                float startExtension = 0f;
+                if (poleGroup.points.Count >= 2)
+                    startExtension = Vector3.Distance(poleGroup.points[0], poleGroup.points[1]) * 0.1f;
 
                 int lastIndex = poleGroup.points.Count - 1;
-                float endExtension = Vector3.Distance(poleGroup.points[lastIndex], poleGroup.points[lastIndex - 1]) * 0.1f;
+                float endExtension = 0f;
+                if (poleGroup.points.Count >= 2)
+                    endExtension = Vector3.Distance(poleGroup.points[lastIndex], poleGroup.points[lastIndex - 1]) * 0.1f;
 
                 for (int i = 0; i < poleGroup.points.Count; i++)
                 {
                     Vector3 pos = poleGroup.points[i];
 
-                    // direction along the pole chain
+                    // direction along the pole chain - try next, fallback to prev, else fallback to forward
                     Vector3 forward = Vector3.zero;
-                    if (i < poleGroup.points.Count - 1) forward = (poleGroup.points[i + 1] - pos).normalized;
-                    else forward = (pos - poleGroup.points[i - 1]).normalized;
+                    if (i < lastIndex) forward = poleGroup.points[i + 1] - pos;
+                    else if (i > 0) forward = pos - poleGroup.points[i - 1];
 
-                    // build a stable frame
-                    Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
+                    if (forward.sqrMagnitude < EPS)
+                    {
+                        // try alternative deltas
+                        if (i > 0 && (pos - poleGroup.points[i - 1]).sqrMagnitude > EPS) forward = pos - poleGroup.points[i - 1];
+                        else if (i < lastIndex && (poleGroup.points[i + 1] - pos).sqrMagnitude > EPS) forward = poleGroup.points[i + 1] - pos;
+                        else forward = Vector3.forward;
+                    }
+                    forward = forward.normalized;
+
+                    // stable frame
+                    Vector3 right = Vector3.Cross(Vector3.up, forward);
+                    if (right.sqrMagnitude < EPS) right = Vector3.right;
+                    else right = right.normalized;
                     Vector3 up = Vector3.up;
 
                     // rail sits on top of poles
                     Vector3 basePos = pos + up * m_vRailingPoleSize.y;
 
-                    if (i == 0) basePos -= forward * startExtension; 
+                    if (i == 0) basePos -= forward * startExtension;
                     else if (i == lastIndex) basePos += forward * endExtension;
 
                     Vector3 vRight = right * m_vRailingBarrierSize.x;
@@ -413,6 +431,20 @@ namespace ProceduralTracks
                         basePos - vRight * 0.75f - vUp,
                     };
 
+                    // Validate slice vertices for NaN/Infinity
+                    bool valid = true;
+                    for (int s = 0; s < slices.Length; s++)
+                    {
+                        Vector3 v = slices[s];
+                        if (float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z) ||
+                            float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z))
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (!valid) continue;
+
                     int currSectionStart = vertices.Count;
                     vertices.AddRange(slices);
 
@@ -425,6 +457,25 @@ namespace ProceduralTracks
 
                     if (prevSectionStart != -1)
                     {
+                        // Compute a representative distance between sections to avoid connecting across large gaps
+                        Vector3 prevCenter = Vector3.zero;
+                        Vector3 currCenter = Vector3.zero;
+                        for (int k = 0; k < 6; k++)
+                        {
+                            prevCenter += vertices[prevSectionStart + k];
+                            currCenter += vertices[currSectionStart + k];
+                        }
+                        prevCenter /= 6f;
+                        currCenter /= 6f;
+
+                        float centerDist = Vector3.Distance(prevCenter, currCenter);
+                        if (centerDist > MAX_CONNECT_DISTANCE)
+                        {
+                            // Skip connecting these sections (break continuity)
+                            prevSectionStart = currSectionStart;
+                            continue;
+                        }
+
                         for (int j = 0; j < 6; j++)
                         {
                             int jNext = (j + 1) % 6;
@@ -441,14 +492,19 @@ namespace ProceduralTracks
 
                     prevSectionStart = currSectionStart;
                 }
-                AddCap(triangles, groupStartVertex, flip: false);
+
+                // Add caps only if the computed base indices are still valid
+                AddCap(triangles, groupStartVertex, flip: false, vertices.Count);
                 int endBase = groupStartVertex + (groupSectionCount - 1) * 6;
-                AddCap(triangles, endBase, flip: true);
+                AddCap(triangles, endBase, flip: true, vertices.Count);
             }
         }
 
-        protected void AddCap(List<int> triangles, int baseIndex, bool flip)
+        protected void AddCap(List<int> triangles, int baseIndex, bool flip, int vertexCount)
         {
+            // Validate that there are at least 6 vertices from baseIndex
+            if (baseIndex < 0 || baseIndex + 5 >= vertexCount) return;
+
             int[] order = flip
                 ? new[] { 0, 5, 4, 3, 2, 1 }
                 : new[] { 0, 1, 2, 3, 4, 5 };
