@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
 
-public class RacerMinimapIcon : MonoBehaviour
+public class RacerIdentityTracker : MonoBehaviour
 {
     private MeshRenderer _iconMeshRenderer;
+    
+    [HideInInspector]
+    public RacerData racerData;
 
     private void Awake()
     {

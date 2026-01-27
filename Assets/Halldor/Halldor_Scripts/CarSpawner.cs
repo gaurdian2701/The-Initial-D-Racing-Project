@@ -14,8 +14,11 @@ public class CarSpawner : MonoBehaviour
         if (shouldSpawnCar)
         {
            GameObject newCar = Instantiate(car, _startPosition.transform.position, transform.rotation);
+
+           RacerIdentityTracker newRacerIdentity = newCar.GetComponentInChildren<RacerIdentityTracker>();
+           newRacerIdentity.ChangeIconMaterial(racerData.minimapIconMaterial);
+           newRacerIdentity.racerData = racerData;
            
-           newCar.GetComponentInChildren<RacerMinimapIcon>().ChangeIconMaterial(racerData.minimapIconMaterial);
            
            CarController carController = newCar.GetComponent<CarController>();
            CarStats stats = racerData.racerStats;
@@ -23,8 +26,11 @@ public class CarSpawner : MonoBehaviour
            carController.menginePower = stats.enginePower;
            carController.mbrakingPower =  stats.brakingPower;
            carController.mturnRadius  = stats.turnRadius;
-           
 
+           RaceProgress raceProgress = new RaceProgress();
+
+           raceProgress.racer = racerData;
+           ProgressTracking.Instance.racersProgress.Add(raceProgress);
         }
         
     }
