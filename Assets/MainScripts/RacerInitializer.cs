@@ -41,6 +41,7 @@ public class RacerInitializer : MonoBehaviour
         {
             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
             cameraFollow.mfollowTarget = playerCar;
+            cameraFollow.Startup();
             Camera.main.GetComponent<DynamicSpeedLines>()._carRB = playerCar.GetComponent<Rigidbody>();   
         }
         else Debug.LogError("No Camera is tagged as the main camera.");

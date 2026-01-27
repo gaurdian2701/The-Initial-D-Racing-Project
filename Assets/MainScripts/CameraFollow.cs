@@ -28,7 +28,8 @@ public class CameraFollow : MonoBehaviour
 
     private float mdefaultFOV = 60.0f;
     
-    private void Start()
+
+    public void Startup()
     {
         mmainCamera = GetComponent<Camera>();
         mfollowTargetInterface =  mfollowTarget.GetComponent<IFollowTarget>();
