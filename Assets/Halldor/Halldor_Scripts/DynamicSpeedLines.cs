@@ -9,7 +9,6 @@ public class DynamicSpeedLines : MonoBehaviour
     private AnimationCurve _speedCurve;
     [SerializeField]
     private ParticleSystem _speedLines;
-    [HideInInspector]
     public Rigidbody _carRB;
     private float _maxSpeed = 66;
     private float _minSpeedforParticles = 30;

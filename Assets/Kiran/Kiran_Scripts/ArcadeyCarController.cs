@@ -82,13 +82,16 @@ namespace Car
         {
             mcurrentFrameDriftVelocity = Vector3.Dot(mcarRigidBody.GetPointVelocity(someWheel.GetTransform().position),
                 someWheel.GetTransform().right);
+            
+            Debug.Log($"CURRENT FRAME VELOCITY: {mcurrentFrameDriftVelocity}");
+            Debug.Log($"MAX VELOCITY: {mmaxSidewaysForceDuringDrift}");
 
-            if (mcurrentFrameDriftVelocity > mmaxSidewaysForceDuringDrift || mcurrentFrameDriftVelocity < -mmaxSidewaysForceDuringDrift)
+            if (Mathf.Abs(mcurrentFrameDriftVelocity) > mmaxSidewaysForceDuringDrift)
             {
-                float velocityChange = mmaxSidewaysForceDuringDrift - mcurrentFrameDriftVelocity;
+                float velocityChange = Mathf.Abs(mcurrentFrameDriftVelocity) - mmaxSidewaysForceDuringDrift;
                 float restorationForce = mslideVelocityDampingConstant * velocityChange;
 
-                Vector3 forceToBeApplied = restorationForce * mcarRigidBody.transform.right;
+                Vector3 forceToBeApplied = -Mathf.Sign(mcurrentFrameDriftVelocity) * restorationForce * mcarRigidBody.transform.right;
                 mcarRigidBody.AddForceAtPosition(forceToBeApplied, someWheel.GetTransform().position);
             }
         }
