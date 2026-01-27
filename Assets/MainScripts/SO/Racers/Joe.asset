@@ -15,8 +15,9 @@ MonoBehaviour:
   racerId: 67
   racerName: Joe
   racerSprite: {fileID: 21300000, guid: fb7dde114ad5e6746bbd0da01a15f4b4, type: 3}
+  minimapIconMaterial: {fileID: 2100000, guid: 12245eee3c10c884d8172d2d497a2309, type: 2}
   carPrefab: {fileID: 6963785626280271770, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
-  carAIPrefab: {fileID: 3456872866939603934, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
+  carAIPrefab: {fileID: 7275421467321727425, guid: ce8ae6d86f3454046b7b088c8e417627, type: 3}
   racerColor: {r: 0.3949359, g: 0.6698113, b: 0.6305363, a: 0}
   racerStats:
     enginePower: 4

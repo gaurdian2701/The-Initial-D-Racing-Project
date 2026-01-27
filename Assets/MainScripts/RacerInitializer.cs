@@ -32,6 +32,8 @@ public class RacerInitializer : MonoBehaviour
         carController.mbrakingPower =  carStats.brakingPower;
         carController.mturnRadius  = carStats.turnRadius;
 
+        playerCar.GetComponentInChildren<RacerMinimapIcon>().ChangeIconMaterial(_racerDataHolder.selectedRacer.minimapIconMaterial);
+        
         if (Camera.main != null)
         {
             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
@@ -42,17 +44,14 @@ public class RacerInitializer : MonoBehaviour
         
         speedDisplay._carRB = playerCar.GetComponent<Rigidbody>();
         
-        //handle random characters
-        //set all cars
         
         foreach (var carSpawn in startingPositionsList.startPositions)
         {
             int randomCharacter = Random.Range(0, _racerDataHolder.availableRacers.Count);
             
             carSpawn.car = _racerDataHolder.availableRacers[randomCharacter].carAIPrefab;
-        }
-        
-        startingPositionsList.SpawnAllCars();
 
+            carSpawn.SpawnCar(_racerDataHolder.availableRacers[randomCharacter]);
+        }
     }
 }

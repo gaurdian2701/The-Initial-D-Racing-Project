@@ -22,6 +22,7 @@ public class DynamicSpeedLines : MonoBehaviour
 
     private void Update()
     {
+        
         _speedPoint = _carRB.linearVelocity.magnitude/_maxSpeed;
         _speedCurve.Evaluate(_speedPoint);
         

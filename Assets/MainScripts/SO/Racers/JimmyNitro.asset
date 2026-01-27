@@ -15,8 +15,9 @@ MonoBehaviour:
   racerId: 69
   racerName: Jimmy Nitro
   racerSprite: {fileID: 21300000, guid: 6ffa028d18410b040982fefe40756bf2, type: 3}
+  minimapIconMaterial: {fileID: 2100000, guid: fb27464ff6092cd44b8c0d258c4996a6, type: 2}
   carPrefab: {fileID: 2037469158987203886, guid: f6f1260b6cd1a45498eb64308421cc72, type: 3}
-  carAIPrefab: {fileID: 3456872866939603934, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
+  carAIPrefab: {fileID: 7275421467321727425, guid: 7197472464aeb5b4abbf8bfc5fa9b73e, type: 3}
   racerColor: {r: 0.48235297, g: 0.13725491, b: 0.12941177, a: 0}
   racerStats:
     enginePower: 4
