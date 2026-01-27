@@ -310,8 +310,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   mmaxFOV: 80
   mvelocityThresholdForFOVChange: 30
+  mXRotationOffset: 20
   zOffset: 4.56
-  yOffset: 1.88
+  yOffset: 3.3
   mfollowResponsiveness: 12
   mlookAtResponsiveness: 5
   mFOVChangeSensitivity: 1

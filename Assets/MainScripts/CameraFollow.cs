@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private AnimationCurve mfovCurve;
     [SerializeField] [Range(60.0f, 120.0f)] private float mmaxFOV = 80.0f;
     [SerializeField] [Range(0.0f, 50.0f)] private float mvelocityThresholdForFOVChange = 20.0f;
+    [SerializeField] private float mXRotationOffset = 0;
     
     private Camera mmainCamera;
     private IFollowTarget mfollowTargetInterface;
@@ -49,7 +51,9 @@ public class CameraFollow : MonoBehaviour
 
     private void UpdateCameraTransform()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, mfollowTarget.transform.rotation, mlookAtResponsiveness * Time.deltaTime);
+        Quaternion targetRot = Quaternion.Euler(mfollowTarget.transform.rotation.eulerAngles.x + mXRotationOffset, mfollowTarget.transform.rotation.eulerAngles.y, mfollowTarget.transform.rotation.eulerAngles.z);
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, mlookAtResponsiveness * Time.deltaTime);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0.0f);
         
         //Update follow position for camera
