@@ -35,6 +35,7 @@ namespace ProceduralTracks
 
         [Header("Gameplay Objects")]
         [SerializeField] public List<GameObject> m_lEdgeBoxColliders = new List<GameObject>();
+        [SerializeField] public List<GameObject> m_lRacingCheckPoints = new List<GameObject>();
         [SerializeField] public GameObject m_gFinishLinePrefab;
         [SerializeField] public GameObject m_gFinishLineGameObject;
 
@@ -56,6 +57,7 @@ namespace ProceduralTracks
 
             // Generate track!
             DestroyAllEdgeBoxColliders();
+            DestroyRaceCheckPoints();
             m_railingBarrierPosesList.Clear();
             AddRoadSegment(vertices, uvs, trackTriangles);
             GenerateTrackOutline(true, vertices, uvs, outlineTrackTriangles);
@@ -69,6 +71,7 @@ namespace ProceduralTracks
             }
             GenerateFinishLine(vertices, uvs, FinishLineTriangles);
             GenerateEdgeBoxColliders();
+            GenerateRaceCheckPoints();
 
             // assign the mesh data
             mesh.vertices = vertices.ToArray();
@@ -678,6 +681,49 @@ namespace ProceduralTracks
             float t = Mathf.InverseLerp(a.m_fDistance, b.m_fDistance, distance);
 
             return Vector3.Lerp(a.m_vRoadSize, b.m_vRoadSize, t);
+        }
+
+        private void DestroyRaceCheckPoints()
+        {
+            // clean up colliders
+            foreach (GameObject boxCollider in m_lRacingCheckPoints)
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(boxCollider);
+                }
+                else
+                {
+                    DestroyImmediate(boxCollider);
+                }
+            }
+            m_lRacingCheckPoints.Clear();
+        }
+
+        protected void GenerateRaceCheckPoints()
+        {
+            const float multiplyXValue = 20.0f;
+            const float multiplyYValue = 100.0f;
+            GameObject CheckPointsParent = new GameObject("CheckPoints");
+            CheckPointsParent.transform.SetParent(transform, false);
+
+            BezierCurve bc = GetComponent<BezierCurve>();
+            for (int i = 2; i <= bc.m_points.Count; ++i)
+            {
+                ControlPoint checkPointCP = bc.m_points[i - 1];
+                GameObject colliderGO = new GameObject("CheckPoint_ref_" + i);
+                colliderGO.transform.SetParent(CheckPointsParent.transform, false);
+
+                colliderGO.transform.localPosition = checkPointCP.m_vPosition + Vector3.up * (multiplyYValue / 12.0f);
+                Quaternion rotation = Quaternion.LookRotation(checkPointCP.m_vTangent.normalized) * Quaternion.Euler(0f, 90f, 0f);
+                colliderGO.transform.localRotation = rotation;
+
+                BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
+                newBoxCollider.size = new Vector3(checkPointCP.m_vRoadSize.z * multiplyXValue, checkPointCP.m_vRoadSize.y * multiplyYValue, checkPointCP.m_vRoadSize.x * 2.0f);
+                newBoxCollider.isTrigger = true;
+                m_lRacingCheckPoints.Add(colliderGO);
+            }
+            if(m_gFinishLineGameObject != null) m_lRacingCheckPoints.Add(m_gFinishLineGameObject);
         }
     }
 }
