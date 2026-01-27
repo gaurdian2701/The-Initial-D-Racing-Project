@@ -10,8 +10,11 @@ public class RacerInitializer : MonoBehaviour
     
     [SerializeField] private StartingPositionsList startingPositionsList;
     [SerializeField] private SpeedDisplay speedDisplay; 
+    [SerializeField] private RaceCountDown raceCountDown;
+    
     
     [HideInInspector]public GameObject playerCar;
+    
     
     void Start()
     {
@@ -53,5 +56,8 @@ public class RacerInitializer : MonoBehaviour
 
             carSpawn.SpawnCar(_racerDataHolder.availableRacers[randomCharacter]);
         }
+        
+        
+        raceCountDown.StartCountDown();
     }
 }
