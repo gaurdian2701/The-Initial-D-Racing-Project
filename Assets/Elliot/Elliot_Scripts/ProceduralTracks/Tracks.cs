@@ -698,12 +698,26 @@ namespace ProceduralTracks
                 }
             }
             m_lRacingCheckPoints.Clear();
+
+            Transform parentTransform = transform.Find("CheckPoints");
+            if (parentTransform == null) return;
+
+            GameObject parent = parentTransform.gameObject;
+            if (parent == null) return;
+            if (Application.isPlaying)
+            {
+                Destroy(parent);
+            }
+            else
+            {
+                DestroyImmediate(parent);
+            }
         }
 
         protected void GenerateRaceCheckPoints()
         {
             const float multiplyXValue = 20.0f;
-            const float multiplyYValue = 100.0f;
+            const float multiplyYValue = 100.0f;  
             GameObject CheckPointsParent = new GameObject("CheckPoints");
             CheckPointsParent.transform.SetParent(transform, false);
 
