@@ -16,7 +16,7 @@ MonoBehaviour:
   racerName: Forg
   racerSprite: {fileID: 21300000, guid: 49bc20e9c040dc34984489f596936a60, type: 3}
   minimapIconMaterial: {fileID: 2100000, guid: 82d6c8fc79dfed14a987f8f112b2b387, type: 2}
-  carPrefab: {fileID: 2037469158987203886, guid: f6f1260b6cd1a45498eb64308421cc72, type: 3}
+  carPrefab: {fileID: 2037469158987203886, guid: c71c6e31ae60761438816d0e12b45d3c, type: 3}
   carAIPrefab: {fileID: 7275421467321727425, guid: 7197472464aeb5b4abbf8bfc5fa9b73e, type: 3}
   racerColor: {r: 0, g: 1, b: 0.065164566, a: 0}
   racerStats:

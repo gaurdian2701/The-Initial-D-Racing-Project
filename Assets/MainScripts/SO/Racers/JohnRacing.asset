@@ -16,7 +16,7 @@ MonoBehaviour:
   racerName: John Racing
   racerSprite: {fileID: 21300000, guid: 8ec81df2788621a4fa9cd5063ed5c683, type: 3}
   minimapIconMaterial: {fileID: 2100000, guid: dd41e2d771305fe4f85194d490ad9742, type: 2}
-  carPrefab: {fileID: 6227443371299137111, guid: 003d2e296c8a4ef408f7882527bb7813, type: 3}
+  carPrefab: {fileID: 6227443371299137111, guid: 2538ec2c252964144b125c0d4f98ff7a, type: 3}
   carAIPrefab: {fileID: 7275421467321727425, guid: eac78b1e6a429dd43996b13f03adde80, type: 3}
   racerColor: {r: 0.9056604, g: 0.86721253, b: 0.86721253, a: 0}
   racerStats:

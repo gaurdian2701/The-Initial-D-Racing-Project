@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0ae55dec1841b4a949f65933d695b4, type: 3}
+  m_Name: GuyFromAnime
+  m_EditorClassIdentifier: Assembly-CSharp::RacerData
+  racerId: 9001
+  racerName: Guy From Anime
+  racerSprite: {fileID: 21300000, guid: dd459d0f73f9c76499d9bbb56a04e96a, type: 3}
+  minimapIconMaterial: {fileID: 2100000, guid: 77f9a448f669c6045b5812906274f71e, type: 2}
+  carPrefab: {fileID: 6227443371299137111, guid: f24e708191b18904692fab06ace4398a, type: 3}
+  carAIPrefab: {fileID: 7275421467321727425, guid: 1d25ecd8d94827a49bb1593a1940a272, type: 3}
+  racerColor: {r: 0.2179601, g: 0.3472453, b: 0.5849056, a: 0}
+  racerStats:
+    enginePower: 4.36
+    brakingPower: 1.108
+    turnRadius: 14.4

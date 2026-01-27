@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0ae55dec1841b4a949f65933d695b4, type: 3}
+  m_Name: Alien
+  m_EditorClassIdentifier: Assembly-CSharp::RacerData
+  racerId: 51
+  racerName: Real Alien
+  racerSprite: {fileID: 21300000, guid: c218d0a62ee9fe94aa3741cff0362ecf, type: 3}
+  minimapIconMaterial: {fileID: 2100000, guid: a1cda26f53b15aa408172439b3a48cf0, type: 2}
+  carPrefab: {fileID: 6963785626280271770, guid: 4bafb762f151d1840aab0f08f8c0b816, type: 3}
+  carAIPrefab: {fileID: 7275421467321727425, guid: a56ab0f5030c18d429b3c791d7d538c1, type: 3}
+  racerColor: {r: 0.086908154, g: 0.8773585, b: 0.23723209, a: 0}
+  racerStats:
+    enginePower: 4
+    brakingPower: 1
+    turnRadius: 6

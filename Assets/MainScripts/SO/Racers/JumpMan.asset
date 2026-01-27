@@ -16,8 +16,8 @@ MonoBehaviour:
   racerName: JumpMan
   racerSprite: {fileID: 21300000, guid: 0f8f4a0c8ef1af24fa06a183584f0b11, type: 3}
   minimapIconMaterial: {fileID: 2100000, guid: f0ad8c6f49508d04baa7fcea7565efbd, type: 2}
-  carPrefab: {fileID: 6963785626280271770, guid: 2b3871a76f65e0542b88f1a3c04efbb4, type: 3}
-  carAIPrefab: {fileID: 7275421467321727425, guid: ce8ae6d86f3454046b7b088c8e417627, type: 3}
+  carPrefab: {fileID: 2037469158987203886, guid: f6f1260b6cd1a45498eb64308421cc72, type: 3}
+  carAIPrefab: {fileID: 7275421467321727425, guid: a3ff08a24add7b847bf0f3bb28dbc4a3, type: 3}
   racerColor: {r: 1, g: 0, b: 0, a: 0}
   racerStats:
     enginePower: 2

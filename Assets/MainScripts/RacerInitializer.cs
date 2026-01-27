@@ -46,15 +46,14 @@ public class RacerInitializer : MonoBehaviour
         else Debug.LogError("No Camera is tagged as the main camera.");
         
         speedDisplay._carRB = playerCar.GetComponent<Rigidbody>();
-        
-        
+
+        int i = 0;
         foreach (var carSpawn in startingPositionsList.startPositions)
         {
-            int randomCharacter = Random.Range(0, _racerDataHolder.availableRacers.Count);
-            
-            carSpawn.car = _racerDataHolder.availableRacers[randomCharacter].carAIPrefab;
+            carSpawn.car = _racerDataHolder.availableRacers[i].carAIPrefab;
 
-            carSpawn.SpawnCar(_racerDataHolder.availableRacers[randomCharacter]);
+            carSpawn.SpawnCar(_racerDataHolder.availableRacers[i]);
+            i++;
         }
         
         
