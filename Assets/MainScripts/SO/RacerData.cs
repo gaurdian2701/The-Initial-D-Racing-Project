@@ -7,6 +7,7 @@ public class RacerData : ScriptableObject
     public int racerId;
     public string racerName;
     public Sprite racerSprite;
+    public Material minimapIconMaterial;
     public GameObject carPrefab;
     public GameObject carAIPrefab;
     public Color racerColor;
