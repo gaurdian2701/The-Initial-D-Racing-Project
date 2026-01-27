@@ -78,7 +78,7 @@ namespace ProceduralTracks
             mesh.SetTriangles(trackTriangles.ToArray(), 0);
             mesh.SetTriangles(outlineTrackTriangles.ToArray(), 1);
             mesh.SetTriangles(railingTriangles.ToArray(), 2);
-            mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
+            //mesh.SetTriangles(railingBarrierTriangles.ToArray(), 3);
             mesh.SetTriangles(FinishLineTriangles.ToArray(), 4);
 
             mesh.RecalculateNormals();

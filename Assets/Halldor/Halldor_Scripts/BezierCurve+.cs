@@ -306,6 +306,16 @@ namespace Bezier
                 sr.WriteLine("  V Tangent  : X = {0} , Y = {1} , Z = {2}", TheControlPoint.m_vTangent.x, TheControlPoint.m_vTangent.y, TheControlPoint.m_vTangent.z);
                 sr.WriteLine("  F Distance : {0}", TheControlPoint.m_fDistance);
             }
+
+            sr.WriteLine("___________________________");
+            for (int i = m_points.Count - 1; i > 0; i--)
+            {
+                if (m_points[i].m_fDistance - m_points[i - 1].m_fDistance >= 500f)
+                {
+                    sr.WriteLine("m_fDistance between ControlPoints {0}, and {1} is more than 500.0f in distance", i, i - 1);
+                }
+            }
+
             sr.Close();
         }
     }

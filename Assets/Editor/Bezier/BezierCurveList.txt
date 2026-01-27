@@ -17,7 +17,7 @@ Element 3
   F Distance : 559.1577
 Element 4
   V Position : X = 200 , Y = 0 , Z = -200
-  V Tangent  : X = 0 , Y = 0 , Z = 0
+  V Tangent  : X = -10 , Y = 0 , Z = -5
   F Distance : 670.9611
 Element 5
   V Position : X = 0 , Y = 0 , Z = -300
@@ -29,85 +29,94 @@ Element 6
   F Distance : 1006.371
 Element 7
   V Position : X = -25 , Y = 0 , Z = -500
-  V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 1272.045
+  V Tangent  : X = 102.3 , Y = 0 , Z = 50
+  F Distance : 1273.056
 Element 8
-  V Position : X = 75 , Y = 0 , Z = -450
+  V Position : X = 100 , Y = 0 , Z = -440
   V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 1383.848
+  F Distance : 1411.727
 Element 9
   V Position : X = 275 , Y = 0 , Z = -350
   V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 1607.455
+  F Distance : 1608.521
 Element 10
   V Position : X = 575 , Y = 0 , Z = -200
   V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 1942.865
+  F Distance : 1943.931
 Element 11
-  V Position : X = 775 , Y = 0 , Z = -100
+  V Position : X = 778.5 , Y = 0 , Z = -100
   V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 2166.472
+  F Distance : 2170.676
 Element 12
-  V Position : X = 850 , Y = 0 , Z = -200
-  V Tangent  : X = -75 , Y = 0 , Z = -50
-  F Distance : 2382.524
+  V Position : X = 980 , Y = 0 , Z = 0
+  V Tangent  : X = 100 , Y = 0 , Z = 50
+  F Distance : 2395.626
 Element 13
-  V Position : X = 750 , Y = 0 , Z = -350
-  V Tangent  : X = 50 , Y = 0 , Z = -50
-  F Distance : 2590.261
-Element 14
-  V Position : X = 900 , Y = 0 , Z = -300
-  V Tangent  : X = 50 , Y = 0 , Z = 50
-  F Distance : 2770.559
-Element 15
-  V Position : X = 950 , Y = 0 , Z = -175
-  V Tangent  : X = 25 , Y = 0 , Z = 50
-  F Distance : 2908.021
-Element 16
-  V Position : X = 1025 , Y = 0 , Z = -175
-  V Tangent  : X = 25 , Y = 0 , Z = -50
-  F Distance : 3018.886
-Element 17
-  V Position : X = 1000 , Y = 0 , Z = -400
+  V Position : X = 1100 , Y = 0 , Z = -150
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 3273.146
+  F Distance : 2680.23
+Element 14
+  V Position : X = 1000 , Y = 0 , Z = -350
+  V Tangent  : X = 50 , Y = 0 , Z = -50
+  F Distance : 2935.876
+Element 15
+  V Position : X = 1200 , Y = 0 , Z = -300
+  V Tangent  : X = 50 , Y = 0 , Z = 50
+  F Distance : 3161.04
+Element 16
+  V Position : X = 1400 , Y = 0 , Z = -149
+  V Tangent  : X = 100 , Y = 0 , Z = 50
+  F Distance : 3413.01
+Element 17
+  V Position : X = 1500 , Y = 0 , Z = -250
+  V Tangent  : X = -100 , Y = 0 , Z = -50
+  F Distance : 3657.365
 Element 18
+  V Position : X = 1250 , Y = 0 , Z = -350
+  V Tangent  : X = -25 , Y = 0 , Z = -50
+  F Distance : 3930.595
+Element 19
+  V Position : X = 1181.9 , Y = 0 , Z = -500
+  V Tangent  : X = -100 , Y = 0 , Z = -50
+  F Distance : 4109.402
+Element 20
   V Position : X = 750 , Y = 0 , Z = -450
   V Tangent  : X = -50 , Y = 0 , Z = 50
-  F Distance : 3542.505
-Element 19
+  F Distance : 4556.15
+Element 21
   V Position : X = 600 , Y = 0 , Z = -300
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 3785.754
-Element 20
+  F Distance : 4799.399
+Element 22
   V Position : X = 450 , Y = 0 , Z = -375
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 3953.459
-Element 21
+  F Distance : 4967.104
+Element 23
   V Position : X = 100 , Y = 0 , Z = -550
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 4344.771
-Element 22
+  F Distance : 5358.417
+Element 24
   V Position : X = -50 , Y = 0 , Z = -625
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 4512.476
-Element 23
-  V Position : X = -244.6 , Y = 0 , Z = -549.42
+  F Distance : 5526.122
+Element 25
+  V Position : X = -250 , Y = 0 , Z = -550
   V Tangent  : X = -50 , Y = 0 , Z = 100
-  F Distance : 4758.678
-Element 24
+  F Distance : 5776.702
+Element 26
   V Position : X = -200 , Y = 0 , Z = -275
   V Tangent  : X = 100 , Y = 0 , Z = 50
-  F Distance : 5069.106
-Element 25
+  F Distance : 6088.472
+Element 27
   V Position : X = -250 , Y = 0 , Z = -150
   V Tangent  : X = -100 , Y = 0 , Z = -50
-  F Distance : 5309.105
-Element 26
+  F Distance : 6328.47
+Element 28
   V Position : X = -250 , Y = 0 , Z = 0
   V Tangent  : X = 100 , Y = 0 , Z = 0
-  F Distance : 5561.275
-Element 27
+  F Distance : 6580.641
+Element 29
   V Position : X = -100 , Y = 0 , Z = 0
   V Tangent  : X = 5 , Y = 0 , Z = 0
-  F Distance : 5711.275
+  F Distance : 6730.641
+___________________________
