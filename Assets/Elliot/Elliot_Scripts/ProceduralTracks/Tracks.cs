@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static Bezier.BezierCurve;
+using static UnityEditor.FilePathAttribute;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 namespace ProceduralTracks
@@ -24,6 +25,7 @@ namespace ProceduralTracks
         [SerializeField, Range(0.1f, 25.0f)] private float m_fTrackSegmentLength = 4.0f;
         [SerializeField] private Vector2 m_vRoadOutlineSize = new Vector2(1.0f, 0.2f);
         [SerializeField] private Vector3 m_vFinishLineSize = new Vector3(1.0f, 0.2f, 0.3f);
+        [SerializeField] private bool m_bEnableRotationToRoad = false;
 
         [Header("Railing Settings")]
         [SerializeField] private bool m_bEnableRailing = true;
@@ -97,9 +99,13 @@ namespace ProceduralTracks
         protected void AddRoadSegment(List<Vector3> vertices, List<Vector2> uvs, List<int> triangles)
         {
             BezierCurve bc = GetComponent<BezierCurve>();
+            if (bc == null) return;
+
             int iSegmentCount = Mathf.CeilToInt(bc.TotalDistance / m_fTrackSegmentLength);
             int vertsPerSlice = 8;
             bool canConnectToPrevious = true;
+
+            if (iSegmentCount <= 0) iSegmentCount = 1;
 
             for (int i = 0; i <= iSegmentCount; ++i)
             {
@@ -107,18 +113,45 @@ namespace ProceduralTracks
                 float distance = fPrc * bc.TotalDistance;
 
                 Pose pose = bc.GetPose(distance);
-                ControlPoint ControlPointA, ControlPointB;
 
-                // determine segment CPs
-                int cpIndex = bc.GetControlPointIndexAtDistance(distance);
-                ControlPointA = bc.m_points[cpIndex];
-                ControlPointB = (cpIndex + 1 < bc.m_points.Count) ? bc.m_points[cpIndex + 1] : ControlPointA;
+                int cpIndex = Mathf.Clamp(bc.GetControlPointIndexAtDistance(distance), 0, Mathf.Max(0, bc.m_points.Count - 1));
+                BezierCurve.ControlPoint ControlPointA = bc.m_points[cpIndex];
+                BezierCurve.ControlPoint ControlPointB = (cpIndex + 1 < bc.m_points.Count) ? bc.m_points[cpIndex + 1] : ControlPointA;
 
                 Vector3 roadSize = GetRoadSizeBetween(ControlPointA, ControlPointB, distance);
 
-                Vector3 vRight = pose.right * roadSize.x;
-                Vector3 vUp = pose.up * roadSize.y;
-                Vector3 vForward = pose.forward * roadSize.z;
+                Vector3 vRight;
+                Vector3 vUp;
+                Vector3 vForward;
+
+                if(m_bEnableRotationToRoad) // derive world-space axes from final rotation and scale by road sizes
+                {
+                    Quaternion cpRotA = (ControlPointA != null) ? ControlPointA.m_qRotation : Quaternion.identity;
+                    Quaternion cpRotB = (ControlPointB != null) ? ControlPointB.m_qRotation : Quaternion.identity;
+                    float rotT = 0f;
+                    if (ControlPointA != null && ControlPointB != null && !Mathf.Approximately(ControlPointA.m_fDistance, ControlPointB.m_fDistance))
+                    {
+                        rotT = Mathf.InverseLerp(ControlPointA.m_fDistance, ControlPointB.m_fDistance, distance);
+                    }
+                    else if (ControlPointA != null)
+                    {
+                        rotT = 0f;
+                        cpRotB = cpRotA;
+                    }
+
+                    Quaternion interpolatedCpRot = Quaternion.Slerp(cpRotA, cpRotB, rotT);
+                    Quaternion finalRotation = pose.rotation * interpolatedCpRot;
+
+                    vRight = finalRotation * Vector3.right * roadSize.x;
+                    vUp = finalRotation * Vector3.up * roadSize.y;
+                    vForward = finalRotation * Vector3.forward * roadSize.z;
+                }
+                else
+                {
+                    vRight = pose.right * roadSize.x;
+                    vUp = pose.up * roadSize.y;
+                    vForward = pose.forward * roadSize.z;
+                }
 
                 Vector3[] slices = new Vector3[]
                 {
@@ -133,29 +166,36 @@ namespace ProceduralTracks
                     pose.position + vRight - vUp - vForward    // 7 bottom right back
                 };
 
+                // Append vertices and placeholder UVs
+                int sliceStartIndex = vertices.Count;
                 vertices.AddRange(slices);
-                for(int j = 0; j < slices.Length; j++)
+                for (int j = 0; j < slices.Length; j++)
                 {
                     uvs.Add(Vector2.zero);
                 }
 
+                // If this control point marks an edge, break continuity and skip connecting triangles
                 if (ControlPointA != null && ControlPointA.m_bIsEdge)
                 {
                     canConnectToPrevious = false;
                     continue;
                 }
 
-                // add triangles
+                // add triangles connecting to previous slice when allowed
                 if (i > 0 && canConnectToPrevious)
                 {
-                    int baseIndex = i * vertsPerSlice;
-                    int prevBase = baseIndex - vertsPerSlice;
+                    int currBase = sliceStartIndex;
+                    int prevBase = currBase - vertsPerSlice;
 
-                    AddQuad(triangles, prevBase + 0, prevBase + 1, baseIndex + 1, baseIndex + 0); // top
-                    AddQuad(triangles, prevBase + 2, prevBase + 3, baseIndex + 3, baseIndex + 2); // bottom
-                    //AddQuad(triangles, prevBase + 1, prevBase + 2, baseIndex + 2, baseIndex + 1); // left
-                    //AddQuad(triangles, prevBase + 0, prevBase + 3, baseIndex + 3, baseIndex + 0); // right
+                    if (prevBase >= 0 && currBase + vertsPerSlice - 1 < vertices.Count)
+                    {
+                        // top quad
+                        AddQuad(triangles, prevBase + 0, prevBase + 1, currBase + 1, currBase + 0);
+                        // bottom quad
+                        AddQuad(triangles, prevBase + 2, prevBase + 3, currBase + 3, currBase + 2);
+                    }
                 }
+
                 canConnectToPrevious = true;
             }
         }
@@ -175,20 +215,47 @@ namespace ProceduralTracks
 
                 Pose pose = bc.GetPose(distance);
 
-                Vector3 vRight = pose.right * m_vRoadOutlineSize.x;
-                Vector3 vUp = pose.up * m_vRoadOutlineSize.y;
-
                 ControlPoint ControlPointA, ControlPointB;
 
-                // determine segment CPs
                 int cpIndex = bc.GetControlPointIndexAtDistance(distance);
                 ControlPointA = bc.m_points[cpIndex];
                 ControlPointB = (cpIndex + 1 < bc.m_points.Count) ? bc.m_points[cpIndex + 1] : ControlPointA;
 
                 Vector3 roadSize = GetRoadSizeBetween(ControlPointA, ControlPointB, distance);
 
+                Vector3 rightDir;
+                Vector3 upDir;
+                if (m_bEnableRotationToRoad)
+                {
+                    Quaternion cpRotA = (ControlPointA != null) ? ControlPointA.m_qRotation : Quaternion.identity;
+                    Quaternion cpRotB = (ControlPointB != null) ? ControlPointB.m_qRotation : Quaternion.identity;
+                    float rotT = 0f;
+                    if (ControlPointA != null && ControlPointB != null && !Mathf.Approximately(ControlPointA.m_fDistance, ControlPointB.m_fDistance))
+                    {
+                        rotT = Mathf.InverseLerp(ControlPointA.m_fDistance, ControlPointB.m_fDistance, distance);
+                    }
+                    else if (ControlPointA != null)
+                    {
+                        rotT = 0f;
+                        cpRotB = cpRotA;
+                    }
+                    Quaternion interpolatedCpRot = Quaternion.Slerp(cpRotA, cpRotB, rotT);
+                    Quaternion finalRotation = pose.rotation * interpolatedCpRot;
+
+                    rightDir = (finalRotation * Vector3.right).normalized;
+                    upDir = (finalRotation * Vector3.up).normalized;
+                }
+                else
+                {
+                    rightDir = pose.right;
+                    upDir = pose.up;
+                }
+
+                Vector3 vRight = rightDir * m_vRoadOutlineSize.x;
+                Vector3 vUp = upDir * m_vRoadOutlineSize.y;
+
                 float roadOutlineOffset = isRightHandSide ? roadSize.x : -roadSize.x;
-                Vector3 vOffset = roadOutlineOffset * pose.right;
+                Vector3 vOffset = roadOutlineOffset * rightDir;
 
                 Vector3[] slices = new Vector3[]
                 {
@@ -307,9 +374,40 @@ namespace ProceduralTracks
                             continue; // skip first pole to break continuity
                         }
 
+                        Vector3 rightDir;
+                        Vector3 upDir;
+                        if (m_bEnableRotationToRoad)
+                        {
+                            Quaternion cpRotA = (ControlPointA != null) ? ControlPointA.m_qRotation : Quaternion.identity;
+                            Quaternion cpRotB = (ControlPointB != null) ? ControlPointB.m_qRotation : Quaternion.identity;
+                            float rotT = 0f;
+                            if (ControlPointA != null && ControlPointB != null && !Mathf.Approximately(ControlPointA.m_fDistance, ControlPointB.m_fDistance))
+                            {
+                                rotT = Mathf.InverseLerp(ControlPointA.m_fDistance, ControlPointB.m_fDistance, distance);
+                            }
+                            else if (ControlPointA != null)
+                            {
+                                rotT = 0f;
+                                cpRotB = cpRotA;
+                            }
+                            Quaternion interpolatedCpRot = Quaternion.Slerp(cpRotA, cpRotB, rotT);
+                            Quaternion finalRotation = pose.rotation * interpolatedCpRot;
+
+                            // Use finalRotation to derive the frame so outline follows CP rotations
+                            rightDir = (finalRotation * Vector3.right).normalized;
+                            upDir = (finalRotation * Vector3.up).normalized;
+                        }
+                        else
+                        {
+                            rightDir = pose.right;
+                            upDir = pose.up;
+                        }
+
                         Vector3 roadSize = GetRoadSizeBetween(ControlPointA, ControlPointB, distance);
                         float roadOutlineOffset = isRightHandSide ? roadSize.x : -roadSize.x;
-                        Vector3 polePosition = pose.position + pose.right * roadOutlineOffset;
+                        Vector3 vOffset = roadOutlineOffset * rightDir;
+
+                        Vector3 polePosition = pose.position + vOffset;
 
                         if (!inGroup)
                         {
@@ -642,6 +740,23 @@ namespace ProceduralTracks
             const float multiplyYValue = 80.0f;
             BezierCurve.ControlPoint cp = bc.m_points[0];
 
+            Transform parentTransform = transform.Find("FinishLine");
+            if (parentTransform != null)
+            {
+                GameObject finishLine = parentTransform.gameObject;
+                if (finishLine != null)
+                {
+                    if (Application.isPlaying)
+                    {
+                        Destroy(finishLine);
+                    }
+                    else
+                    {
+                        DestroyImmediate(finishLine);
+                    }
+                }
+            }
+
             GameObject finishLinePrefab = Instantiate(m_gFinishLinePrefab);
             finishLinePrefab.name = "FinishLine";
 
@@ -649,7 +764,12 @@ namespace ProceduralTracks
 
             finishLinePrefab.transform.localPosition = cp.m_vPosition;
             Quaternion rotation = Quaternion.LookRotation(cp.m_vTangent.normalized) * Quaternion.Euler(0f, 90f, 0f);
-            finishLinePrefab.transform.localRotation = rotation;
+            if (m_bEnableRotationToRoad)
+            {
+                Quaternion newConstructedQuat = new Quaternion(-cp.m_qRotation.z, cp.m_qRotation.y, cp.m_qRotation.x, cp.m_qRotation.w);
+                finishLinePrefab.transform.localRotation = rotation * newConstructedQuat;
+            }
+            else finishLinePrefab.transform.localRotation = rotation;
 
             GameObject pole_L = finishLinePrefab.transform.Find("Pole_L").gameObject;
             Vector3 poleLPos_L = pole_L.transform.localPosition;
@@ -730,7 +850,13 @@ namespace ProceduralTracks
 
                 colliderGO.transform.localPosition = checkPointCP.m_vPosition + Vector3.up * (multiplyYValue / 12.0f);
                 Quaternion rotation = Quaternion.LookRotation(checkPointCP.m_vTangent.normalized) * Quaternion.Euler(0f, 90f, 0f);
-                colliderGO.transform.localRotation = rotation;
+                if (m_bEnableRotationToRoad)
+                {
+                    Quaternion newConstructedQuat = new Quaternion(-checkPointCP.m_qRotation.z, checkPointCP.m_qRotation.y, checkPointCP.m_qRotation.x, checkPointCP.m_qRotation.w);
+                    colliderGO.transform.localRotation = rotation * newConstructedQuat;
+                }
+                else colliderGO.transform.localRotation = rotation;
+
 
                 BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
                 newBoxCollider.size = new Vector3(checkPointCP.m_vRoadSize.z * multiplyXValue, checkPointCP.m_vRoadSize.y * multiplyYValue, checkPointCP.m_vRoadSize.x * 2.0f + m_vRoadOutlineSize.x * 2.0f);

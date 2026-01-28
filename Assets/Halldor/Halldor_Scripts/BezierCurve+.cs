@@ -12,6 +12,7 @@ namespace Bezier
         {
             public Vector3 m_vPosition;
             public Vector3 m_vTangent;
+            public Quaternion m_qRotation;
             public Vector3 m_vRoadSize = new Vector3(7.0f, 0.2f, 0.3f);
             public float m_fDistance;
             public bool m_bIsEdge;
@@ -196,6 +197,7 @@ namespace Bezier
                 m_fTotalDistance += CalculateDistance(LastPoint, m_closedPoint);
                 m_closedPoint.m_fDistance = m_fTotalDistance;
                 m_closedPoint.m_vRoadSize = LastPoint.m_vRoadSize;
+                m_closedPoint.m_qRotation = FirstPoint.m_qRotation;
             }
         }
 
