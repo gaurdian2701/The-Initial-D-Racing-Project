@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Bezier.BezierCurve;
 using static UnityEditor.FilePathAttribute;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
@@ -46,7 +47,7 @@ namespace ProceduralTracks
         [SerializeField] public GameObject m_gRailing_R;
         [SerializeField] public GameObject m_gRailing_L;
 
-
+        public float TrackSegmentLength => m_fTrackSegmentLength;
         #endregion
 
         protected override Mesh CreateMesh()
@@ -70,7 +71,7 @@ namespace ProceduralTracks
             AddRoadSegment(vertices, uvs, trackTriangles);
             GenerateTrackOutline(true, vertices, uvs, outlineTrackTriangles);
             GenerateTrackOutline(false, vertices, uvs, outlineTrackTriangles);
-            if(m_bEnableRailing) CreateRailingMesh();
+            if (m_bEnableRailing) CreateRailingMesh();
             GenerateFinishLine(vertices, uvs, FinishLineTriangles);
             GenerateEdgeBoxColliders();
             GenerateRaceCheckPoints();
@@ -241,7 +242,7 @@ namespace ProceduralTracks
                 Vector3 vUp;
                 Vector3 vForward;
 
-                if(m_bEnableRotationToRoad) // derive world-space axes from final rotation and scale by road sizes
+                if (m_bEnableRotationToRoad) // derive world-space axes from final rotation and scale by road sizes
                 {
                     Quaternion cpRotA = (ControlPointA != null) ? ControlPointA.m_qRotation : Quaternion.identity;
                     Quaternion cpRotB = (ControlPointB != null) ? ControlPointB.m_qRotation : Quaternion.identity;
@@ -471,7 +472,7 @@ namespace ProceduralTracks
 
                     if (ControlPointA != null && ControlPointA.m_bIsEdge && inGroup)
                     {
-                        if (currentGroup.points.Count > 1)  m_railingBarrierPosesList.Add(currentGroup);
+                        if (currentGroup.points.Count > 1) m_railingBarrierPosesList.Add(currentGroup);
 
                         currentGroup = null;
                         inGroup = false;
@@ -761,7 +762,7 @@ namespace ProceduralTracks
             const float multiplyXValue = 20.0f;
             const float multiplyYValue = 100.0f;
             BezierCurve bc = GetComponent<BezierCurve>();
-            for(int i = 0; i < bc.m_points.Count; ++i)
+            for (int i = 0; i < bc.m_points.Count; ++i)
             {
                 BezierCurve.ControlPoint cp = bc.m_points[i];
                 if (!cp.m_bIsEdge) continue;
@@ -775,7 +776,7 @@ namespace ProceduralTracks
                 colliderGO.transform.localRotation = rotation;
 
                 BoxCollider newBoxCollider = colliderGO.AddComponent<BoxCollider>();
-                newBoxCollider.size = new Vector3( cp.m_vRoadSize.z * multiplyXValue, cp.m_vRoadSize.y * multiplyYValue, cp.m_vRoadSize.x * 3.0f);
+                newBoxCollider.size = new Vector3(cp.m_vRoadSize.z * multiplyXValue, cp.m_vRoadSize.y * multiplyYValue, cp.m_vRoadSize.x * 3.0f);
                 newBoxCollider.isTrigger = true;
                 m_lEdgeBoxColliders.Add(colliderGO);
             }
@@ -902,7 +903,7 @@ namespace ProceduralTracks
             m_gFinishLineGameObject = finishLinePrefab;
         }
 
-        Vector3 GetRoadSizeBetween(ControlPoint a,ControlPoint b, float distance)
+        Vector3 GetRoadSizeBetween(ControlPoint a, ControlPoint b, float distance)
         {
             if (a == null || b == null) return a != null ? a.m_vRoadSize : Vector3.zero;
 
@@ -947,7 +948,7 @@ namespace ProceduralTracks
         protected void GenerateRaceCheckPoints()
         {
             const float multiplyXValue = 20.0f;
-            const float multiplyYValue = 100.0f;  
+            const float multiplyYValue = 100.0f;
             GameObject CheckPointsParent = new GameObject("CheckPoints");
             CheckPointsParent.transform.SetParent(transform, false);
 
@@ -973,7 +974,7 @@ namespace ProceduralTracks
                 newBoxCollider.isTrigger = true;
                 m_lRacingCheckPoints.Add(colliderGO);
             }
-            if(m_gFinishLineGameObject != null) m_lRacingCheckPoints.Add(m_gFinishLineGameObject);
+            if (m_gFinishLineGameObject != null) m_lRacingCheckPoints.Add(m_gFinishLineGameObject);
         }
     }
 }
