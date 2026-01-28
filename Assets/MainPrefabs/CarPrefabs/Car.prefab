@@ -220,8 +220,9 @@ MonoBehaviour:
   mgripDuringSidewaysMovement: 2
   mfrontWheelGripDuringDrift: 3
   mrearWheelGripDuringDrift: 1
-  mmaxSidewaysForceDuringDrift: 0
+  mfrontWheelAdditionalVelocityDuringDrift: 1.25
   mslideVelocityDampingConstant: 0.117
+  mdampingLimit: 3.4
   mdriftInitiated: 0
 --- !u!64 &7190821506759501900
 MeshCollider:
