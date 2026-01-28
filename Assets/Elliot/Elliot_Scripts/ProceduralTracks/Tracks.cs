@@ -172,6 +172,8 @@ namespace ProceduralTracks
 
             #endregion
 
+            m_railingBarrierPosesList.Clear();
+
             #region LeftRailing
             GameObject railing_L = new GameObject("Railing_L");
             railing_L.transform.SetParent(transform, false);
