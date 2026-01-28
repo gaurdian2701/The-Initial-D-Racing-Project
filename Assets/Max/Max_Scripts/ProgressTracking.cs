@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ProceduralTracks;
+using TMPro;
 using UnityEngine;
 
 public class ProgressTracking : MonoBehaviour
@@ -14,6 +15,10 @@ public class ProgressTracking : MonoBehaviour
 
     [SerializeField] private int numberOfLaps;
     [SerializeField] Leaderboard leaderboard;
+    [SerializeField] WinRace winRace;
+
+    [SerializeField] private TMP_Text lapPopupText;
+    [SerializeField] private Animator lapPopupAnimator;
     
     private Tracks tracks;
     
@@ -81,6 +86,11 @@ public class ProgressTracking : MonoBehaviour
                 {
                     EndRace(racer.racer);
                 }
+                else if (racer.isPlayer)
+                {
+                    lapPopupText.text = racer.lapsCompleted + "/" + numberOfLaps + " Laps";
+                    lapPopupAnimator.SetTrigger("ShowLap");
+                }
 
                 racer.checkpointsCompleted = 0;
                 
@@ -93,6 +103,8 @@ public class ProgressTracking : MonoBehaviour
     private void EndRace(RacerData winner)
     {
         Debug.Log("Race ended, winner is: " + winner.racerName);
+        
+        winRace.Win(winner);
     }
 
     private void UnbanIdAtEveryCheckpoint(int idToUnban)
@@ -157,4 +169,5 @@ public class RaceProgress
     public int checkpointsCompleted;
     public int lapsCompleted;
     public int pointScore;
+    public bool isPlayer;
 }

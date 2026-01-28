@@ -42,7 +42,7 @@ public class RacerInitializer : MonoBehaviour
         RaceProgress raceProgress = new RaceProgress();
 
         raceProgress.racer = _racerDataHolder.selectedRacer;
-        
+        raceProgress.isPlayer = true;
         ProgressTracking.Instance.racersProgress.Add(raceProgress);
             
         if (Camera.main != null)
