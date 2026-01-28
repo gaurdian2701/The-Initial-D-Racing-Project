@@ -203,8 +203,8 @@ MonoBehaviour:
   mshowDebug: 0
   misAIController: 0
   mcarRigidBody: {fileID: 429141612883122382}
-  menginePower: 4
-  mbrakingPower: 1
+  menginePower: 2
+  mbrakingPower: 3
   mairDragConstant: 0.003
   mwheelBaseLength: 2.72
   mturnRadius: 11.5
@@ -215,10 +215,10 @@ MonoBehaviour:
   mrearRightWheelObject: {fileID: 3204218200158260358}
   mgripDuringLateralMovement: 1
   mgripDuringSidewaysMovement: 2
-  mfrontWheelGripDuringDrift: 3.5
+  mfrontWheelGripDuringDrift: 3
   mrearWheelGripDuringDrift: 1
-  mmaxSidewaysForceDuringDrift: 10
-  mslideVelocityDampingConstant: 0.2
+  mmaxSidewaysForceDuringDrift: 0
+  mslideVelocityDampingConstant: 0.117
 --- !u!64 &7190821506759501900
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OutOfBoundsRetriever
   _tracedPath: {fileID: 5202799554182429005}
   _car: {fileID: 4079921147483252166}
-  _amountOfCheckpoints: 3
+  _amountOfCheckpoints: 4
   _checkpointInterval: 0.5
   _heightOffset: 8
   _speed: 0.3

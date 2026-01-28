@@ -16,7 +16,7 @@ namespace Car
 
         [Header("Car Forces Properties")] 
         public float menginePower = 4.0f;
-        [Range(0.1f, 3.0f)] public float mbrakingPower = 1.0f;
+        [Range(0.1f, 6.0f)] public float mbrakingPower = 1.0f;
         public float mairDragConstant = 0.003f;
 
         [Header("Car Steering Properties - Default values are from Ford Mustang 5th gen")] 
