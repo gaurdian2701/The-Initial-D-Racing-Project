@@ -189,6 +189,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 64b49ccf-f78c-4250-8b33-bc6d6f1e9f2e
     m_ActionName: 'Player/Steer[/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7968753593607590517}
+        m_TargetAssemblyTypeName: Car.ArcadeyCarController, Assembly-CSharp
+        m_MethodName: ReceiveActivateUnstuckInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f29b2453-4fbf-44bb-9829-e89bb98df817
+    m_ActionName: 'Player/Detopple[/Keyboard/q,/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -226,6 +242,7 @@ MonoBehaviour:
   mfrontWheelAdditionalVelocityDuringDrift: 1.25
   mslideVelocityDampingConstant: 0.117
   mdampingLimit: 3.4
+  mdetopplingForce: 13.5
   mdriftInitiated: 0
 --- !u!64 &7190821506759501900
 MeshCollider:
