@@ -29,6 +29,8 @@ public class ProgressTracking : MonoBehaviour
 
     [SerializeField] private AudioClip lapSound;
     [SerializeField] private AudioClip winSound;
+
+    private bool raceOver = false;
     
     void Start()
     {
@@ -106,6 +108,8 @@ public class ProgressTracking : MonoBehaviour
 
     private void EndRace(RacerData winner)
     {
+        if (raceOver) return;
+        raceOver = true;
         Debug.Log("Race ended, winner is: " + winner.racerName);
         if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(winSound,1f);
         if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(lapSound,1f);
