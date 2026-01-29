@@ -377,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f703472b6361ac4fb436be461197236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  racerData: {fileID: 0}
 --- !u!1 &5031699329016178386
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +848,10 @@ PrefabInstance:
       propertyPath: mwheelMesh
       value: 
       objectReference: {fileID: 1460390713328422909}
+    - target: {fileID: 497062886866506206, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
+      propertyPath: mslideVelocityDampingConstant
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1937632387361376625, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
       propertyPath: mwheelMesh
       value: 
@@ -905,7 +910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3456872866939603934, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
       propertyPath: m_Name
-      value: AI_Car Moenisegg
+      value: AI_Car MoeniseggJoe
       objectReference: {fileID: 0}
     - target: {fileID: 3462825105786300956, guid: fe8dafcd5b214514a8f327a07f419c66, type: 3}
       propertyPath: m_LocalPosition.x

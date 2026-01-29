@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4638510866472822328}
   - component: {fileID: 5975127851586427458}
   - component: {fileID: 2546507800290649646}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Prefab_UpAndDownRoad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,17 +107,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralTracks.Tracks
   m_fTrackSegmentLength: 0.27
-  m_vRoadSize: {x: 4, y: 0.1, z: 0.1}
   m_vRoadOutlineSize: {x: 0.1, y: 0.15}
   m_vFinishLineSize: {x: 1, y: 0.2, z: 0.3}
+  m_bEnableRotationToRoad: 0
   m_bEnableRailing: 1
   m_vRailingPoleSize: {x: 0.05, y: 1}
   m_vRailingBarrierSize: {x: 0.1, y: 0.15}
   m_fRailingAngleStep: 5
   tangentThreshold: {x: 1, y: 0.01, z: 1}
+  m_mRailingPolesMAT: {fileID: 0}
+  m_mRailingBarrierMAT: {fileID: 0}
   m_lEdgeBoxColliders: []
+  m_lRacingCheckPoints: []
   m_gFinishLinePrefab: {fileID: 6957306044731379678, guid: cdc17c3e64c666b42905693f16555f89, type: 3}
   m_gFinishLineGameObject: {fileID: 0}
+  m_gRailing_R: {fileID: 0}
+  m_gRailing_L: {fileID: 0}
 --- !u!64 &5975127851586427458
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -155,82 +160,122 @@ MonoBehaviour:
   m_points:
   - m_vPosition: {x: 0, y: 0, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 0
     m_bIsEdge: 0
   - m_vPosition: {x: 50, y: 0, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 50
     m_bIsEdge: 0
   - m_vPosition: {x: 150, y: 25, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 153.10449
     m_bIsEdge: 0
   - m_vPosition: {x: 175, y: 25, z: 0}
     m_vTangent: {x: 25, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 178.10449
     m_bIsEdge: 0
   - m_vPosition: {x: 200, y: 25, z: -25}
     m_vTangent: {x: 0, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 217.7485
     m_bIsEdge: 0
   - m_vPosition: {x: 200, y: 25, z: -50}
     m_vTangent: {x: 0, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 242.7485
     m_bIsEdge: 0
   - m_vPosition: {x: 175, y: 25, z: -75}
     m_vTangent: {x: -25, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 282.39252
     m_bIsEdge: 0
   - m_vPosition: {x: 150, y: 25, z: -75}
     m_vTangent: {x: -5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 307.39252
     m_bIsEdge: 0
   - m_vPosition: {x: 100, y: 0, z: -75}
     m_vTangent: {x: -5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 363.4318
     m_bIsEdge: 0
   - m_vPosition: {x: 0, y: 0, z: -75}
     m_vTangent: {x: -5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 463.4318
     m_bIsEdge: 0
   - m_vPosition: {x: -25, y: 0, z: -75}
     m_vTangent: {x: -5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 488.4318
     m_bIsEdge: 0
   - m_vPosition: {x: -125, y: 25, z: -75}
     m_vTangent: {x: -5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 591.53625
     m_bIsEdge: 0
   - m_vPosition: {x: -150, y: 25, z: -75}
     m_vTangent: {x: -25, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 616.53625
     m_bIsEdge: 0
   - m_vPosition: {x: -175, y: 25, z: -50}
     m_vTangent: {x: 0, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 656.18024
     m_bIsEdge: 0
   - m_vPosition: {x: -175, y: 25, z: -25}
     m_vTangent: {x: 0, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 681.18024
     m_bIsEdge: 0
   - m_vPosition: {x: -150, y: 25, z: 0}
     m_vTangent: {x: 25, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 720.8242
     m_bIsEdge: 0
   - m_vPosition: {x: -125, y: 25, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 745.8242
     m_bIsEdge: 0
   - m_vPosition: {x: -75, y: 0, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 801.86346
     m_bIsEdge: 0
   - m_vPosition: {x: -25, y: 0, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 851.86346
     m_bIsEdge: 0
   - m_vPosition: {x: 0, y: 0, z: 0}
     m_vTangent: {x: 5, y: 0, z: 0}
+    m_qRotation: {x: 0, y: 0, z: 0, w: 0}
+    m_vRoadSize: {x: 7, y: 0.2, z: 0.3}
     m_fDistance: 876.86346
     m_bIsEdge: 0
   m_bIsClosed: 0

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4771143ebaa149c4cbb016859789d04c, type: 3}
+  m_Name: Data_Tracks
+  m_EditorClassIdentifier: Assembly-CSharp::TrackAiData
+  trackAiData:
+  - _track: {fileID: 4895590929949378045, guid: f0d64cc459021aa4780b357add3eba4e, type: 3}
+    MinDirectionBuffer: 200
+    MaxDirectionBuffer: 100
+    angle1Max: 20
+    angle1AiTargetRadius: 20
+    angle2Max: 15
+    angle2AiTargetRadius: 11
+    angle3Max: 15
+    angle3AiTargetRadius: 11
+    angle4AiTargetRadius: 11
+    obstacleRangeForBreaking: 10
+    sharpTurnBreakVelocityLimit: 6
+    sharpTurnDetectionRange: 45
+  - _track: {fileID: 4050641770888837992, guid: d23e4c82fb87b134e81793a5d763befc, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 20
+    angle1AiTargetRadius: 60
+    angle2Max: 50
+    angle2AiTargetRadius: 30
+    angle3Max: 90
+    angle3AiTargetRadius: 25
+    angle4AiTargetRadius: 15
+    obstacleRangeForBreaking: 10
+    sharpTurnBreakVelocityLimit: 40
+    sharpTurnDetectionRange: 140
+  - _track: {fileID: 669322141652963115, guid: 4765a9a5e2da8a24188c28e75fd487c5, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 20
+    angle1AiTargetRadius: 3
+    angle2Max: 40
+    angle2AiTargetRadius: 3
+    angle3Max: 60
+    angle3AiTargetRadius: 3
+    angle4AiTargetRadius: 3
+    obstacleRangeForBreaking: 5
+    sharpTurnBreakVelocityLimit: 6
+    sharpTurnDetectionRange: 50
+  - _track: {fileID: 5953881412544150830, guid: 2a5030ebe10033b4cb334f07f6cd4b60, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 20
+    angle1AiTargetRadius: 10
+    angle2Max: 40
+    angle2AiTargetRadius: 10
+    angle3Max: 60
+    angle3AiTargetRadius: 10
+    angle4AiTargetRadius: 10
+    obstacleRangeForBreaking: 5
+    sharpTurnBreakVelocityLimit: 5
+    sharpTurnDetectionRange: 100

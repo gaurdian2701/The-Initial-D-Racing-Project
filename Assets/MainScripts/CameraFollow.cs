@@ -66,6 +66,10 @@ public class CameraFollow : MonoBehaviour
 
     private void UpdateFOV()
     {
+        if (mfollowTargetInterface == null)
+        {
+            return;
+        }
         float targetVelocity =  mfollowTargetInterface.GetVelocity();
         float evaluatedFOV = mdefaultFOV;
         
@@ -77,13 +81,5 @@ public class CameraFollow : MonoBehaviour
         }
         
         mmainCamera.fieldOfView = Mathf.Lerp(mmainCamera.fieldOfView, evaluatedFOV, mFOVChangeSensitivity * Time.deltaTime);
-
-        if (mshowDebug)
-        {
-            Debug.Log($"TARGET VELOCITY: {targetVelocity}");
-            Debug.Log($"CALCULATED FOV: {evaluatedFOV}");
-            Debug.Log("VALUE ON CURVE: " + (1 - 1 / targetVelocity));
-            Debug.Log("EVALUATED CURVE VALUE: " + mfovCurve.Evaluate(1 - 1 / targetVelocity));
-        }
     }
 }

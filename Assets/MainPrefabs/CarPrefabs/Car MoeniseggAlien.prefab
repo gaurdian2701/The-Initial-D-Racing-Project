@@ -824,7 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968753593607590517, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mslideVelocityDampingConstant
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -19,6 +19,8 @@ public class RacerSelect : MonoBehaviour
 
     private CarPreview _preview;
 
+    [SerializeField] private AudioClip buttonSound;
+
     private void Start()
     {
         _racerDataHolder = RacerDataHolder.Instance;
@@ -62,6 +64,7 @@ public class RacerSelect : MonoBehaviour
         //small safety check just in case
         if (_racerDataHolder.selectedRacer != null)
         {
+            if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(buttonSound,0.8f);
             SceneManager.LoadScene(gameSceneName);
         }
     }

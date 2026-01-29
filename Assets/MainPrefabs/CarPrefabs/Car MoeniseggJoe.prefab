@@ -720,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 2161032458448389623}
     - target: {fileID: 4079921147483252166, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: m_Name
-      value: Car Moenisegg
+      value: Car MoeniseggJoe
       objectReference: {fileID: 0}
     - target: {fileID: 4757642567305701998, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: m_LocalScale.x
@@ -824,7 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968753593607590517, guid: 7cde4f7b854187c40acde1863820ef3d, type: 3}
       propertyPath: mslideVelocityDampingConstant
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
