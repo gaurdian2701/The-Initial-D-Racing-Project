@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4771143ebaa149c4cbb016859789d04c, type: 3}
+  m_Name: Data_Tracks
+  m_EditorClassIdentifier: Assembly-CSharp::TrackAiData
+  trackAiData:
+  - _track: {fileID: 669322141652963115, guid: 6633cbb9eaa8ed54687247488e30a593, type: 3}
+    MinDirectionBuffer: 50
+    MaxDirectionBuffer: 25

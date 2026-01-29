@@ -62,7 +62,7 @@ namespace Car
         {
             base.Update();
          
-            print(GetVelocity());
+            //print(GetVelocity());
             
             UpdateDirection();
             
@@ -76,14 +76,12 @@ namespace Car
         private void UpdateDirection()
         {
             _dirForward = transform.forward;
-            //Debug.DrawLine(transform.position, transform.position + _dirForward*1000.0f, Color.red);
 
             if (!targetPoint) return;
             
             _dirToTarget = targetPoint.transform.position - transform.position;
             _dirToTarget.y = 0.0f;
             _dirToTarget.Normalize();
-            //Debug.DrawLine(transform.position, transform.position + _dirToTarget*1000.0f, Color.blue);
         }
         
         private void UpdateSteering(float crossProduct)

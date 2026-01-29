@@ -6,23 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="9d4c2c55-8d3c-47c6-ae34-123373c26c57" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Initial-D-Racing-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scenes/Kiran_MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggAlien.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggAlien.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggHog.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggHog.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggJoe.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainPrefabs/CarPrefabs/Car MoeniseggJoe.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainScripts/CameraFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainScripts/CameraFollow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GameScenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameScenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainPrefabs/RoadExamples_Prefabs/Prefab_SimpleRoudAboutRoad.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainPrefabs/RoadExamples_Prefabs/Prefab_SimpleRoudAboutRoad.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarControllerOpponentAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainScripts/Car Controllers/CarControllerOpponentAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mohammed/Mohammed_Scenes/Mohammed_MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mohammed/Mohammed_Scenes/Mohammed_MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TrackAiManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TrackAiManager.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/493b407efcb64dddad59f28bb0b831d3212400/5e/8239cb67/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Kiran/Kiran_Scripts/ArcadeyCarController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@02433b2481ab/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -34,43 +38,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "CarPhysics-Kiran",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.2f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="E:\Unity\6000.3.2f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\gaurd\Desktop\kiran_cs\Projects\Unity\The-Initial-D-Racing-Project -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\gaurd\Desktop\kiran_cs\Projects\Unity\The-Initial-D-Racing-Project" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.2f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="E:\Unity\6000.3.2f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\gaurd\Desktop\kiran_cs\Projects\Unity\The-Initial-D-Racing-Project -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\gaurd\Desktop\kiran_cs\Projects\Unity\The-Initial-D-Racing-Project" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -84,21 +81,21 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="38700">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="38700" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to Device" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
@@ -126,6 +123,7 @@
       <workItem from="1769519532327" duration="13860000" />
       <workItem from="1769590899320" duration="1000" />
       <workItem from="1769602391692" duration="2957000" />
+      <workItem from="1769676954812" duration="5293000" />
     </task>
     <servers />
   </component>
