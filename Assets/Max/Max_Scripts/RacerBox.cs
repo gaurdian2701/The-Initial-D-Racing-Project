@@ -11,6 +11,8 @@ public class RacerBox : MonoBehaviour
     
     [HideInInspector] public RacerData myRacer;
     private RacerSelect _racerSelector;
+
+    [SerializeField] private AudioClip onClickSound;
     
     //acquire and set relevant values when spawned in RacerSelect
     public void Initialize(RacerData racerData, RacerSelect racerSelect)
@@ -23,6 +25,7 @@ public class RacerBox : MonoBehaviour
 
     public void SelectRacer()
     {
+        if (SFXManager.Instance!=null) SFXManager.Instance.PlaySFXClip(onClickSound,1f);
         //this will call deselect racer so its important it happens first here
         _racerSelector.NewRacerSelected(myRacer);
         

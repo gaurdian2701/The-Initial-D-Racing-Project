@@ -26,6 +26,9 @@ public class ProgressTracking : MonoBehaviour
     public List<RaceProgress>  racersProgress = new List<RaceProgress>();
     
     private List<Checkpoint> checkpoints = new List<Checkpoint>();
+
+    [SerializeField] private AudioClip lapSound;
+    [SerializeField] private AudioClip winSound;
     
     void Start()
     {
@@ -90,6 +93,7 @@ public class ProgressTracking : MonoBehaviour
                 {
                     lapPopupText.text = racer.lapsCompleted + "/" + numberOfLaps + " Laps";
                     lapPopupAnimator.SetTrigger("ShowLap");
+                    if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(lapSound,1f);
                 }
 
                 racer.checkpointsCompleted = 0;
@@ -103,7 +107,8 @@ public class ProgressTracking : MonoBehaviour
     private void EndRace(RacerData winner)
     {
         Debug.Log("Race ended, winner is: " + winner.racerName);
-        
+        if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(winSound,1f);
+        if (SFXManager.Instance!=null)SFXManager.Instance.PlaySFXClip(lapSound,1f);
         winRace.Win(winner);
     }
 
