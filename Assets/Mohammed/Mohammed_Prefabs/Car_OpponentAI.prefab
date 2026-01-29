@@ -97,18 +97,18 @@ MonoBehaviour:
   mgripDuringSidewaysMovement: 2
   mfrontWheelGripDuringDrift: 3.5
   mrearWheelGripDuringDrift: 1.25
-  mmaxSidewaysForceDuringDrift: 10
+  mfrontWheelAdditionalVelocityDuringDrift: 5
   mslideVelocityDampingConstant: 0.2
+  mdampingLimit: 5
+  mforceForStuckRecovery: 10
+  mdriftInitiated: 0
   turnBreakBuffer: 0.41
   turnBreakVelocityLimit: 20
-  sharpTurnBreakVelocityLimit: 40
-  sharpTurnDetectionRange: 100
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  originOffsetForBreaking: 0.8
+  originOffsetForBreaking: 1.5
   halfExtentsForBreaking: {x: 0.5, y: 0.33, z: 1}
-  obstacleRangeForBreaking: 22
   obstacleHitRange: 2
 --- !u!64 &3375004816146231203
 MeshCollider:

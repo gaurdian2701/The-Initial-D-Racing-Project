@@ -42,6 +42,8 @@ namespace Car
         protected float mrightWheelSteerAngle = 0.0f;
         protected float mleftWheelSteerAngle = 0.0f;
 
+        protected RaycastHit m_isOnGroundHit;
+
         private Vector3 mdragVector = Vector3.zero;
         
         void Awake()
@@ -123,7 +125,8 @@ namespace Car
             return mfrontLeftWheel.IsGrounded() ||
                    mfrontRightWheel.IsGrounded() ||
                    mrearLeftWheel.IsGrounded() ||
-                   mrearRightWheel.IsGrounded();
+                   mrearRightWheel.IsGrounded() ||
+                   Physics.Raycast(mcarRigidBody.transform.position, Vector3.down, 3.0f, LayerMask.GetMask("Track"));
         }
         
         //Move car forwards or backwards
@@ -180,6 +183,7 @@ namespace Car
             {
                 Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
             }
+
         }
     }
 }

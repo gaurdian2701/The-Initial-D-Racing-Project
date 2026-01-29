@@ -36,8 +36,8 @@ MonoBehaviour:
     angle3Max: 90
     angle3AiTargetRadius: 25
     angle4AiTargetRadius: 15
-    obstacleRangeForBreaking: 10
-    sharpTurnBreakVelocityLimit: 40
+    obstacleRangeForBreaking: 15
+    sharpTurnBreakVelocityLimit: 36
     sharpTurnDetectionRange: 140
   - _track: {fileID: 669322141652963115, guid: 4765a9a5e2da8a24188c28e75fd487c5, type: 3}
     MinDirectionBuffer: 150
@@ -56,12 +56,51 @@ MonoBehaviour:
     MinDirectionBuffer: 150
     MaxDirectionBuffer: 100
     angle1Max: 20
-    angle1AiTargetRadius: 10
-    angle2Max: 40
-    angle2AiTargetRadius: 10
-    angle3Max: 60
-    angle3AiTargetRadius: 10
-    angle4AiTargetRadius: 10
-    obstacleRangeForBreaking: 5
-    sharpTurnBreakVelocityLimit: 5
-    sharpTurnDetectionRange: 100
+    angle1AiTargetRadius: 15
+    angle2Max: 50
+    angle2AiTargetRadius: 15
+    angle3Max: 90
+    angle3AiTargetRadius: 15
+    angle4AiTargetRadius: 15
+    obstacleRangeForBreaking: 13
+    sharpTurnBreakVelocityLimit: 25
+    sharpTurnDetectionRange: 55
+  - _track: {fileID: 3566591459574505164, guid: 22f373302b1e3a24da01c95fc4fb3136, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 30
+    angle1AiTargetRadius: 70
+    angle2Max: 50
+    angle2AiTargetRadius: 15
+    angle3Max: 90
+    angle3AiTargetRadius: 15
+    angle4AiTargetRadius: 15
+    obstacleRangeForBreaking: 6
+    sharpTurnBreakVelocityLimit: 20
+    sharpTurnDetectionRange: 150
+  - _track: {fileID: 3911545333132220581, guid: 3491ca05fcf5e26419a4b403eaea1c82, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 20
+    angle1AiTargetRadius: 15
+    angle2Max: 50
+    angle2AiTargetRadius: 15
+    angle3Max: 90
+    angle3AiTargetRadius: 15
+    angle4AiTargetRadius: 15
+    obstacleRangeForBreaking: 13
+    sharpTurnBreakVelocityLimit: 25
+    sharpTurnDetectionRange: 55
+  - _track: {fileID: 2988155606931769898, guid: 6084b08074282ac43878fb2d9342924e, type: 3}
+    MinDirectionBuffer: 150
+    MaxDirectionBuffer: 100
+    angle1Max: 0
+    angle1AiTargetRadius: 40
+    angle2Max: 0
+    angle2AiTargetRadius: 40
+    angle3Max: 0
+    angle3AiTargetRadius: 40
+    angle4AiTargetRadius: 40
+    obstacleRangeForBreaking: 13
+    sharpTurnBreakVelocityLimit: 70
+    sharpTurnDetectionRange: 200

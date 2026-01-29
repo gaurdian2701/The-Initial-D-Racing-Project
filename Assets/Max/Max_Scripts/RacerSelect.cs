@@ -5,16 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class RacerSelect : MonoBehaviour
 {
+    [SerializeField] private GameObject LevelSelection;
+    [SerializeField] private GameObject RacerSelection;
     [SerializeField] private GameObject racerGrid;
+    [SerializeField] private GameObject levelGrid;
     [SerializeField] private GameObject racerBoxPrefab;
+    [SerializeField] private GameObject levelBoxPrefab;
+    [SerializeField] private GameObject nextButton;
     [SerializeField] private GameObject startButton;
     
-    //probs want to swap this to scene build index later maybe
-    [SerializeField] private string gameSceneName;
+    private string gameSceneName;
     
     public RacerList allRacers;
+    public LevelList allLevels;
     
     [HideInInspector] public List<RacerBox> spawnedRacerBoxes = new List<RacerBox>();
+    [HideInInspector] public List<LevelBox> spawnedLevelBoxes = new List<LevelBox>();
     private RacerDataHolder _racerDataHolder;
 
     private CarPreview _preview;
@@ -26,7 +32,11 @@ public class RacerSelect : MonoBehaviour
         _racerDataHolder = RacerDataHolder.Instance;
         
         startButton.SetActive(false);
+        nextButton.SetActive(false);
 
+        RacerSelection.SetActive(true);
+        LevelSelection.SetActive(false);
+        
         _preview = FindAnyObjectByType<CarPreview>();
         //spawn the actual ui elements for the racers
         foreach (var racerData in allRacers.allRacers)
@@ -35,13 +45,19 @@ public class RacerSelect : MonoBehaviour
             newRacerBox.Initialize(racerData, this);
             spawnedRacerBoxes.Add(newRacerBox);
         }
+        foreach (var level in allLevels.allLevels)
+        {
+            LevelBox newLevelBox = Instantiate(levelBoxPrefab, levelGrid.transform).GetComponent<LevelBox>();
+            newLevelBox.Initialize(level, this);
+            spawnedLevelBoxes.Add(newLevelBox);
+        }
     }
     
     public void NewRacerSelected(RacerData selectedRacer)
     {
-        if (!startButton.activeInHierarchy)
+        if (!nextButton.activeInHierarchy)
         {
-            startButton.SetActive(true);
+            nextButton.SetActive(true);
         }
         
         DeselectAllRacers();
@@ -50,6 +66,18 @@ public class RacerSelect : MonoBehaviour
         
         _racerDataHolder.OnNewRacerSelected(selectedRacer, allRacers);
     }
+    
+    public void NewLevelSelected(LevelData selectedLevel)
+    {
+        if (!startButton.activeInHierarchy)
+        {
+            startButton.SetActive(true);
+        }
+        
+        gameSceneName = selectedLevel.levelSceneName;
+        
+        DeselectAllLevels();
+    }
 
     private void DeselectAllRacers()
     {
@@ -57,6 +85,20 @@ public class RacerSelect : MonoBehaviour
         {
           racerBox.DeselectRacer();  
         }
+    }
+    
+    private void DeselectAllLevels()
+    {
+        foreach (var LevelBox in spawnedLevelBoxes)
+        {
+            LevelBox.DeselectLevel();
+        }
+    }
+
+    public void GoToLevelSelection()
+    {
+        RacerSelection.SetActive(false);
+        LevelSelection.SetActive(true);
     }
     
     public void StartGame()

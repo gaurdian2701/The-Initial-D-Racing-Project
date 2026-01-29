@@ -103,7 +103,7 @@ namespace Car
             
             if (didHitRailing)
             {
-                mthrottleInput = -0.1f;
+                mthrottleInput = -0.25f;
                 msteerInput *= -1;
             }
             else
