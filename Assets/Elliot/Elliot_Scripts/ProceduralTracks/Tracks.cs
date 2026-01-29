@@ -92,6 +92,7 @@ namespace ProceduralTracks
             {
                 GetComponent<MeshCollider>().sharedMesh = mesh;
             }
+            this.gameObject.layer = LayerMask.NameToLayer("Track");
             return mesh;
         }
 
