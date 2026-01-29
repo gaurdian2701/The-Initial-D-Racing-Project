@@ -9,8 +9,11 @@ public class DriftSmoke : MonoBehaviour
     [SerializeField] private ParticleSystem _driftSmokeB;
     [SerializeField] private Rigidbody _carRigidBody;
 
+    private CarAudio _carAudio;
+    
     private void Start()
     {
+        _carAudio = GetComponent<CarAudio>();
         _carController.onDrift += EnableDriftSmoke;
         _driftSmokeA.Play();
         _driftSmokeB.Play();
@@ -23,6 +26,7 @@ public class DriftSmoke : MonoBehaviour
         {
             _driftSmokeA.enableEmission = true;
             _driftSmokeB.enableEmission = true;
+            _carAudio.EnableDriftAudio();
         }
         else
         {
@@ -34,5 +38,6 @@ public class DriftSmoke : MonoBehaviour
     {
         _driftSmokeA.enableEmission = false;
         _driftSmokeB.enableEmission = false;
+        _carAudio.DisableDriftAudio();
     }
 }

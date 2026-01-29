@@ -9,6 +9,9 @@ public class WinRace : MonoBehaviour
     [SerializeField] private Image winnerImage;
     private Animator _animator;
     [SerializeField] private GameObject defaultUI;
+    
+    
+    
     private void Start()
     {
         _animator = GetComponent<Animator>();
