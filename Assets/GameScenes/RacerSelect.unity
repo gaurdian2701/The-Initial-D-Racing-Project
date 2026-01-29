@@ -382,6 +382,7 @@ MonoBehaviour:
   gameSceneName: GameScene
   allRacers: {fileID: 11400000, guid: aaa1ff14442eee5408dbc04288847374, type: 2}
   spawnedRacerBoxes: []
+  buttonSound: {fileID: 8300000, guid: 5eff7aad8826ea040b97b731b56fdd8f, type: 3}
 --- !u!1 &544584875
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,52 +596,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663591277}
   m_CullTransparentMesh: 1
---- !u!1 &935034963
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 935034964}
-  - component: {fileID: 935034965}
-  m_Layer: 0
-  m_Name: RacerData
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &935034964
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935034963}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46565, y: 0, z: 1.85036}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &935034965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935034963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0ac0aa54a13084ba3e2cdc25ddc851, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RacerDataHolder
-  selectedRacer: {fileID: 0}
-  availableRacers: []
 --- !u!1 &972162071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,5 +1417,4 @@ SceneRoots:
   - {fileID: 1272561416}
   - {fileID: 1952443483}
   - {fileID: 392357818}
-  - {fileID: 935034964}
   - {fileID: 1090807077}

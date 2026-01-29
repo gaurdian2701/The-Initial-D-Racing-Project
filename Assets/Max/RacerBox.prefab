@@ -228,6 +228,7 @@ MonoBehaviour:
   selectedBorder: {fileID: 7654175626012789420}
   nameBg: {fileID: 630138721348765283}
   myRacer: {fileID: 0}
+  onClickSound: {fileID: 8300000, guid: 7d8954d69b63fb6429948ed61fa46a96, type: 3}
 --- !u!1 &7654175626012789420
 GameObject:
   m_ObjectHideFlags: 0
