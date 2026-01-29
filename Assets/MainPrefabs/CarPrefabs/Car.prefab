@@ -242,7 +242,7 @@ MonoBehaviour:
   mfrontWheelAdditionalVelocityDuringDrift: 1.25
   mslideVelocityDampingConstant: 0.117
   mdampingLimit: 3.4
-  mforceForStuckRecovery: 13.5
+  mforceForStuckRecovery: 20
   mdriftInitiated: 0
 --- !u!64 &7190821506759501900
 MeshCollider:
