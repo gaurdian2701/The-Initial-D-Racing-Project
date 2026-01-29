@@ -107,7 +107,7 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  originOffsetForBreaking: 0.8
+  originOffsetForBreaking: 1.5
   halfExtentsForBreaking: {x: 0.5, y: 0.33, z: 1}
   obstacleHitRange: 2
 --- !u!64 &3375004816146231203
