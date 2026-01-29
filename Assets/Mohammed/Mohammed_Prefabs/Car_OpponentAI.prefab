@@ -100,6 +100,7 @@ MonoBehaviour:
   mfrontWheelAdditionalVelocityDuringDrift: 5
   mslideVelocityDampingConstant: 0.2
   mdampingLimit: 5
+  mforceForStuckRecovery: 10
   mdriftInitiated: 0
   turnBreakBuffer: 0.41
   turnBreakVelocityLimit: 20
@@ -107,7 +108,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   originOffsetForBreaking: 0.8
-  halfExtentsForBreaking: {x: 0.5, y: 0.2, z: 1}
+  halfExtentsForBreaking: {x: 0.5, y: 0.33, z: 1}
   obstacleHitRange: 2
 --- !u!64 &3375004816146231203
 MeshCollider:

@@ -56,12 +56,12 @@ MonoBehaviour:
     MinDirectionBuffer: 150
     MaxDirectionBuffer: 100
     angle1Max: 20
-    angle1AiTargetRadius: 35
-    angle2Max: 40
-    angle2AiTargetRadius: 20
-    angle3Max: 60
-    angle3AiTargetRadius: 25
+    angle1AiTargetRadius: 15
+    angle2Max: 50
+    angle2AiTargetRadius: 15
+    angle3Max: 90
+    angle3AiTargetRadius: 15
     angle4AiTargetRadius: 15
-    obstacleRangeForBreaking: 15
+    obstacleRangeForBreaking: 13
     sharpTurnBreakVelocityLimit: 25
-    sharpTurnDetectionRange: 80
+    sharpTurnDetectionRange: 55
