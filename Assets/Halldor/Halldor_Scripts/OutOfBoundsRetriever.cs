@@ -78,6 +78,7 @@ public class OutOfBoundsRetriever : MonoBehaviour
     private void ResetRotation()
     {
         _car.transform.forward = _trackBezierCurve.GetForwardAtDistance(_tracedPath.LastPoint.m_vPosition);
+        //_car.transform.rotation = Quaternion.Euler(0f, _car.transform.rotation.eulerAngles.y, 0f);
     }
 
     private void AddCheckpoint()
