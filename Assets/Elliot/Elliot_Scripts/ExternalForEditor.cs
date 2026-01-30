@@ -1,20 +1,12 @@
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
 
 namespace ExternalForInspector
 {
     //<Summary>
     // Makes selected variables show in inspector only if a bool is true
-    public class ShowIfAttribute : PropertyAttribute
-    {
-        public string conditionalField;
-
-        public ShowIfAttribute(string conditionalField)
-        {
-            this.conditionalField = conditionalField;
-        }
-    }
-
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfDrawer : PropertyDrawer
     {
@@ -45,3 +37,4 @@ namespace ExternalForInspector
         }
     }
 }
+#endif
