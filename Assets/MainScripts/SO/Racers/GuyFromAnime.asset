@@ -21,5 +21,5 @@ MonoBehaviour:
   racerColor: {r: 0.2179601, g: 0.3472453, b: 0.5849056, a: 0}
   racerStats:
     enginePower: 4.36
-    brakingPower: 1.108
-    turnRadius: 14.4
+    brakingPower: 0.926
+    turnRadius: 18

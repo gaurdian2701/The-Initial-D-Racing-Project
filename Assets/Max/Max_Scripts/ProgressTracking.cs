@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using ProceduralTracks;
 using TMPro;
@@ -34,7 +35,18 @@ public class ProgressTracking : MonoBehaviour
     
     void Start()
     {
-        tracks = FindAnyObjectByType<Tracks>();
+        StartCoroutine(DelayedStart());
+    }
+    
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Init();
+    }
+    
+    void Init()
+    {
+        tracks = FindFirstObjectByType<Tracks>();
 
         int i = 0;
         foreach (var checkpoint in tracks.m_lRacingCheckPoints)
@@ -126,7 +138,6 @@ public class ProgressTracking : MonoBehaviour
 
     public void UpdateLeaderboard()
     {
-        Debug.Log("UpdateLeaderboard");
         foreach (var racer in racersProgress)
         {
             racer.pointScore = racer.checkpointsCompleted + racer.lapsCompleted * 100;

@@ -171,19 +171,19 @@ namespace Car
             mfrontRightWheel.SteerWheel(mrightWheelSteerAngle);
         }
         
-        void OnDrawGizmos()
-        {
-            Gizmos.color = Color.white;
-            if (mfrontLeftWheel != null)
-            {
-                Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
-            }
-
-            if (mfrontRightWheel != null)
-            {
-                Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
-            }
-
-        }
+        // void OnDrawGizmos()
+        // {
+        //     Gizmos.color = Color.white;
+        //     if (mfrontLeftWheel != null)
+        //     {
+        //         Handles.Label(mfrontLeftWheel.GetTransform().position, "Steer angle: " + mleftWheelSteerAngle);
+        //     }
+        //
+        //     if (mfrontRightWheel != null)
+        //     {
+        //         Handles.Label(mfrontRightWheel.GetTransform().position, "Steer angle: " + mrightWheelSteerAngle);
+        //     }
+        //
+        // }
     }
 }

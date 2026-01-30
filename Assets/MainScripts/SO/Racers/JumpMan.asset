@@ -20,6 +20,6 @@ MonoBehaviour:
   carAIPrefab: {fileID: 7275421467321727425, guid: a3ff08a24add7b847bf0f3bb28dbc4a3, type: 3}
   racerColor: {r: 1, g: 0, b: 0, a: 0}
   racerStats:
-    enginePower: 2
-    brakingPower: 1
-    turnRadius: 11.5
+    enginePower: 2.2
+    brakingPower: 1.5
+    turnRadius: 13

@@ -46,9 +46,7 @@ public class Checkpoint : MonoBehaviour
                 
                 return true;
             } 
-                
         }
-        
         return false;
     }
 
@@ -61,8 +59,6 @@ public class Checkpoint : MonoBehaviour
             if (id  == racerId) removeAt = i;
             i++;
         }
-        
         if (removeAt != 404) bannedRacerIds.RemoveAt(removeAt);
-        
     }
 }
